@@ -1,0 +1,6 @@
+devtools::check()
+devtools::load_all() Ctrl/Cmd + Shift + L
+lintr::lint_package()
+Insert Roxygen Skeleton shift+space+ cmd + r
+devtools::use_testthat()
+devtools::document()
