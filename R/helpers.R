@@ -1,5 +1,8 @@
 #' @importFrom magrittr "%>%"
 #'
+#'
+#'
+
 .center_rowmeans <- function(x) {
   xcenter <- rowMeans(x)
   x - rep(xcenter, ncol(x))
@@ -57,8 +60,44 @@
     apply(n, 1, function(ic)
       any(ic > n.genes.intersect))
 
+.fev <- function(S,A,X, i) {
+  A.vec <- t(apply(A ,1, .norm_vec ))
+  S.norm <- S %*% diag(array(A.vec))
+  print(var(S.norm[,i]) / sum(colVars(X)) *100, "%", sep= " ")
+}
 
+# df = BRCACIT
+# array1 = group1+1
+# array2 = group2+1
+.compute_t_test_for_many <- function (df, array1, array2) {
 
+  pvalue = NULL # Empty list for the p-values
+  tstat = NULL # Empty list of the t test statistics
+
+  for(i in 1 : nrow(df)) { # For each gene :
+    i = 2749
+    x = df[i,array1] # condition1 of gene number i
+    y = df[i,array2] # condition2 of gene number i
+
+    # Compute t-test between the two conditions
+    t = t.test(x, y)
+
+    # Put the current p-value in the pvalues list
+    pvalue[i] = t$p.value
+
+    # Put the current t-statistic in the tstats list
+    tstat[i] = t$statistic
+
+  }
+
+  pvalue.df=data.frame(pvalue)
+  tstat.df=data.frame(tstat)
+
+  row.names(pvalue.df)=row.names(df)
+  row.names(tstat.df)[i]=row.names(df)[i]
+
+  return(cbind(pvalue.df,tstat))
+}
 #####-------------- WORKING PROGRESS
 #' Computes correlation between ICs and an know rank (created for immune component)
 #'

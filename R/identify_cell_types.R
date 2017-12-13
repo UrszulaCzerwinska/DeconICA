@@ -43,7 +43,7 @@ get_enrichment <-
   function(S,
            gene.names,
            immune.ics,
-           gmt = get(utils::data("ImmgeneHUGO",  envir = environment())),
+           gmt = ImmgeneHUGO,
            quantile = 0.99,
            abs.thr = NULL,
            threshold = 0.05,
@@ -105,8 +105,11 @@ get_enrichment <-
 
 cell_voting_immgene <-
   function(enrich, n = 10) {
+
     sapply(names(enrich), function(j) {
+      if (n > nrow(enrich[[j]])) n <- nrow(enrich[[j]])
       t <- table(enrich[[j]][1:n, 1])
+
       data.frame(cell.type = names(t[order(-t)]),
                  vote = paste(round(t[order(-t)] / n * 100, 2), " %", sep =
                                 ""))

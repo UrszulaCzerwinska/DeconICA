@@ -4,9 +4,8 @@
 \alias{get_enrichment}
 \title{Run enrichment analysis for metagenes}
 \usage{
-get_enrichment(S, gene.names, immune.ics, gmt = get(utils::data("ImmgeneHUGO",
-  envir = environment())), quantile = 0.99, abs.thr = NULL,
-  threshold = 0.05, ...)
+get_enrichment(S, gene.names, immune.ics, gmt = ImmgeneHUGO,
+  quantile = 0.95, abs.thr = NULL, threshold = 0.05, ...)
 }
 \arguments{
 \item{S}{ranks of components, dim \code{n} corresponding to genes, \code{m}

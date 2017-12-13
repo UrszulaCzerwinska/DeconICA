@@ -4,9 +4,7 @@
 \alias{correlate_metagenes}
 \title{Correlates idependent componenets with known ranked lists of metagenes}
 \usage{
-correlate_metagenes(S, gene.names,
-  metagenes = mget(get(utils::data("data.vector", envir = environment()),
-  envir = environment()), envir = environment()), threshold = -Inf,
+correlate_metagenes(S, gene.names, metagenes = data.list, threshold = -Inf,
   n.genes.intersect = 30, ...)
 }
 \arguments{
@@ -22,14 +20,14 @@ names, 2nd - ranks, by default 11 metagenes from Biton et al....}
 \item{threshold}{threshold for ICA components (columns of \code{S}) to be
 applied before correlation, default set to -Inf (all ranks are kept)}
 
-\item{n.genes.intersect}{minimum of genes that should intersect between IC
-and metagene to keep the IC in correlation matrix}
+\item{n.genes.intersect}{minimum of genes that should intersect between IC and
+metagene to keep the IC in correlation matrix}
 
 \item{...}{additional params you can pass to \code{\link[Hmisc]{rcorr}}}
 }
 \value{
 provides correlation matrix with correlation cofficient \code{r},
-  p.values  \code{P} and number of overlapping genes \code{n}
+ p.values  \code{P} and number of overlapping genes \code{n}
 }
 \description{
 Independent components obtained with \code{\link{run_fastica}} can be
@@ -39,6 +37,15 @@ using \code{\link[Hmisc]{rcorr}} function for correlations
 }
 \examples{
 
+res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 5,
+ with.names = TRUE
+)
+correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
 
 
 }

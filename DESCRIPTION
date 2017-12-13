@@ -10,7 +10,7 @@ Description: Here there will be more decent desription one day
 Depends: R (>= 3.4.1)
 License: GPL
 Encoding: UTF-8
-LazyData: true
+LazyData: no
 RoxygenNote: 6.0.1
 Imports:
     fastICA (>= 1.2-1),

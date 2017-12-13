@@ -36,12 +36,13 @@
 #'    gene.names = res_run_ica$names)
 #'
 #'
-
+# S  = res.pipeline.BRCAMatrixTP[["ica"]]$S
+# gene.names = res.pipeline.BRCAMatrixTP[["ica"]]$names
 
 correlate_metagenes <-
   function(S,
            gene.names,
-           metagenes =  data.list,
+           metagenes = data.list,
            threshold = -Inf,
            n.genes.intersect = 30,
            ...) {
@@ -124,7 +125,7 @@ assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
 #
 #' Identify components related to immune signal
 #'
-#' @param x the correaltion with immune metagenecan be retreived from
+#' @param x the correaltion with immune metagene can be retreived from
 #'   \code{\link{correlate_metagenes}} output
 #' @param l vector of names of assigned components
 #' @param threshold lower bound for filtering correlation [0,1]
