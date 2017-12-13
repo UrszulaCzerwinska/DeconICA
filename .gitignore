@@ -34,6 +34,8 @@ vignettes/*.pdf
 #heavy repos
 data-raw
 inst/doc
+GDCdata
+*.rda
 
 # Windows image file caches
 Thumbs.db
