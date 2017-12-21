@@ -66,38 +66,40 @@
   print(var(S.norm[,i]) / sum(colVars(X)) *100, "%", sep= " ")
 }
 
-# df = BRCACIT
-# array1 = group1+1
-# array2 = group2+1
-.compute_t_test_for_many <- function (df, array1, array2) {
+# df = BRCAMatrixTP.red
+#  array1 = group1
+#  array2 = group2
+.compute_x_test_for_many <- function (df, array1, array2, test = "t.test") {
 
   pvalue = NULL # Empty list for the p-values
-  tstat = NULL # Empty list of the t test statistics
+  stat = NULL # Empty list of the t test statistics
 
   for(i in 1 : nrow(df)) { # For each gene :
-    i = 2749
+
     x = df[i,array1] # condition1 of gene number i
     y = df[i,array2] # condition2 of gene number i
 
-    # Compute t-test between the two conditions
-    t = t.test(x, y)
+    # Compute a test between the two conditions
+    x = do.call(test,list(as.matrix(x), as.matrix(y)))
 
     # Put the current p-value in the pvalues list
-    pvalue[i] = t$p.value
+    pvalue[i] = x$p.value
 
-    # Put the current t-statistic in the tstats list
-    tstat[i] = t$statistic
+    # Put the current test statistic in the tstats list
+    stat[i] = x$statistic
 
   }
 
   pvalue.df=data.frame(pvalue)
-  tstat.df=data.frame(tstat)
+  stat.df=data.frame(stat)
 
   row.names(pvalue.df)=row.names(df)
-  row.names(tstat.df)[i]=row.names(df)[i]
+  row.names(stat.df)=row.names(df)
 
-  return(cbind(pvalue.df,tstat))
+  return(cbind(pvalue.df,stat.df))
 }
+
+
 #####-------------- WORKING PROGRESS
 #' Computes correlation between ICs and an know rank (created for immune component)
 #'

@@ -39,18 +39,27 @@
 #'
 #' # run enrichment
 #'
+
+# S = BRCAMatrixTP.ica$S
+# gene.names = BRCAMatrixTP.ica$names
+# immune.ics = names(BRCAMatrixTP.identify)
+# gmt = ImmgenHUGO
+# quantile = 0.995
+# abs.thr = NULL
+# threshold = 0.05
+
 get_enrichment <-
   function(S,
            gene.names,
            immune.ics,
-           gmt = ImmgeneHUGO,
-           quantile = 0.99,
+           gmt = ImmgenHUGO,
+           quantile = 0.995,
            abs.thr = NULL,
            threshold = 0.05,
            ...) {
-    # empty list for outputs
-    enrich <- list()
-    metagenes <- list()
+    genes.list <- list()
+    results.list <- list()
+    metgenes.list <- list()
     # orient components
     S <- .orient_funct(S)
     if (length(as.matrix(gene.names)) != nrow(S))
@@ -62,27 +71,41 @@ get_enrichment <-
     table <- data.frame(gene.names, S)[c("gene.names", immune.ics)]
     message("running enrichment tests \n can take some time...")
     # for each possible immune related component
-    for (i in 2:(length(immune.ics) + 1)) {
+    metgenes.list <- sapply(immune.ics, function(i) {
       # apply quantile or direct threshold
       if (!(is.null(quantile)))
         abs.thr <- quantile(table[, i], quantile)
-      t <- table[which(table[, i] > abs.thr), c(1, i)]
-      names <- as.matrix(t[, 1])
-      Example <-
-        ACSNMineR::enrichment(names, threshold = threshold, maps = gmt, ...)
-      message(paste(immune.ics[i - 1]), "...DONE", sep = "")
-      # save only if some enrichment detected
-      if (length(Example) > 1) {
-        # retrun enrichment results ordered by corrected p.value
-        enrich[[immune.ics[i - 1]]] <-
-          Example[order(Example[["p.value.corrected"]]), ]
-        # return actual metagene with weights
-        metagenes[[immune.ics[i - 1]]] <- t
-      }
-    }
-    return(list(enrich = enrich,
-                metagenes = metagenes))
+      t <- table[which(table[, i] > abs.thr), c("gene.names", i)]
+      t <- t[order(-t[,2]),]
+    }, simplify = FALSE, USE.NAMES = TRUE)
+
+    genes.list <-
+      sapply(metgenes.list, function(t)
+        names <- as.array(t[, 1]), simplify = FALSE, USE.NAMES = TRUE)
+
+
+    results.list <-
+      ACSNMineR::multisample_enrichment(
+        genes.list,
+        threshold = threshold,
+        maps = gmt,
+        cohort_threshold = FALSE,
+        ...
+      )
+
+    results.list <-
+      lapply(results.list, function(Example)
+        suppressWarnings(if (!(is.na(Example)))
+          Example[order(Example[["p.value.corrected"]]),]))
+    results.list <-results.list[sapply(results.list, function(s)
+      ! (is.null(s)))]
+    metgenes.list <-
+      metgenes.list[sapply(results.list, function(s)
+        ! (is.null(s)))]
+    return(list(enrich = results.list ,
+                metagenes = metgenes.list))
   }
+
 #
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------

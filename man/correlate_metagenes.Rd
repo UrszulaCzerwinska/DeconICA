@@ -36,7 +36,6 @@ default this function is using metagenes from Biton et al. (2015) Cell It is
 using \code{\link[Hmisc]{rcorr}} function for correlations
 }
 \examples{
-
 res_run_ica <- run_fastica (
  Example_ds,
  optimal = FALSE,
@@ -46,7 +45,6 @@ res_run_ica <- run_fastica (
 correlate_metagenes(
    S = res_run_ica$S,
    gene.names = res_run_ica$names)
-
 
 }
 \seealso{

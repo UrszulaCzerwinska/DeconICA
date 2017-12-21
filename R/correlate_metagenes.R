@@ -23,8 +23,7 @@
 #'
 #'@seealso \code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}}
 #'
-#' @examples
-#'
+#'@examples
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
 #'  optimal = FALSE,
@@ -35,9 +34,7 @@
 #'    S = res_run_ica$S,
 #'    gene.names = res_run_ica$names)
 #'
-#'
-# S  = res.pipeline.BRCAMatrixTP[["ica"]]$S
-# gene.names = res.pipeline.BRCAMatrixTP[["ica"]]$names
+
 
 correlate_metagenes <-
   function(S,

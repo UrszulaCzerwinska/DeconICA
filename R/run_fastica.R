@@ -57,7 +57,7 @@ run_fastica <-
     # If gene names included, check if there are duplicates
     if (with.names) {
       if (any(duplicated(X[, 1]))) {
-        .remove_duplicates(X)
+        X <- .remove_duplicates(X)
       }
       names <- X[, 1]
       X <- X[, 2:ncol(X)]
@@ -109,6 +109,8 @@ run_fastica <-
         n.comp = n.comp,
         alg.typ = alg.typ,
         method = method,
+        maxit = 1000,
+        tol = 1e-09,
         ...
       )
     # add names if with.names

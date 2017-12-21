@@ -1,6 +1,6 @@
 # DeconICA
 
-### This is package for deconvolution using unsupervised blind source deconvolution methods
+### This is a package for TranscRiptome deconvolution using unsupervised blind source deconvolution methods
 
 Functions : 
 
@@ -45,3 +45,17 @@ Functions :
 
 * import_gmt status  done
 * import_rnk
+
+PLOTS
+
+lolypop plot for signal plot
+
+tables
+
+This would be the very basic first set of features with some plotting options added 
+
+The next step would be to
+
+* estimate immune cell /tumor absolute fraction
+* apply a solver (many options to test, first the one used by competitors)  and find immune cell proportions and confront it with the competition
+* test on methylome

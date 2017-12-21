@@ -7,7 +7,7 @@
 identify_immune_ic(x, l, threshold = 0.1)
 }
 \arguments{
-\item{x}{the correaltion with immune metagenecan be retreived from
+\item{x}{the correaltion with immune metagene can be retreived from
 \code{\link{correlate_metagenes}} output}
 
 \item{l}{vector of names of assigned components}

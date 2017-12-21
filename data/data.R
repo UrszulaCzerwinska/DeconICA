@@ -1,10 +1,10 @@
 #' Array of all Metagenes
 #'
-#'Simple listing of names of variables containing metagenes
+#'list of metagenes
 #'
 #' @format array of 11 elements
 
-"data.vector"
+"data.list"
 
 #' Cell type signatures
 #'
@@ -17,3 +17,15 @@
 #'   \item{gene names} third column
 #' @source \url{http://www.immgen.org}
 "ImmgenHUGO"
+
+#' Example of dataset
+#'
+#' OVCA
+#'
+#' @format a dataframe with the
+#' #' \describe{
+#'   \item{module} first column
+#'   \item{module length} seond column
+#'   \item{gene names} third column
+#' @source \url{}
+"Example_ds"
