@@ -23,7 +23,10 @@ Functions :
   * tests missing
   * still results are quite fishy - hard to adjust threshold for number of genes, poor overlap with signatures
 * **cell_voting_immgene** : among n top results of gene enrichment, the code counts percentage of given cell type
-* * examples missing
+  * examples missing
+  * tests missing
+* ​**dist_test_samples** : performs gene diff expression tests as `stats::t.test` other thest from `stats`or `edgeR::exact.test` for samples from extremes of distribution of ICs of A matrix (sample matrix)
+  * examples missing
   * tests missing
 * **helpers** : 
   * .orient_components 
