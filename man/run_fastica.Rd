@@ -5,7 +5,7 @@
 \title{Overdecompose dataset with ICA.}
 \usage{
 run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
-  alg.typ = "deflation", method = "C", n.comp = 100, ...)
+  alg.typ = "deflation", method = "C", n.comp = 100, isLog = TRUE, ...)
 }
 \arguments{
 \item{X}{a data matrix with \code{n} rows representing observations and \code{p} columns
@@ -38,6 +38,8 @@ you can provide them later}
 
 \item{n.comp}{number of components to be extracted}
 
+\item{isLog}{if data is in log \code{TRUE} if data is in counts \code{FALSE}}
+
 \item{...}{other possible parameters from \code{\link[fastICA]{fastICA}}}
 }
 \value{
@@ -50,6 +52,9 @@ A list containing the following components as in
   \item{A}{ - estimated mixing matrix}
   \item{S}{ - estimated source matrix}
   \item{names}{ - if  \code{with.names = TRUE} will contain row names list}
+  \item{counts}{ - if  \code{isLog = FALSE} will contain initial matrix without duplicated genes}
+  \item{log.counts}{ - initial matrix without duplicated genes in log2(x+1) before centering}
+  \item{samples}{ - sample names as provided}
   }
 }
 \description{

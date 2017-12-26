@@ -74,7 +74,7 @@
   pvalue = NULL # Empty list for the p-values
   stat = NULL # Empty list of the t test statistics
 
-  for(i in 1 : nrow(df)) { # For each gene :
+  sapply(1 : nrow(df), function(i) { # For each gene :
 
     x = df[i,array1] # condition1 of gene number i
     y = df[i,array2] # condition2 of gene number i
@@ -88,15 +88,17 @@
     # Put the current test statistic in the tstats list
     stat[i] = x$statistic
 
-  }
+    pvalue.df=data.frame(pvalue)
+    stat.df=data.frame(stat)
 
-  pvalue.df=data.frame(pvalue)
-  stat.df=data.frame(stat)
+    row.names(pvalue.df)=row.names(df)
+    row.names(stat.df)=row.names(df)
 
-  row.names(pvalue.df)=row.names(df)
-  row.names(stat.df)=row.names(df)
+    return(cbind(pvalue.df,stat.df))
 
-  return(cbind(pvalue.df,stat.df))
+  }, df = df, array1 = array1, array2 = array2, pvalue = pvalue, stat = stat )
+
+
 }
 
 

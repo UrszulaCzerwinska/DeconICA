@@ -34,8 +34,6 @@
 #'    S = res_run_ica$S,
 #'    gene.names = res_run_ica$names)
 #'
-
-
 correlate_metagenes <-
   function(S,
            gene.names,

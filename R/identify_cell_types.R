@@ -47,7 +47,6 @@
 # quantile = 0.995
 # abs.thr = NULL
 # threshold = 0.05
-
 get_enrichment <-
   function(S,
            gene.names,

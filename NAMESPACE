@@ -3,6 +3,7 @@
 export(assign_metagenes)
 export(cell_voting_immgene)
 export(correlate_metagenes)
+export(dist_test_samples)
 export(get_enrichment)
 export(identify_immune_ic)
 export(run_fastica)

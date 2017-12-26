@@ -16,6 +16,7 @@
 #'   <120 then number of components will be selected according to Kaiser Rule
 #'   (90 percent of variance explained)
 #' @inheritParams fastICA::fastICA
+#' @param isLog if data is in log \code{TRUE} if data is in counts \code{FALSE}
 #' @param ... other possible parameters from \code{\link[fastICA]{fastICA}}
 #' @return A list containing the following components as in
 #'   \code{\link[fastICA]{fastICA}} \describe{
@@ -26,6 +27,9 @@
 #'   \item{A}{ - estimated mixing matrix}
 #'   \item{S}{ - estimated source matrix}
 #'   \item{names}{ - if  \code{with.names = TRUE} will contain row names list}
+#'   \item{counts}{ - if  \code{isLog = FALSE} will contain initial matrix without duplicated genes}
+#'   \item{log.counts}{ - initial matrix without duplicated genes in log2(x+1) before centering}
+#'   \item{samples}{ - sample names as provided}
 #'   }
 #' @export
 #' @examples
@@ -53,6 +57,7 @@ run_fastica <-
            alg.typ = "deflation",
            method = "C",
            n.comp = 100,
+           isLog = TRUE,
            ...) {
     # If gene names included, check if there are duplicates
     if (with.names) {
@@ -62,16 +67,30 @@ run_fastica <-
       names <- X[, 1]
       X <- X[, 2:ncol(X)]
     }
+    #define colnames
+    if(!is.null(colnames(X))) {
+      samples <- colnames(X)
+    } else {
+      samples <- make.names(seq(1,ncol(X), 1))
+    }
     # if matrix is wide it might mean user didn't transpose the matrix
     if (nrow(X) < ncol(X))
       warning(
         "row length is less than column length :
         place genes in rows and samples in columns for deconvolution"
       )
+    if (!isLog) {
+      counts  <- X
+      X = log2(X + 1)
+      message("transforming data to log2")
+    }
+    else {
+      log.counts <- X
+    }
     # center rows if needed
     if (row.center)
       X <- .center_rowmeans(X)
-    if (all.equal(round(mean(as.matrix(X[1, ])), 2), 0) != TRUE)
+    if (all.equal(round(mean(as.matrix(X[1,])), 2), 0) != TRUE)
       message("your data is not mean centerd by rows (genes)")
     if (optimal) {
       if (ncol(X) < 120) {
@@ -118,6 +137,17 @@ run_fastica <-
     if (with.names) {
       X.ica[["names"]] <- as.character(names)
     }
+    #add sample names
+    message("adding sample names to the object")
+    X.ica[["samples"]] <- samples
+    #add counts if counts provided
+    if (!isLog) {
+      message("adding raw.counts to the object")
+      X.ica[["counts"]] <- counts
+    }
+    #add log.counts
+    message("adding counts in log to the object")
+    X.ica[["log.counts"]] <- log.counts
     return(X.ica)
     message("ready")
   }

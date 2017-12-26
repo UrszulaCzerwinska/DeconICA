@@ -19,5 +19,8 @@ Imports:
     Hmisc (>= 4.0.3),
     ggplot2 (>= 2.2.1),
     ACSNMineR (>= 0.16.8.25),
-    utils (>= 3.4.1)
+    utils (>= 3.4.1),
+    edgeR (>= 3.18.1),
+    reshape(>= 0.8.7)
 Suggests: testthat
+biocViews:
