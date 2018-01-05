@@ -1,31 +1,34 @@
 # DeconICA
 
-### This is a package for TranscRiptome deconvolution using unsupervised blind source deconvolution methods
+### This is a package for Transcriptome deconvolution using unsupervised blind source deconvolution methods
 
 Functions : 
 
 * **run_fastica**  : is a wrapper ove fastica that runs by default 100 components  : status = works 
-* * when there is less than 120 columns in the data, number of components will be selected by Keiser rule
+  * when there is less than 120 columns in the data, number of components will be selected by Keiser rule
   * PCA for n = ncol is performed every time so that dimensions match
   * if with.names option selected row names (genes) are exported in $names if duplicated genes with higher variance are kept
-  * save sample names
+  * save sample names, gene names, removes duplicates,  transform to log2, mean center, keeps data non centered without duplicates
+  * possibility to run matlab one (will not be accepted by CRAN)
+  * possibility to run stabilization (outcomes not testes)
+  
 * **correlate_metagenes** : function that  correlates components with metagenes (or ranked list)
-* * gives out correlation matrix between metagenes and components
+  * gives out correlation matrix between metagenes and components
   * there is a possibility to delete data of certain threshold from ICA matrix
 * **assign_metagenes** : selects the reciprocal matches between metagenes and ICs
-* * examples missing
+  * examples missing
   * tests missing
 * **identify_immune_ic** defines components possibly of cell types 
-* * examples missing
+  * examples missing
   * tests missing
 * **get_enrichment** : fisher test with immgene db : status = working progress
-* * examples missing
+  * examples missing
   * tests missing
   * still results are quite fishy - hard to adjust threshold for number of genes, poor overlap with signatures
 * **cell_voting_immgene** : among n top results of gene enrichment, the code counts percentage of given cell type
   * examples missing
   * tests missing
-* ​**dist_test_samples** : performs gene diff expression tests as `stats::t.test` other thest from `stats`or `edgeR::exact.test` for samples from extremes of distribution of ICs of A matrix (sample matrix)
+* **dist_test_samples** : performs gene diff expression tests as `stats::t.test` other thest from `stats`or `edgeR::exact.test` for samples from extremes of distribution of ICs of A matrix (sample matrix)
   * examples missing
   * tests missing
 * **helpers** : 
