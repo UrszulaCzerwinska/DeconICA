@@ -2,27 +2,34 @@
 % Please edit documentation in R/run_fastica.R
 \name{run_fastica}
 \alias{run_fastica}
-\title{Overdecompose dataset with ICA.}
+\title{Decompose dataset with ICA.}
 \usage{
 run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
-  alg.typ = "deflation", method = "C", n.comp = 100, isLog = TRUE, ...)
+  gene.names = NULL, alg.typ = "parallel", method = "C", n.comp = 100,
+  isLog = TRUE, R = TRUE, path_global = getwd(),
+  matlbpth = "/Applications/MATLAB_R2016a.app/Contents/MacOS/MATLAB_maci64",
+  fasticapth = "/Users/ulala/Documents/CURIE/BIODICA-master/BIODICA/bin/fastica++",
+  ...)
 }
 \arguments{
-\item{X}{a data matrix with \code{n} rows representing observations and \code{p} columns
-representing variables, place gene names in the first column and select
-\code{with.names = TRUE} to keep gene names for further analysis}
+\item{X}{a data matrix with \code{n} rows representing observations and
+\code{p} columns representing variables, place gene names in the first
+column and select \code{with.names = TRUE} to keep gene names for further
+analysis}
 
 \item{optimal}{check \code{TRUE} to let select best number of components for
-deconvolution, for datasets >120 columns, n.comp will be set to 100, if
-<120 then number of components will be selected according to Kaiser Rule
-(90 percent of variance explained)}
+deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
+then number of components will be selected according to Kaiser Rule (90
+percent of variance explained)}
 
 \item{row.center}{if \code{TRUE} substract row mean from data}
 
-\item{with.names}{if first column of X is row.names please indicate \code{TRUE}, in
-case of duplicated names, the transcript with highest variance will be
-kept, names need to be HUGO names, if names are not provided at this step,
-you can provide them later}
+\item{with.names}{if first column of X is row.names please indicate
+\code{TRUE}, in case of duplicated names, the transcript with highest
+variance will be kept, names need to be HUGO names, if names are not
+provided at this step, you can provide them later}
+
+\item{gene.names}{character vector of row names - gene names}
 
 \item{alg.typ}{if \code{alg.typ == "parallel"} the components are extracted
     simultaneously (the default). if \code{alg.typ == "deflation"} the
@@ -40,22 +47,37 @@ you can provide them later}
 
 \item{isLog}{if data is in log \code{TRUE} if data is in counts \code{FALSE}}
 
+\item{R}{if TRUE (default) the R version of fastICA is running, else the
+matlab version (you need to provide parametrs of your matlab engine)}
+
+\item{path_global}{only if \code{R = FALSE}, the global path where files will
+be written, current directory by default}
+
+\item{matlbpth}{only if \code{R = FALSE},  the path to matlab engine, for Mac
+: MATLAB_XXX.app/Contents/MacOS/MATLAB_maci64}
+
+\item{fasticapth}{path to repository of source matlab}
+
 \item{...}{other possible parameters from \code{\link[fastICA]{fastICA}}}
 }
 \value{
 A list containing the following components as in
-  \code{\link[fastICA]{fastICA}} \describe{
-  \item{X}{ - pre-processed data matrix (after PCA)}
-  \item{K}{ - pre-whitening matrix that projects data onto the first n.comp principal
-  components.}
-  \item{W}{ - estimated un-mixing matrix (see definition in details)}
-  \item{A}{ - estimated mixing matrix}
-  \item{S}{ - estimated source matrix}
-  \item{names}{ - if  \code{with.names = TRUE} will contain row names list}
-  \item{counts}{ - if  \code{isLog = FALSE} will contain initial matrix without duplicated genes}
-  \item{log.counts}{ - initial matrix without duplicated genes in log2(x+1) before centering}
-  \item{samples}{ - sample names as provided}
-  }
+ \code{\link[fastICA]{fastICA}} \describe{
+ \item{X}{pre-processed data matrix
+ (after PCA)}
+ \item{K}{pre-whitening matrix that projects data onto the first
+ n.comp principal components.}
+ \item{W}{estimated un-mixing matrix (see definition in details)}
+ \item{A}{estimated mixing matrix}
+ \item{S}{estimated source matrix}
+  \item{names}{if  \code{with.names = TRUE} will contain row
+ names list}
+ \item{counts}{if  \code{isLog = FALSE} will contain initial
+ matrix without duplicated genes}
+ \item{log.counts}{initial matrix without
+ duplicated genes in log2(x+1) before centering}
+ \item{samples}{sample names as provided}
+ }
 }
 \description{
 This is a wrapper of \code{\link[fastICA]{fastICA}}. It allows compute number
@@ -79,5 +101,5 @@ run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, with.names = TRUE
 }
 \seealso{
 \code{\link[fastICA]{fastICA}}
-  \url{https://cran.r-project.org/web/packages/fastICA/index.html}
+ \url{https://cran.r-project.org/web/packages/fastICA/index.html}
 }

@@ -2,14 +2,12 @@
 % Please edit documentation in R/dist_test_samples.R
 \name{dist_test_samples}
 \alias{dist_test_samples}
-\title{Title}
+\title{Test impact of each Independ Component}
 \usage{
-dist_test_samples(assign, A, sample.names, quant, normalized.count.df,
-  test.type, wide = TRUE, isLog = NULL)
+dist_test_samples(A, sample.names, quant = c(0.1, 0.9), X.counts, test.type,
+  thr = 0.1, isLog = NULL, return = "p.value", wide = TRUE)
 }
 \arguments{
-\item{assign}{result of \code{\link{assign_metagenes}}}
-
 \item{A}{result of \code{\link{run_fastica}} the \code{A} matrix}
 
 \item{sample.names}{names of samples, should correspond to number of columns
@@ -17,25 +15,27 @@ of \code{A}}
 
 \item{quant}{quantiles to use, in form of \code{c(x, y)}}
 
-\item{normalized.count.df}{matrix of counts used for \code{\link{run_fastica}} if
-data in log provided, it will be un-log to counts, provide \code{isLog},
-best to use \code{raw.counts} or \code{log.counts} from  \code{\link{run_fastica}} to avoid problem
-with duplicated gene names}
+\item{X.counts}{expression data}
 
 \item{test.type}{test of distributions to perform}
 
-\item{wide}{if \code{TRUE} returns n by n.ics matrix, if \code{FALSE} returns
-long format convininient for \code{ggplot}}
+\item{thr}{threshold of maximal p.value consiered 0.1 by default}
 
-\item{isLog}{by default \code{NULL}, if \code{normalized.count.df} is not
-conts but log, provide the base of log, for natural logarithm use
-\code{exp(1)}}
+\item{isLog}{by default \code{NULL}, if \code{X} is not conts but log,
+provide the base of log, for natural logarithm use \code{exp(1)}}
+
+\item{return}{if you want to return p.values select}
+
+\item{wide}{should the output matrix be in wide format (FALSE preferable for
+plotting)}
 }
 \value{
 returns a matrix (in long or wide) format
 }
 \description{
-Title
+This function is applying distribution statistical test (i.e. \code{t.test},
+\code{wilcox.test}) to evaluate which ICs have highest impact on differences
+between samples
 }
 \examples{
 

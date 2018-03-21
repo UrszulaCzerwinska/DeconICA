@@ -2,7 +2,7 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{assign_metagenes}
 \alias{assign_metagenes}
-\title{Assigns Independent Component to a metagene through reciprocity}
+\title{Assign Independent Component to a metagene through reciprocity}
 \usage{
 assign_metagenes(r, immune_name = "M8_IMMUNE")
 }
@@ -16,6 +16,8 @@ be excluded from this analysis}
 \value{
 this function returns a data frame with number of IC in the first
 column and assigned metagene name in second column
+
+ @export
 }
 \description{
 This function assign an idependent component to a metagene through
@@ -23,6 +25,7 @@ verification if for an IC the max correlation points to given metagene and if
 for this metageneif the max correlation points back the the
 }
 \examples{
+
 
 
 }

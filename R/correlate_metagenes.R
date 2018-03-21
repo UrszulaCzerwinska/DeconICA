@@ -1,4 +1,6 @@
-#'Correlates idependent componenets with known ranked lists of metagenes
+#stopifnot(require(deconica, quietly=TRUE))
+
+#'Correlate independent components with known ranked lists of metagenes
 #'
 #'Independent components obtained with \code{\link{run_fastica}} can be
 #'characterised through correlation with known ranked list (metagenes), by
@@ -15,10 +17,14 @@
 #'  applied before correlation, default set to -Inf (all ranks are kept)
 #'@param n.genes.intersect minimum of genes that should intersect between IC and
 #'  metagene to keep the IC in correlation matrix
+#'@param orient.long orient by long tails,  default TRUE
+#'@param orient.max orient by maximal correlation, default FALSE, can be used if
+#'  there is no long tails
 #'@param ... additional params you can pass to \code{\link[Hmisc]{rcorr}}
 #'@inheritParams Hmisc::rcorr
 #'@return provides correlation matrix with correlation cofficient \code{r},
-#'  p.values  \code{P} and number of overlapping genes \code{n}
+#'  p.values  \code{P} and number of overlapping genes \code{n} and oriented
+#'  \code{S} matrix
 #'@export
 #'
 #'@seealso \code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}}
@@ -40,19 +46,25 @@ correlate_metagenes <-
            metagenes = data.list,
            threshold = -Inf,
            n.genes.intersect = 30,
+           orient.long = TRUE,
+           orient.max = FALSE,
            ...) {
-    #  metagenes <- data(list = data.list,  envir = environment())
     # orient components in the direction of the long tail
-    S <- .orient_funct(S)
+    if (orient.long &
+        orient.max)
+      stop("select one or none orienting method")
+    if (orient.long)
+      S_or <- S <- .orient_funct(S)
     # verify if gene names are correct
     if (length(as.matrix(gene.names)) != nrow(S))
       stop("wrong number of gene names")
     # add colnames
-    colnames(S) <- paste("IC", 1:ncol(S), sep = "")
+    # colnames(S) <- paste("IC", 1:ncol(S), sep = "")
     gene.names <- as.data.frame(gene.names)
     colnames(gene.names) <- "gene.names"
     # all values less than "threshold"
-    S [S < threshold] <- NA
+    if (!orient.max)
+      S[S < threshold] <- NA
     res <- data.frame(gene.names, S)
     for (i in 1:length(metagenes)) {
       res <- .corr_matrix(metagenes[[i]], res, names(metagenes)[i])
@@ -67,13 +79,44 @@ correlate_metagenes <-
     n <- rcorr.res$n[which(verify.n), names(metagenes)]
     r <- rcorr.res$r[which(verify.n), names(metagenes)]
     p <- rcorr.res$P[which(verify.n), names(metagenes)]
-    return(list(n = n, r = r, P = p))
+
+    if (orient.max) {
+      S <- .orient_max(S, r)
+      S[S < threshold] <- NA
+      res <- data.frame(gene.names, S)
+      for (i in 1:length(metagenes)) {
+        res <- .corr_matrix(metagenes[[i]], res, names(metagenes)[i])
+      }
+      rcorr.res <-
+        Hmisc::rcorr(as.matrix(res[, 2:ncol(res)]), ...)
+      n <-
+        rcorr.res$n[1:(nrow(rcorr.res$r) - length(metagenes)), names(metagenes)]
+      verify.n <- .verify.n(n, n.genes.intersect)
+      if (length(which(verify.n == FALSE)) > 0)
+        message(paste("deleting ", names(which(!verify.n)), "\n", sep = ""))
+      n <- rcorr.res$n[which(verify.n), names(metagenes)]
+      r <- rcorr.res$r[which(verify.n), names(metagenes)]
+      p <- rcorr.res$P[which(verify.n), names(metagenes)]
+      return(list(
+        S.max = S,
+        n = n,
+        r = r,
+        P = p
+      ))
+    } else{
+      return(list(
+        S.or =  S_or,
+        n = n,
+        r = r,
+        P = p
+      ))
+    }
   }
 #
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
-#' Assigns Independent Component to a metagene through reciprocity
+#' Assign Independent Component to a metagene through reciprocity
 #'
 #' This function assign an idependent component to a metagene through
 #' verification if for an IC the max correlation points to given metagene and if
@@ -86,12 +129,15 @@ correlate_metagenes <-
 #'
 #' @return this function returns a data frame with number of IC in the first
 #' column and assigned metagene name in second column
-#' @export
+#'
+#'  @export
 #'
 #' @examples
 #'
 #'
+#'
 assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
+  r <- data.frame(r)
   if (!is.null(immune_name)) {
     r <- r[, -c(match(immune_name, colnames(r)))]
     message("immune metagene excluded")
@@ -135,4 +181,36 @@ assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
 #'
 identify_immune_ic <- function(x, l, threshold = 0.1) {
   x[which(x > threshold)][!(names(which(x > threshold)) %in% l)]
+}
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#' Assign through highest correlations
+#'
+#' It assigns max correlations between set of correlated vectors
+#'
+#' @param corr list of correlation matrices with correlation coefficients
+#' and p-values
+#'
+#' @return dataframe with column names, correlation coefficient, p.value
+#'
+#' @export
+#'
+#' @examples
+#'
+#'
+get_max_correlations <- function(corr) {
+  r <- data.frame(corr$r)
+  p <- data.frame(corr$P)
+  col.as <-
+    apply(r, 2, function(ic)
+      cbind(which(ic == max(ic)), max(ic)))
+  p.val <- sapply (1:ncol(p), function(i)
+    p[col.as[1, i], i])
+  data.frame(
+    TYPE = colnames(col.as),
+    IC = row.names(r)[col.as[1, ]],
+    r = col.as[2, ],
+    p.val = p.val
+  )
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{correlate_metagenes}
 \alias{correlate_metagenes}
-\title{Correlates idependent componenets with known ranked lists of metagenes}
+\title{Correlate independent components with known ranked lists of metagenes}
 \usage{
 correlate_metagenes(S, gene.names, metagenes = data.list, threshold = -Inf,
-  n.genes.intersect = 30, ...)
+  n.genes.intersect = 30, orient.long = TRUE, orient.max = FALSE, ...)
 }
 \arguments{
 \item{S}{S matrix of ICA decomposition}
@@ -23,11 +23,17 @@ applied before correlation, default set to -Inf (all ranks are kept)}
 \item{n.genes.intersect}{minimum of genes that should intersect between IC and
 metagene to keep the IC in correlation matrix}
 
+\item{orient.long}{orient by long tails,  default TRUE}
+
+\item{orient.max}{orient by maximal correlation, default FALSE, can be used if
+there is no long tails}
+
 \item{...}{additional params you can pass to \code{\link[Hmisc]{rcorr}}}
 }
 \value{
 provides correlation matrix with correlation cofficient \code{r},
- p.values  \code{P} and number of overlapping genes \code{n}
+ p.values  \code{P} and number of overlapping genes \code{n} and oriented
+ \code{S} matrix
 }
 \description{
 Independent components obtained with \code{\link{run_fastica}} can be

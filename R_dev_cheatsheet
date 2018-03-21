@@ -4,3 +4,4 @@ lintr::lint_package()
 Insert Roxygen Skeleton shift+space+ cmd + r
 devtools::use_testthat()
 devtools::document()
+roxygen2::roxygenise()

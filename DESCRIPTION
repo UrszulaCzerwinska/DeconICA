@@ -1,16 +1,20 @@
 Package: deconica
 Type: Package
-Title: Computational deconvolution of transcriptomes using fastICA
+Title: Deconvolution of transcriptome through Immune Component Analysis
 Version: 0.1.0
-Author: Urszula Czerwinska
+Authors@R: person("Urszula", "Czerwinska", role = c("aut", "cre"),
+		     email = "urszula.czerwinska@cri-paris.org")
 Maintainer: The package maintainer <urszula.czerwinska@cri-paris.org>
-URL: http://yihui.name/knitr/
-BugReports: https://github.com/yihui/knitr/issues
-Description: Here there will be more decent desription one day
+URL: https://github.com/UrszulaCzerwinska/DeconICA
+BugReports: https://github.com/UrszulaCzerwinska/DeconICA/issues
+Description: Deconvolution of transcriptome through Immune Component Analysis aims to provide an analitical pipeline that can be applied to complex mixtures, 
+  i.e. transcriptomes in order to extract latent immune variables and provide a tool to study biological insights. 
+  It requires mixture data, additional data like .gmt for enrichment analysis and pure profiles of signals. 
+  It also allows simulation of gene expression data and comparison with other tools.
 Depends: R (>= 3.4.1)
 License: GPL
 Encoding: UTF-8
-LazyData: True
+LazyData: yes
 RoxygenNote: 6.0.1
 Imports:
     fastICA (>= 1.2-1),
@@ -21,6 +25,8 @@ Imports:
     ACSNMineR (>= 0.16.8.25),
     utils (>= 3.4.1),
     edgeR (>= 3.18.1),
-    reshape(>= 0.8.7)
-Suggests: testthat
+    reshape(>= 0.8.7),
+    gtools(>= 3.5.0),
+    NMF(>= 0.20.6)
+Suggests: testthat, pheatmap
 biocViews:
