@@ -25,6 +25,30 @@ Function returns numerical value for each column (sample) of provided data frame
 It calulates aboundance scores through a mean of marker genes
 }
 \examples{
+set.seed(123)
+ res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 20,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
 
-#get_scores (gene_expression, my_markers.list, summary = "mean", na.rm = TRUE)
+assign <- assign_metagenes(corr$r)
+
+immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+counts.abs <- (2^res_run_ica$log.counts)-1
+row.names(counts.abs) <- res_run_ica$names
+
+markers <- generate_markers(df = res_run_ica,n = 10,
+                            sel.ic= names(immune),
+                            return= "gene.list")
+get_scores (counts.abs, markers, summary = "mean", na.rm = TRUE)
+
+markers <- generate_markers(df = res_run_ica,n  = 10,
+                           sel.ic= names(immune),
+                           return= "metagenes.ranked")
+get_scores (counts.abs, markers, summary = "weighted.mean", na.rm = TRUE)
 }

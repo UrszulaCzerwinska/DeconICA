@@ -1,33 +1,32 @@
-#stopifnot(require(deconica, quietly=TRUE))
-
-#'Correlate independent components with known ranked lists of metagenes
+#'Correlate components with known ranked lists of genes
 #'
-#'Independent components obtained with \code{\link{run_fastica}} can be
-#'characterised through correlation with known ranked list (metagenes), by
-#'default this function is using metagenes from Biton et al. (2015) Cell It is
-#'using \code{\link[Hmisc]{rcorr}} function for correlations
+#'Components obtained, for example, with \code{\link{run_fastica}} can be
+#'characterised through correlation with known ranked list (metagenes or profiles), by
+#'default this function is using metagenes from Biton et al. (2015), Cell. It is
+#'using \code{\link[Hmisc:rcorr]{rcorr}} function for correlations
 #'
-#'@param S S matrix of ICA decomposition
+#'@param S S matrix of components
 #'@param gene.names list of gene names, needs to be of the same length as nrow
-#'  of S, it is recommended to run \code{\link{run_fastica}} \code{with.names =
-#'  TRUE} to assure compatibility
+#'  of \code{S}, for ICA it is recommended to run \code{\link{run_fastica}}
+#'  \code{with.names = TRUE} to assure compatibility
 #'@param metagenes named list of datasets, each with two columns 1st - gene
-#'  names, 2nd - ranks, by default 11 metagenes from Biton et al....
-#'@param threshold threshold for ICA components (columns of \code{S}) to be
+#'  names, 2nd - ranks, by default 11 metagenes from Biton et al. (2015), Cell
+#'@param threshold threshold for components (columns of \code{S}) to be
 #'  applied before correlation, default set to -Inf (all ranks are kept)
-#'@param n.genes.intersect minimum of genes that should intersect between IC and
-#'  metagene to keep the IC in correlation matrix
-#'@param orient.long orient by long tails,  default TRUE
+#'@param n.genes.intersect minimum of genes that should intersect between a component
+#'and a metagene to keep the IC in correlation matrix
+#'@param orient.long orient by long tails, default TRUE
 #'@param orient.max orient by maximal correlation, default FALSE, can be used if
 #'  there is no long tails
-#'@param ... additional params you can pass to \code{\link[Hmisc]{rcorr}}
+#'@param ... additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}
 #'@inheritParams Hmisc::rcorr
-#'@return provides correlation matrix with correlation cofficient \code{r},
-#'  p.values  \code{P} and number of overlapping genes \code{n} and oriented
+#'@return a correlation matrix with correlation cofficient \code{r},
+#'  p.values \code{P} and number of overlapping genes \code{n}, oriented
 #'  \code{S} matrix
+#'
 #'@export
 #'
-#'@seealso \code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}}
+#'@seealso \code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}} \code{\link{make_list}}
 #'
 #'@examples
 #'res_run_ica <- run_fastica (
@@ -55,6 +54,7 @@ correlate_metagenes <-
       stop("select one or none orienting method")
     if (orient.long)
       S_or <- S <- .orient_funct(S)
+    colnames(S_or) <- colnames(S) <- paste0("IC", 1:ncol(S))
     # verify if gene names are correct
     if (length(as.matrix(gene.names)) != nrow(S))
       stop("wrong number of gene names")
@@ -82,6 +82,7 @@ correlate_metagenes <-
 
     if (orient.max) {
       S <- .orient_max(S, r)
+      colnames(S_or) <- paste0("IC", 1:ncol(S))
       S[S < threshold] <- NA
       res <- data.frame(gene.names, S)
       for (i in 1:length(metagenes)) {
@@ -116,33 +117,50 @@ correlate_metagenes <-
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
-#' Assign Independent Component to a metagene through reciprocity
+#' Assign components to a metagne through mutual reciprocity
 #'
-#' This function assign an idependent component to a metagene through
-#' verification if for an IC the max correlation points to given metagene and if
-#' for this metageneif the max correlation points back the the
+#' This function assign a component to a metagene/profile through
+#' verification if the component's the maximal correlation points to a given profile and if
+#' for this profile the maximal correlation points back the that component. In mathematical
+#' terms, given correlations between the set of profiles/metagnes \eqn{A = {A_1,...,A_m}} and
+#' \eqn{S} components matrix \eqn{S = {IC1,...,ICN}}, if
+#' \deqn{Si = argmaxi(corr(Aj,S))} and \deqn{A_j = argmax_j(corr(S_i,A))}}
 #'
-#' @param r the correlation matrix, \code{r} matrix from out of
-#'   \code{\link{correlate_metagenes}}
-#' @param immune_name name of the immune component (if present in \code{r}) to
-#'   be excluded from this analysis
+#' @param r the correlation matrix, \code{r} matrix, can be generated from
+#' \code{\link{correlate_metagenes}} function
+#' @param exclude_name name of the components (present in \code{r}) to
+#'   be excluded from this analysis (for example immune), by default "M8_IMMUNE"
+#'   is excluded
 #'
-#' @return this function returns a data frame with number of IC in the first
-#' column and assigned metagene name in second column
+#' @return returns a \code{dataf.rame} with component name in the first
+#' column and assigned profile/metagene name in second column
 #'
-#'  @export
+#' @seealso \code{\link{get_max_correlations}}, \code{\link{correlate_metagenes}}
+#'
+#' @export
 #'
 #' @examples
 #'
+#' res_run_ica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 5,
+#'  with.names = TRUE
+#')
+#'corr <- correlate_metagenes(
+#'    S = res_run_ica$S,
+#'    gene.names = res_run_ica$names)
+#'
+#'assign_metagenes(corr$r)
 #'
 #'
-assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
+assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
   r <- data.frame(r)
-  if (!is.null(immune_name)) {
-    r <- r[, -c(match(immune_name, colnames(r)))]
-    message("immune metagene excluded")
+  if (!is.null(exclude_name)) {
+    r <- r[, -c(match(exclude_name, colnames(r)))]
+    message("profiles excluded")
   } else
-    message("no immune metagen name provided")
+    message("no profiles to exlude provided")
   col.as <- apply(r, 2, function(ic)
     which(ic == max(ic)))
   row.as <- apply(r, 1, function(meta)
@@ -155,8 +173,8 @@ assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
         l[[i]] <- c(names(col.as)[i], names(row.as)[j])
   # creating data frame
   df <-
-    data.frame(metagene = unlist(sapply(l, "[[", 1)),
-               IC = unlist(sapply(l, "[[", 2)))
+    data.frame(profile = unlist(sapply(l, "[[", 1)),
+               component = unlist(sapply(l, "[[", 2)))
   message("DONE")
   return(df)
 }
@@ -178,26 +196,54 @@ assign_metagenes <- function(r, immune_name = "M8_IMMUNE") {
 #'
 #' @examples
 #'
+#' res_run_ica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 20,
+#'  with.names = TRUE
+#')
+#'corr <- correlate_metagenes(
+#'    S = res_run_ica$S,
+#'    gene.names = res_run_ica$names)
 #'
-identify_immune_ic <- function(x, l, threshold = 0.1) {
+#'assign <- assign_metagenes(corr$r)
+#'
+#'identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+identify_immune_comp <- function(x, l, threshold = 0.1) {
   x[which(x > threshold)][!(names(which(x > threshold)) %in% l)]
 }
 #
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
-#' Assign through highest correlations
+#
+#' Assign through maximal correlations
 #'
-#' It assigns max correlations between set of correlated vectors
+#' It assigns maximal correlations between set of correlated vectors
 #'
 #' @param corr list of correlation matrices with correlation coefficients
-#' and p-values
+#' and p-values, can be obtained from \code{\link{correlate_metagenes}} or
+#' \code{\link[Hmisc:rcorr]{rcorr}}
 #'
-#' @return dataframe with column names, correlation coefficient, p.value
+#' @return \code{data.frame} with matched column names,
+#' Pearson correlation coefficient, p.value
 #'
 #' @export
 #'
-#' @examples
+#' @seealso \code{\link[Hmisc:rcorr]{rcorr}}, \code{\link{correlate_metagenes}},
+#' \code{\link{assign_metagenes}}
 #'
+#' @examples
+#'res_run_ica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 5,
+#'  with.names = TRUE
+#')
+#'corr <- correlate_metagenes(
+#'    S = res_run_ica$S,
+#'    gene.names = res_run_ica$names)
+#'
+#'get_max_correlations(corr)
 #'
 get_max_correlations <- function(corr) {
   r <- data.frame(corr$r)

@@ -17,6 +17,16 @@ dataframe with column names, correlation coefficient, p.value
 It assigns max correlations between set of correlated vectors
 }
 \examples{
+res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 5,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
 
+get_max_correlations(corr)
 
 }

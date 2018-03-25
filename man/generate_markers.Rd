@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_proportions.R
 \name{generate_markers}
 \alias{generate_markers}
-\title{Generate markers from metagenes}
+\title{Generate markers from components}
 \usage{
 generate_markers(df, n = 30, thr = Inf, sel.ic = paste("IC", 1:ncol(df$S),
   sep = ""), return = "gene.list", orient.long = TRUE)
@@ -36,8 +36,21 @@ weights if needed) to use as marker list or markers with weights for
 deconvolution through \code{\link{get_scores}}
 }
 \examples{
+set.seed(123)
+ res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 20,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
 
-#gene markers
-#generate_markers(df, 10)
+assign <- assign_metagenes(corr$r)
 
+immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+
+generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune))
+generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "metagenes.ranked")
 }

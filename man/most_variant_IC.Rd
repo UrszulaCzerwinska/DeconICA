@@ -22,6 +22,16 @@ returns a data frame with n top ICs numbers ranked by their fraction of variance
 Compute variance explained by each Independent Component
 }
 \examples{
+set.seed(123)
+res_fastica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 20,
+ with.names = TRUE
+)
+most_variant_IC(res_fastica$S, res_fastica$A, res_fastica$X, n =3)
 
+res <- most_variant_IC(res_fastica$S, res_fastica$A, res_fastica$X, n =5)
+barplot(as.matrix(t(res)))
 
 }

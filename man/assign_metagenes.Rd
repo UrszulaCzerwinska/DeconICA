@@ -16,8 +16,6 @@ be excluded from this analysis}
 \value{
 this function returns a data frame with number of IC in the first
 column and assigned metagene name in second column
-
- @export
 }
 \description{
 This function assign an idependent component to a metagene through
@@ -26,6 +24,17 @@ for this metageneif the max correlation points back the the
 }
 \examples{
 
+res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 5,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
+
+assign_metagenes(corr$r)
 
 
 }

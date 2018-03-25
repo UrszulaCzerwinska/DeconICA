@@ -1,50 +1,72 @@
-#' @title Enrichment analysis
+#'@title Enrichment analysis
 #'
-#' @description Computes an enrichment score (fisher exact test) in provided signatures for selected
-#'   metagenes
+#'@description Computes an enrichment score (fisher exact test) in provided
+#'  signatures for selected components
 #'
-#' @details \code{gene_enrichment_test} runs enrichment of an independent component
-#'   (or any ranked list) in known immune cell types signatures. By default it
-#'   is using \code{S} matrix from ICA \code{\link{run_fastica}}
-#'   \code{\link{fisher.test}} only on components indentified as correlated with
-#'   immune metagene through function \code{identify_immune_ic} and it searches
-#'   in Immgen signatures \url{http://Immgen.org}.
+#'@details \code{gene_enrichment_test} runs enrichment of a
+#'  component (or any ranked list) in known (i.e. immune cell types) signatures.
+#'  It was designed to use \code{S} matrix from  \code{\link{run_fastica}}
+#'  \code{\link{fisher.test}} only on components indentified as correlated with
+#'  immune metagene through function \code{identify_immune_ic} and it searches
+#'  in Immgen signatures \url{http://Immgen.org}.
 #'
-#' @param S ranks of components, dim \code{n} corresponding to genes, \code{m}
-#'   corresponding to number of components, use oriented matrix
-#' @param gene.names character vector of gene names, length needs to be equal to
-#'   \code{n}
-#' @param immune.ics vector of charatcter names of components to use for
-#'   enrichment test
-#' @param gmt data.frame obtained from gmt file with a function
-#'   \code{\link[ACSNMineR:format_from_gmt]{format_from_gmt}}, by default Immgen signatures
-#'   \url{http://Immgen.org}
-#'@inheritParams ACSNMineR::enrichment
+#'@param S matrix of components, dim \code{n} corresponding to genes, \code{m}
+#'  corresponding to number of components, use oriented matrix
+#'@param gene.names character vector of gene names, length needs to be equal to
+#'  \code{n}
+#'@param immune.ics vector of charatcter names of components to use for
+#'  enrichment test
+#'@param gmt data.frame obtained from gmt file with a function
+#'  \code{\link[ACSNMineR:format_from_gmt]{format_from_gmt}}, by default Immgen
+#'  signatures \url{http://Immgen.org}
+#'@param alternative greater will check for enrichment, less will check for depletion
 #'@inheritParams stats::fisher.test
-#' @param p.adjust.method correction method
-#' @param n number of top genes that wlll be used to test signature
-#' @param n.consider number of genes from the positive end to be considered
-#' @param p.value.threshold maximal p-value (corrected if correction is enabled) that will be displayed
-#' @param max_module_size maximum moudule size from gmt file to be considered in enrichment
-#' @param orient.long TRUE by default, in case you applied transformation to your S metagenes, select FALSE
+#'@param p.adjust.method correction method
+#'@param n number of top genes that wlll be used to test signature
+#'@param n.consider number of genes from the positive end to be considered
+#'@param p.value.threshold maximal p-value (corrected if correction is enabled)
+#'  that will be displayed
+#'@param max_module_size maximum moudule size from gmt file to be considered in
+#'  enrichment
+#'@param orient.long \code{TRUE} by default, in case you applied transformation to
+#'your \code{S} components, select \code{FALSE}.
 #'
-#' @return Function returns value if there is an enrichment in provided
-#'   signatures: \describe{ \item{metagenes}{interpreted metagene gene ranking}
-#'   \item{enrichment}{full results of the enrichment analysis sorted by corrected
-#'   p.value} \item{genes.list}{list of genes used for enrichment} }
+#'@return returns value if there is an enrichment in provided
+#'  signatures: \describe{ \item{metagenes}{interpreted metagene gene ranking}
+#'  \item{enrichment}{full results of the enrichment analysis sorted by
+#'  corrected p.value} \item{genes.list}{list of genes used for enrichment} }
 #'
-#' @seealso \code{\link{identify_immune_ic}} identifying immune related
-#'   components, \code{\link{run_fastica}} for running Independent Components
-#'   Analysis, and \code{\link[ACSNMineR]{enrichment}} for enrichment in gmt
-#'   files
-#' @export
+#'@seealso \code{\link{identify_immune_ic}} identifying immune related
+#'  components, \code{\link{run_fastica}} for running Independent Components
+#'  Analysis, and \code{\link[ACSNMineR]{enrichment}} for enrichment in gmt
+#'  files
+#'@export
 #'
 #' @examples
+#' set.seed(123)
+#'res_run_ica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 20,
+#'  with.names = TRUE
+#')
+#'corr <- correlate_metagenes(
+#'    S = res_run_ica$S,
+#'    gene.names = res_run_ica$names)
 #'
+#'assign <- assign_metagenes(corr$r)
 #'
+#'immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
 #'
-#'
-#'
+#'gene_enrichment_test(
+#'res_run_ica$S,
+#'res_run_ica$names,
+#'names(immune_c),
+#'alternative = "greater",
+#'p.adjust.method = "BH",
+#'n = 50,
+#'n.consider = 100,
+#')
 gene_enrichment_test <-
   function(S,
            gene.names,
@@ -93,7 +115,7 @@ gene_enrichment_test <-
     genes.universe <- unique(unlist(non.empty.gmt))
     #count overlap between provided genes and the gmt
     present <- gene.names %in% genes.universe
-    if (sum(present) > 0.3 * length(genes.universe)) {
+    if (sum(present) > 0.3 * length(gene.names)) {
       message(
         paste(
           "Number of genes present in the gmt from provided list: ",
@@ -147,7 +169,6 @@ gene_enrichment_test <-
         }, simplify = FALSE, USE.NAMES = TRUE)
 
     #number of ros of result
-
     enrichment <- sapply(immune.ics, function(n.ic) {
       module <- nrow(gmt)
       df <-
@@ -229,23 +250,48 @@ gene_enrichment_test <-
 #
 #' Attribute cell type to a component
 #'
+#' From \code{\link{gene_enrichment_test}} result contrsucts a summary table counting
+#' percentage of a certain cell type attributed to a component.
 #' Works only with immgen signatures
 #'
 #' @param enrich enrichment reults from \code{\link{gene_enrichment_test}}
-#' @param n look into \code{n} top results
+#' @param n \code{n} top results taken into account, 10 by default
 #'
-#' @return it returns list of data frames for each result of enrichment list
-#'   from  \code{\link{gene_enrichment_test}}
+#' @return list of \code{data.frame}for each non \code{NULL} result of enrichment list
+#'   from \code{\link{gene_enrichment_test}}
 #'
 #' @export
 #'
+#' @seealso \code{\link{gene_enrichment_test}}
+#'
 #' @examples
-#' \dontrun{
-#' CIT.cell.types.immgen <- identify_cell_types(S = res.pipeline.BRCACIT$ica$S,res.pipeline.BRCACIT$ica$names, immune.ics=res.pipeline.BRCACIT$immune.ics)
-#' cell_voting_immgene (CIT.cell.types.immgen$enrich, 10)
-#' }
-
-
+#' set.seed(123)
+#'res_run_ica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 20,
+#'  with.names = TRUE
+#')
+#'corr <- correlate_metagenes(
+#'    S = res_run_ica$S,
+#'    gene.names = res_run_ica$names)
+#'
+#'assign <- assign_profile(corr$r)
+#'
+#'immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'
+#'enrichment <- gene_enrichment_test(
+#'res_run_ica$S,
+#'res_run_ica$names,
+#'names(immune_c),
+#'alternative = "greater",
+#'p.adjust.method = "BH",
+#'n = 50,
+#'n.consider = 100,
+#'p.value.threshold = 0.05
+#')
+#'
+#'cell_voting_immgen(enrichment$enrichment)
 cell_voting_immgen <-
   function(enrich, n = 10) {
     sapply(names(enrich), function(j) {
@@ -276,21 +322,3 @@ cell_voting_immgen <-
                  ), " %", sep = ""))
     }, simplify = FALSE, USE.NAMES = TRUE)
   }
-
-# #
-# table(CIT.cell.types.immgen$enrich$IC25[1:10,1:8])/10*100
-#
-#
-# CIT.cell.types.immgen$enrich$IC41 %>% arrange(p.value.corrected)
-# CIT.cell.types.immgen <- get_enrichment(S = res.pipeline.BRCACIT$ica$S,res.pipeline.BRCACIT$ica$names, immune.ics="IC51")
-# t <- table(CIT.cell.types.immgen$enrich$IC41[1:10,1])
-# t[order(-t)]
-# BRCACIT.cell.types.immgen <- get_enrichment(S = res.pipeline.BRCACIT$ica$S,res.pipeline.BRCACIT$ica$names, immune.ics=res.pipeline.BRCACIT$immune.ics, threshold = 1)
-# cell_voting_immgene (BRCACIT.cell.types.immgen$enrich, 10)
-# BRCAWAN.cell.types.immgen <- get_enrichment(S = res.pipeline.BRCAWAN$ica$S,res.pipeline.BRCAWAN$ica$names, immune.ics=res.pipeline.BRCAWAN$immune.ics)
-# cell_voting_immgene (BRCAWAN.cell.types.immgen$enrich, 10)
-# METABRIC.cell.types.immgen <- get_enrichment(S = res.pipeline.METABRIC$ica$S,res.pipeline.METABRIC$ica$names, immune.ics="IC26")
-# cell_voting_immgene (METABRIC.cell.types.immgen$enrich, 10)
-#
-# BRCACIT.cell.types.immgen$enrich$IC25
-# BRCACIT.cell.types.immgen$enrich$IC5

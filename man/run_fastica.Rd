@@ -7,9 +7,9 @@
 run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
   gene.names = NULL, alg.typ = "parallel", method = "C", n.comp = 100,
   isLog = TRUE, R = TRUE, path_global = getwd(),
-  matlbpth = "/Applications/MATLAB_R2016a.app/Contents/MacOS/MATLAB_maci64",
-  fasticapth = "/Users/ulala/Documents/CURIE/BIODICA-master/BIODICA/bin/fastica++",
-  ...)
+  matlbpth = matlabr::get_matlab(),
+  fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"),
+  export.corr = FALSE, ...)
 }
 \arguments{
 \item{X}{a data matrix with \code{n} rows representing observations and
@@ -58,6 +58,9 @@ be written, current directory by default}
 
 \item{fasticapth}{path to repository of source matlab}
 
+\item{export.corr}{\code{TRUE} if you need to export \code{S} matrix in a specific
+format}
+
 \item{...}{other possible parameters from \code{\link[fastICA]{fastICA}}}
 }
 \value{
@@ -84,12 +87,16 @@ This is a wrapper of \code{\link[fastICA]{fastICA}}. It allows compute number
 of ICs optimal for over decomposition for immune deconvolution.
 }
 \examples{
-\dontrun{
+
 # numerical matrix
 S <- matrix(runif(10000), 5000, 2)
 A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 X <- data.frame(S \%*\% A)
 run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE)
+#matlab
+\dontrun{
+run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, R = FALSE)
+}
 # matrix with gene names
 S <- matrix(runif(10000), 5000, 2)
 A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
@@ -97,7 +104,7 @@ X <- data.frame(S \%*\% A)
 names <- paste("A",1:nrow(X), sep="")
 X <- cbind(names,X)
 run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, with.names = TRUE)
-}
+
 }
 \seealso{
 \code{\link[fastICA]{fastICA}}

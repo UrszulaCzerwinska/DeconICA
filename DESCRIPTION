@@ -7,10 +7,7 @@ Authors@R: person("Urszula", "Czerwinska", role = c("aut", "cre"),
 Maintainer: The package maintainer <urszula.czerwinska@cri-paris.org>
 URL: https://github.com/UrszulaCzerwinska/DeconICA
 BugReports: https://github.com/UrszulaCzerwinska/DeconICA/issues
-Description: Deconvolution of transcriptome through Immune Component Analysis aims to provide an analitical pipeline that can be applied to complex mixtures, 
-  i.e. transcriptomes in order to extract latent immune variables and provide a tool to study biological insights. 
-  It requires mixture data, additional data like .gmt for enrichment analysis and pure profiles of signals. 
-  It also allows simulation of gene expression data and comparison with other tools.
+Description: Deconvolution of transcriptome through Immune Component Analysis aims to provide an analitical pipeline that can be applied to complex mixtures, i.e. transcriptomes in order to extract latent immune variables and provide a tool to study biological insights. It requires mixture data, additional data like .gmt for enrichment analysis and pure profiles of signals. It also allows simulation of gene expression data and comparison with other tools.
 Depends: R (>= 3.4.1)
 License: GPL
 Encoding: UTF-8
@@ -27,6 +24,10 @@ Imports:
     edgeR (>= 3.18.1),
     reshape(>= 0.8.7),
     gtools(>= 3.5.0),
-    NMF(>= 0.20.6)
+    NMF(>= 0.20.6),
+    corrplot(>= 0.84),
+    png(>= 0.1.7),
+    grDevices(>= 3.4.1),
+    matlabr(>= 1.5.0)
 Suggests: testthat, pheatmap
 biocViews:

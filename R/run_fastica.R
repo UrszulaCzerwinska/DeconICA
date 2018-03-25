@@ -5,8 +5,7 @@
 #'
 #'@param X a data matrix with \code{n} rows representing observations and
 #'  \code{p} columns representing variables, place gene names in the first
-#'  column and select \code{with.names = TRUE} to keep gene names for further
-#'  analysis
+#'  column and select \code{with.names = TRUE}
 #'@param row.center if \code{TRUE} substract row mean from data
 #'@param with.names if first column of X is row.names please indicate
 #'  \code{TRUE}, in case of duplicated names, the transcript with highest
@@ -23,10 +22,13 @@
 #'@param isLog if data is in log \code{TRUE} if data is in counts \code{FALSE}
 #'@param path_global only if \code{R = FALSE}, the global path where files will
 #'  be written, current directory by default
-#'@param matlbpth only if \code{R = FALSE},  the path to matlab engine, for Mac
-#'  : MATLAB_XXX.app/Contents/MacOS/MATLAB_maci64
-#'@param fasticapth path to repository of source matlab
-#'@param ... other possible parameters from \code{\link[fastICA]{fastICA}}
+#'@param matlbpth only if \code{R = FALSE},  the path to matlab engine, it uses
+#'\code{\link[matabr:get_matlab]{get_matlab}} to find path to your matlab automatically
+#'@param export.corr \code{TRUE} if you need to export \code{S} matrix in a specific
+#'format for correlation in external java app
+#'@param fasticapth path to repository of source matlab code, it is set by defaul
+#'as comming with the package
+#'@param ... other possible parameters for \code{\link[fastICA]{fastICA}}
 #'@return A list containing the following components as in
 #'  \code{\link[fastICA]{fastICA}} \describe{
 #'  \item{X}{pre-processed data matrix
@@ -46,12 +48,16 @@
 #'  }
 #' @export
 #' @examples
-#' \dontrun{
+#'
 #' # numerical matrix
 #' S <- matrix(runif(10000), 5000, 2)
 #' A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 #' X <- data.frame(S %*% A)
 #' run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE)
+#' #matlab
+#' \dontrun{
+#'run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, R = FALSE)
+#'}
 #' # matrix with gene names
 #' S <- matrix(runif(10000), 5000, 2)
 #' A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
@@ -59,7 +65,7 @@
 #' names <- paste("A",1:nrow(X), sep="")
 #' X <- cbind(names,X)
 #' run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, with.names = TRUE)
-#' }
+#'
 #'@seealso \code{\link[fastICA]{fastICA}}
 #'  \url{https://cran.r-project.org/web/packages/fastICA/index.html}
 run_fastica <-
@@ -74,8 +80,9 @@ run_fastica <-
            isLog = TRUE,
            R = TRUE,
            path_global = getwd(),
-           matlbpth = "/Applications/MATLAB_R2016a.app/Contents/MacOS/MATLAB_maci64",
-           fasticapth = "/Users/ulala/Documents/CURIE/BIODICA-master/BIODICA/bin/fastica++",
+           matlbpth = matlabr::get_matlab(),
+           fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"),
+           export.corr = FALSE,
            ...) {
     #get.dataset.name
     df.name <- deparse(substitute(X))
@@ -172,16 +179,17 @@ run_fastica <-
              Darwin = "Mac")
       message("Running MATLAB ICA")
       X.ica <-
-        .doICA(
+        doICA(
           X,
           names = names,
           samples = samples,
           path_global = path_global,
           n = n.comp,
           name = df.name,
+          export.corr = export.corr,
           corr_folder = "CORRELATION",
-          matlbpth,
-          fasticapth
+          matlbpth = matlbpth,
+          fasticapth = fasticapth
         )
     }
     # add names if with.names

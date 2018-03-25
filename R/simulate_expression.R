@@ -1,18 +1,18 @@
 #' Simulate gene expression
 #'
-#' Function simulating mixed gene expression of cell types with perturbator (i.e. proliferation, stress)
+#' Function simulating gene expression of mixed cell types with a perturbator (i.e. proliferation, stress)
 #'
 #' @param x number of cell types
 #' @param n number of genes
 #' @param p number of samples
-#' @param z number of perturbers
+#' @param z number of perturbators
 #' @param dist.cells distribution and parameters from which cell profiles will
 #'   be drawn
 #' @param markers number of markers that will distinguish cell types, can be a
-#'   number (the same number of marker genes for cell types and perturber), can
+#'   number (the same number of marker genes for cell types and perturbator), can
 #'   be a vector of length x+z, it will be set to ceiling(n/20) if not provided
 #' @param mfold nulber of folds marker genes should be different from other genes
-#' @param CLnames column names (cell and perturber)
+#' @param CLnames column names (cell and perturbator)
 #' @param genes gene names
 #' @param dist.noise.sources noise that will be added to each column of basis matrix (to each source)
 #' @param alpha parameter for the dirichlet distribution from which are drawn the cell proportions, using rdirichlet.
@@ -20,18 +20,18 @@
 #' @param perturb function of distribution
 #' @param pargs arguments of perturbation function
 #'
-#' @return function returns \describe{
+#' @return \describe{
 #' \item{expression}{mixed expression matrix}
 #' \item{marker.genes}{list of marker genes per cell type}
-#' \item{basis_matrix}{pure cell type and perturber profile}
-#' \item{prop}{pure cell type and perturber proportions (from 0 to 1)}
+#' \item{basis_matrix}{pure cell type and perturbator profile}
+#' \item{prop}{pure cell type and perturbator proportions (from 0 to 1)}
 #' }
 #'
 #'
 #' @export
 #'
 #' @examples
-#'res <- simulate_gene_expresssion (3, 100, 100, 1 , markers = 5)
+#'res <- simulate_gene_expresssion (3, 100, 100, 2 , markers = 5)
 #'#visualise the basis matrix
 #'pheatmap::pheatmap(res$basis_matrix)
 #'#visualize expression
@@ -39,16 +39,11 @@
 #'#observe distribution of signals
 #'par(mfrow=c(2,2))
 #'apply(res$basis_matrix, 2, hist)
-#'
-#'
-#'
-#'
-#'
 simulate_gene_expresssion <-
   function(x,
            n,
            p,
-           z,
+           z = 0,
            dist.cells = list(dist = stats::rnbinom, size = 3, mu = 5),
            markers = NULL,
            mfold = 2,
@@ -72,7 +67,13 @@ simulate_gene_expresssion <-
       do.call(eval(parse(text = "NMF::rmatrix")), c(list(x = n, y = x), dist.cells))
 
     # add comumn for perturbation
-    x.cells.pert <- cbind(x.cells, NMF::rmatrix(n, z, min = 0, max = 0))
+    if (z > 0) {
+      x.cells.pert <-
+        cbind(x.cells, NMF::rmatrix(n, z, min = 0, max = 0))
+    }
+    else {
+      x.cells.pert <- x.cells
+    }
     if (is.null(CLnames)) {
       CLnames <- paste0("CL_", 1:(x + z))
     }
@@ -82,7 +83,6 @@ simulate_gene_expresssion <-
     }
     colnames(x.cells.pert) <- CLnames
     row.names(x.cells.pert) <- genes
-    markers = NULL
 
     # define number of markers
     if (is.null(markers)) {
@@ -122,12 +122,16 @@ simulate_gene_expresssion <-
         list(x = x.cells.pert), dist.noise.sources
       )))
     # simulate proportions of cells
-    alpha <- rep(alpha, ncol(xN) - 1)
+    alpha <- rep(alpha, (ncol(xN) - z))
     prop <- t(gtools::rdirichlet(p, alpha = alpha))
     # simualte proportions of pert from normal dist
-    prop.all <-
-      rbind(prop, t(sapply(1:z, function(z)
-        do.call(perturb, pargs))))
+    if (z > 0) {
+      prop.all <-
+        rbind(prop, t(sapply(1:z, function(z)
+          do.call(perturb, pargs))))
+    } else{
+      prop.all <- prop
+    }
 
     row.names(prop.all) <- CLnames
     colnames(prop.all) <- paste0("sample_", 1:p)
@@ -151,3 +155,4 @@ simulate_gene_expresssion <-
       prop =  prop.all
     ))
   }
+

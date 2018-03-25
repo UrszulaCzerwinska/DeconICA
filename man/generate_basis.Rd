@@ -31,10 +31,22 @@ weighted markers
 }
 \examples{
 
-#generate_basis(df, c("IC1", "IC3", "IC5"), markers = my.gene.list )
+set.seed(123)
+ res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 20,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
 
-#visualize
-#basis <- generate_basis(df, c("IC1", "IC3", "IC5"), markers = my.gene.list )
-#pheatmap::pheatmap(basis)
+assign <- assign_metagenes(corr$r)
 
+immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+
+markers <- generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.list")
+basis <- generate_basis(df = res_run_ica,sel.ic= names(immune),markers= markers )
+pheatmap::pheatmap(basis )
 }

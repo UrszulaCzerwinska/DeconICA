@@ -19,8 +19,31 @@ it returns list of data frames for each result of enrichment list
 Works only with immgen signatures
 }
 \examples{
-\dontrun{
-CIT.cell.types.immgen <- identify_cell_types(S = res.pipeline.BRCACIT$ica$S,res.pipeline.BRCACIT$ica$names, immune.ics=res.pipeline.BRCACIT$immune.ics)
-cell_voting_immgene (CIT.cell.types.immgen$enrich, 10)
-}
+set.seed(123)
+res_run_ica <- run_fastica (
+ Example_ds,
+ optimal = FALSE,
+ n.comp = 20,
+ with.names = TRUE
+)
+corr <- correlate_metagenes(
+   S = res_run_ica$S,
+   gene.names = res_run_ica$names)
+
+assign <- assign_metagenes(corr$r)
+
+immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+
+enrichment <- gene_enrichment_test(
+res_run_ica$S,
+res_run_ica$names,
+names(immune_c),
+alternative = "greater",
+p.adjust.method = "BH",
+n = 50,
+n.consider = 100,
+p.value.threshold = 0.05
+)
+
+cell_voting_immgen(enrichment$enrichment)
 }

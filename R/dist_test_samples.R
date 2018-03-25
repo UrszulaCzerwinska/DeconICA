@@ -21,8 +21,44 @@
 #' @export
 #'
 #' @examples
+#'# numerical matrix
+#'set.seed(123)
+#' S <- matrix(stats::rnbinom(10000, mu = 6, size = 10), 500, 80)
+#' dat <- matrix(runif(1600,min =1, max=10 ), 80, 80, byrow = TRUE)
+#' A <- dat / rowSums(dat)
+#' X <- data.frame(S %*% A)
+#' res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, optimal = FALSE)
 #'
+#'#stats::t.test
+#'dist_test_samples(A = res_run_ica$A,
+#' sample.names = res_run_ica$samples,
+#' X.counts = res_run_ica$log.counts,
+#' test.type = "t.test",
+#' isLog = 2,
+#' return = "p.value",
+#' thr= 0.5)
 #'
+#' #edgeR::exactTest
+#' dist_test_samples(A = res_run_ica$A,
+#' sample.names = res_run_ica$samples,
+#' X.counts = res_run_ica$log.counts,
+#' test.type = "exactTest",
+#' isLog = 2,
+#' return = "p.value",
+#' thr= 0.5)
+#'
+#' #for plotting
+#' res.ttest <- dist_test_samples(A = res_run_ica$A,
+#' sample.names = res_run_ica$samples,
+#' X.counts = res_run_ica$log.counts,
+#' test.type = "t.test",
+#' isLog = 2,
+#' return = "p.value",
+#' thr= 0.5,
+#' wide = FALSE)
+#'
+#'plot_dist_test(res.ttest, plot.type = "density")
+#'plot_dist_test(res.ttest, plot.type = "line")
 dist_test_samples <-
   function(A,
            sample.names,
@@ -51,8 +87,6 @@ dist_test_samples <-
                test.type,
                return,
                ...) {
-        #
-        #
         qt <- stats::quantile(sel.col, quant)
         group1 <- which(sel.col < qt[1])
         group2 <- which(sel.col > qt[2])
@@ -132,21 +166,6 @@ dist_test_samples <-
 
   }
 
-# res.ttest <- dist_test_samples(A = ica.matlab.BRCATCGA$A[1:2, 1:30],
-#                                sample.names = ica.matlab.BRCATCGA$samples[1:30]  ,
-#                                quant = c(0.1,0.9),
-#                                X.counts = ica.matlab.BRCATCGA$log.counts[1:30],
-#                                test.type = "t.test",
-#                                isLog = 2,
-#                                return = "p.value",
-#                                wide = FALSE)
-# ###### PLOT
-#  ggplot2::ggplot(res.ttest , ggplot2::aes(x = value, color = variable)  ) +
-#    ggplot2::stat_density(position = "identity", geom = "line") + ggplot2::theme_bw()
-#
-#  ggplot2::ggplot(data=res.ttest,  ggplot2::aes(y=value, x=id, color = variable)) +
-#    ggplot2::geom_line()
-#
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
@@ -162,7 +181,17 @@ dist_test_samples <-
 #' @export
 #'
 #' @examples
+#' set.seed(123)
+#'res_fastica <- run_fastica (
+#'  Example_ds,
+#'  optimal = FALSE,
+#'  n.comp = 20,
+#'  with.names = TRUE
+#')
+#'most_variant_IC(res_fastica$S, res_fastica$A, res_fastica$X, n =3)
 #'
+#'res <- most_variant_IC(res_fastica$S, res_fastica$A, res_fastica$X, n =5)
+#'barplot(as.matrix(t(res)))
 #'
 most_variant_IC <- function(S, A, X, n = 5) {
   message("computing fraction of variance explained by all ICs")
@@ -181,3 +210,5 @@ most_variant_IC <- function(S, A, X, n = 5) {
   colnames(res) <- "fev"
   return(res)
 }
+
+

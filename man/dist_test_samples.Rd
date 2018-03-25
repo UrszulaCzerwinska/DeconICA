@@ -38,6 +38,42 @@ This function is applying distribution statistical test (i.e. \code{t.test},
 between samples
 }
 \examples{
+# numerical matrix
+set.seed(123)
+S <- matrix(stats::rnbinom(10000, mu = 6, size = 10), 500, 80)
+dat <- matrix(runif(1600,min =1, max=10 ), 80, 80, byrow = TRUE)
+A <- dat / rowSums(dat)
+X <- data.frame(S \%*\% A)
+res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, optimal = FALSE)
 
+#stats::t.test
+dist_test_samples(A = res_run_ica$A,
+sample.names = res_run_ica$samples,
+X.counts = res_run_ica$log.counts,
+test.type = "t.test",
+isLog = 2,
+return = "p.value",
+thr= 0.5)
 
+#edgeR::exactTest
+dist_test_samples(A = res_run_ica$A,
+sample.names = res_run_ica$samples,
+X.counts = res_run_ica$log.counts,
+test.type = "exactTest",
+isLog = 2,
+return = "p.value",
+thr= 0.5)
+
+#for plotting
+res.ttest <- dist_test_samples(A = res_run_ica$A,
+sample.names = res_run_ica$samples,
+X.counts = res_run_ica$log.counts,
+test.type = "t.test",
+isLog = 2,
+return = "p.value",
+thr= 0.5,
+wide = FALSE)
+
+plot_dist_test(res.ttest, plot.type = "density")
+plot_dist_test(res.ttest, plot.type = "line")
 }

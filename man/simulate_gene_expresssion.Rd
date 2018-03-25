@@ -63,9 +63,4 @@ pheatmap::pheatmap(res$expression)
 #observe distribution of signals
 par(mfrow=c(2,2))
 apply(res$basis_matrix, 2, hist)
-
-
-
-
-
 }
