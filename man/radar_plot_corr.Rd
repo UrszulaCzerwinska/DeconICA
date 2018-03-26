@@ -10,16 +10,16 @@ radar_plot_corr(df, ax.size = NULL, size.el.txt = 15, point.size = 5)
 \item{df}{output of function \code{\link{correlate_metagenes}} - correlation
 matrix with correlation and p-values}
 
-\item{ax.size}{define general size of letters, 15 by default}
+\item{ax.size}{define size of axis labels, adapts automatically by default}
 
-\item{size.el.txt}{define size of axis labels, adapts automatically by default}
+\item{size.el.txt}{define general size of letters, 15 by default}
 
 \item{point.size}{\code{size} parameter in \code{\link[ggplot2]{geom_point}}}
 }
 \value{
-It shows radar plots for each input IC and matagene/profile to
-  corelate with, it also returns a list containing the data.frame \code{df} used to generate the plot - long
-  format - and the plot itself \code{p}.
+Radar plots for correclations of each input component with matagene/profile,
+Returns a list containing the \code{data.frame} \code{df} used to generate the plot
+- long format - and the plot itself \code{p}.
 }
 \description{
 Wrapper using ggplot2 to plot correlations between ICs and given metagenes or
@@ -50,7 +50,7 @@ radar_plot_corr(corr, point.size = 0)$p +
 ggplot2::geom_point(size = 8, alpha = 0.4)
 }
 \seealso{
-\code{\link[ggplot2]{ggplot}} components,
+\code{\link[ggplot2]{ggplot}},
   \code{\link[ggplot2]{geom_point}}, \code{\link[ggplot2]{coord_polar}},
   \code{\link[ggplot2]{theme_bw}}, \code{\link[ggplot2]{facet_wrap}},
   \code{\link[ggplot2]{scale_color_distiller}}, \code{\link[ggplot2]{theme}},

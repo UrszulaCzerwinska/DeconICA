@@ -28,6 +28,8 @@
 #'  that will be displayed
 #'@param max_module_size maximum moudule size from gmt file to be considered in
 #'  enrichment
+#'@param min_module_size minimal module size from gmt file to be considered in
+#'  enrichment
 #'@param orient.long \code{TRUE} by default, in case you applied transformation to
 #'your \code{S} components, select \code{FALSE}.
 #'
@@ -36,7 +38,7 @@
 #'  \item{enrichment}{full results of the enrichment analysis sorted by
 #'  corrected p.value} \item{genes.list}{list of genes used for enrichment} }
 #'
-#'@seealso \code{\link{identify_immune_ic}} identifying immune related
+#'@seealso \code{\link{identify_immune_comp}} identifying immune related
 #'  components, \code{\link{run_fastica}} for running Independent Components
 #'  Analysis, and \code{\link[ACSNMineR]{enrichment}} for enrichment in gmt
 #'  files
@@ -56,7 +58,7 @@
 #'
 #'assign <- assign_metagenes(corr$r)
 #'
-#'immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'
 #'gene_enrichment_test(
 #'res_run_ica$S,
@@ -276,9 +278,9 @@ gene_enrichment_test <-
 #'    S = res_run_ica$S,
 #'    gene.names = res_run_ica$names)
 #'
-#'assign <- assign_profile(corr$r)
+#'assign <- assign_metagenes(corr$r)
 #'
-#'immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'
 #'enrichment <- gene_enrichment_test(
 #'res_run_ica$S,

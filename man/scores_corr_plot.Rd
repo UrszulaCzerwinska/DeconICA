@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_functions.R
 \name{scores_corr_plot}
 \alias{scores_corr_plot}
-\title{Abunance scores orrelation plot}
+\title{Correlation plot of aboundance scores}
 \usage{
 scores_corr_plot(x, y, ...)
 }
@@ -14,16 +14,17 @@ scores_corr_plot(x, y, ...)
 \item{...}{additional parameters for \code{method} from \code{\link[corrplot:corrplot]{corrplot}}}
 }
 \value{
-\item{correlation plot}{based on \code{\link[corrplot:corrplot]{corrplot}}}
+\describe{\item{correlation plot}{based on \code{\link[corrplot:corrplot]{corrplot}}}
 \item{\code{corr.full}}{full correlation matrix}
-\item{\code{corr.filtere}}{correlation without correlation with itself}
+\item{\code{corr.filtere}}{correlation without correlation with itself}}
 }
 \description{
 Produces correlation plot of aboundance scores estimated versus expected
 }
 \details{
-correlation plot between aboundance scores for cell types in samples, correlates both matrices with each other
-in a given order of samples, \code{\link[corrplot:corrplot]{corrplot}} \code{is.corr} parameter is set to \code{FALSE}
+correlation plot between different aboundance scores of cell types in samples, correlates both matrices with each other
+merging two \code{data.frame}s by \code{row.name}s, on \code{\link[corrplot:corrplot]{corrplot}} \code{is.corr} parameter is
+set to \code{FALSE}
 }
 \examples{
 x <- matrix(runif(1000), ncol = 10, nrow = 10)

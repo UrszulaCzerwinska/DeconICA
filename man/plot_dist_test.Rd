@@ -9,15 +9,15 @@ plot_dist_test(df, plot.type = c("line", "density"))
 \arguments{
 \item{df}{\code{data.frame} in long format}
 
-\item{plot.type}{can be either \code{"line} or \code{"density}}
+\item{plot.type}{can be either \code{"line"} or \code{"density"}}
 }
 \value{
-returns a line or density plot of p.value or test statistics versis rank or density
+returns a line or density plot of p.value or test statistics versus rank or density
 }
 \description{
 Wrapper over \code{\link[ggplot2:ggplot]{ggplot}} ploting either rank or
 density versus selected value in \code{\link{dist_test_samples}} (p.value or
-test staistics)
+test statistics)
 }
 \examples{
 #numerical matrix

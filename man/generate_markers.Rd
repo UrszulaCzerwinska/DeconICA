@@ -8,8 +8,8 @@ generate_markers(df, n = 30, thr = Inf, sel.ic = paste("IC", 1:ncol(df$S),
   sep = ""), return = "gene.list", orient.long = TRUE)
 }
 \arguments{
-\item{df}{output of \code{run_fastica} containing at least \code{S} and \code{names}
-elements}
+\item{df}{list (usually output of \code{run_fastica}) containing at least \code{S}
+and \code{names} elements}
 
 \item{n}{number of top genes considered from each signature, n = 30 by
 default}
@@ -17,23 +17,22 @@ default}
 \item{thr}{max gene expression, if removal of outliers is necessary, Inf (no
 threshold) by default.}
 
-\item{sel.ic}{ICs indentified as specific sources (i.e. immune cells), by
-default it takes all ICs of S matrix, can be provided as valid column names
-or numeric index}
+\item{sel.ic}{components of interst (i.e. indentified as specific to some profiles/metagnes
+(i.e. immune cells)), by default it takes all columns of S matrix, can be provided as valid
+column names or numeric index}
 
-\item{return}{should it return "gene.list" or "metagenes.ranked"}
+\item{return}{return \code{gene.list} or \code{gene.ranked}}
 
-\item{orient.long}{TRUE by default, if S is oriented change to FALSE}
+\item{orient.long}{\code{TRUE} by default, if \code{S} is oriented change to \code{FALSE}}
 }
 \value{
-function returns either list of gene markers "gene.list" for each
-  signal (selected IC component) or list of "metagenes.ranked" which are gene
-  nemes with ICA weights
+function returns either list of gene markers \code{gene.list} for each
+  component or list of \code{gene.ranked} which are gene nemes with weights
 }
 \description{
-It extracts from set of sources (i.e. ICA S matrix) the n top genes(with
+It extracts from set of components (i.e. ICA S matrix) the n top genes (with
 weights if needed) to use as marker list or markers with weights for
-deconvolution through \code{\link{get_scores}}
+estimation of abundance through \code{\link{get_scores}}
 }
 \examples{
 set.seed(123)
@@ -49,8 +48,11 @@ corr <- correlate_metagenes(
 
 assign <- assign_metagenes(corr$r)
 
-immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
 generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune))
-generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "metagenes.ranked")
+generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.ranked")
+}
+\seealso{
+\code{run_fastica}, \code{\link{get_scores}}
 }

@@ -4,12 +4,13 @@
 \alias{simulate_gene_expresssion}
 \title{Simulate gene expression}
 \usage{
-simulate_gene_expresssion(x, n, p, z, dist.cells = list(dist = stats::rnbinom,
-  size = 3, mu = 5), markers = NULL, mfold = 2, CLnames = NULL,
-  genes = NULL, dist.noise.sources = list(dist = stats::rnorm, mean = 0, sd
-  = 0.05), alpha = 1, dist.noise.global = list(dist = stats::rgamma, shape =
-  5, scale = 1), perturb = .pos.gaussian, pargs = list(p = p, mean = 0.5, sd
-  = 0.2, lwr = 0, upr = 1))
+simulate_gene_expresssion(x, n, p, z = 0, dist.cells = list(dist =
+  stats::rnbinom, size = 3, mu = 5), markers = NULL, mfold = 2,
+  CLnames = NULL, genes = NULL, dist.noise.sources = list(dist =
+  stats::rnorm, mean = 0, sd = 0.05), alpha = 1,
+  dist.noise.global = list(dist = stats::rgamma, shape = 5, scale = 1),
+  perturb = .pos.gaussian, pargs = list(p = p, mean = 0.5, sd = 0.2, lwr =
+  0, upr = 1))
 }
 \arguments{
 \item{x}{number of cell types}
@@ -18,18 +19,18 @@ simulate_gene_expresssion(x, n, p, z, dist.cells = list(dist = stats::rnbinom,
 
 \item{p}{number of samples}
 
-\item{z}{number of perturbers}
+\item{z}{number of perturbators}
 
 \item{dist.cells}{distribution and parameters from which cell profiles will
 be drawn}
 
 \item{markers}{number of markers that will distinguish cell types, can be a
-number (the same number of marker genes for cell types and perturber), can
+number (the same number of marker genes for cell types and perturbator), can
 be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 
 \item{mfold}{nulber of folds marker genes should be different from other genes}
 
-\item{CLnames}{column names (cell and perturber)}
+\item{CLnames}{column names (cell and perturbator)}
 
 \item{genes}{gene names}
 
@@ -44,18 +45,18 @@ be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 \item{pargs}{arguments of perturbation function}
 }
 \value{
-function returns \describe{
+\describe{
 \item{expression}{mixed expression matrix}
 \item{marker.genes}{list of marker genes per cell type}
-\item{basis_matrix}{pure cell type and perturber profile}
-\item{prop}{pure cell type and perturber proportions (from 0 to 1)}
+\item{basis_matrix}{pure cell type and perturbator profile}
+\item{prop}{pure cell type and perturbator proportions (from 0 to 1)}
 }
 }
 \description{
-Function simulating mixed gene expression of cell types with perturbator (i.e. proliferation, stress)
+Function simulating gene expression of mixed cell types with a perturbator (i.e. proliferation, stress)
 }
 \examples{
-res <- simulate_gene_expresssion (3, 100, 100, 1 , markers = 5)
+res <- simulate_gene_expresssion (3, 100, 100, 2 , markers = 5)
 #visualise the basis matrix
 pheatmap::pheatmap(res$basis_matrix)
 #visualize expression

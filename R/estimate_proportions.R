@@ -37,7 +37,7 @@
 #'
 #'assign <- assign_metagenes(corr$r)
 #'
-#'immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'
 #'generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune))
 #'generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.ranked")
@@ -114,7 +114,7 @@ generate_markers <-
 #'
 #'assign <- assign_metagenes(corr$r)
 #'
-#'immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'
 #'markers <- generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.list")
 #'basis <- generate_basis(df = res_run_ica,sel.ic= names(immune),markers= markers )
@@ -166,7 +166,7 @@ generate_basis <- function(df, sel.ic, markers, orient.long = TRUE) {
 #'
 #'assign <- assign_metagenes(corr$r)
 #'
-#'immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+#'immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'counts.abs <- (2^res_run_ica$log.counts)-1
 #'row.names(counts.abs) <- res_run_ica$names
 #'

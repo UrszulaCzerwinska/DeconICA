@@ -27,7 +27,7 @@ doICA <-
            export.corr = FALSE,
            corr_folder = "CORRELATION",
            matlbpth = get_matlab(),
-           fasticapth = paste0(path.package("deconica", quiet = TRUE), "/inst/fastica++")) {
+           fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
     path.init <- getwd()
     res.exp <- .export_for_ICA(
       df.scaled.t = df.scaled.t,
@@ -242,7 +242,7 @@ doICABatch <-
            samples,
            name,
            matlbpth = get_matlab(),
-           fasticapth = paste0(path.package("deconica", quiet = TRUE), "/inst/fastica++")) {
+           fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
     res.pre <-
       prepare_data_for_ica(df = df,
                            names = names,

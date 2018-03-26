@@ -44,7 +44,7 @@ corr <- correlate_metagenes(
 
 assign <- assign_metagenes(corr$r)
 
-immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
 markers <- generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.list")
 basis <- generate_basis(df = res_run_ica,sel.ic= names(immune),markers= markers )

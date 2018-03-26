@@ -29,7 +29,7 @@
 #'   signatures: \describe{ \item{metagenes}{interpreted metagene gene ranking}
 #'   \item{enrich}{full results of the enrichment analysis sorted by corrected
 #'   p.value} }
-#' @seealso \code{\link{identify_immune_ic}} identificng immune related
+#' @seealso \code{\link{identify_immune_comp}} identificng immune related
 #'   components, \code{\link{run_fastica}} for running Independent Components
 #'   Analysis, and \code{\link[ACSNMineR]{enrichment}} for enrichment in gmt
 #'   files

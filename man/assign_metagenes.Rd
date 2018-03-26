@@ -2,25 +2,32 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{assign_metagenes}
 \alias{assign_metagenes}
-\title{Assign Independent Component to a metagene through reciprocity}
+\title{Assign components to a metagne through mutual reciprocity}
 \usage{
-assign_metagenes(r, immune_name = "M8_IMMUNE")
+assign_metagenes(r, exclude_name = "M8_IMMUNE")
 }
 \arguments{
-\item{r}{the correlation matrix, \code{r} matrix from out of
-\code{\link{correlate_metagenes}}}
+\item{r}{the correlation matrix, \code{r} matrix, can be generated from
+\code{\link{correlate_metagenes}} function}
 
-\item{immune_name}{name of the immune component (if present in \code{r}) to
-be excluded from this analysis}
+\item{exclude_name}{name of the components (present in \code{r}) to
+be excluded from this analysis (for example immune), by default "M8_IMMUNE"
+is excluded}
 }
 \value{
-this function returns a data frame with number of IC in the first
-column and assigned metagene name in second column
+returns a \code{dataf.rame} with component name in the first
+column and assigned profile/metagene name in second column
 }
 \description{
-This function assign an idependent component to a metagene through
-verification if for an IC the max correlation points to given metagene and if
-for this metageneif the max correlation points back the the
+Attributes labels to components under condition of mutual reciprocal correlation
+}
+\details{
+This function assign a component to a metagene/profile through
+verification if the component's the maximal correlation points to a given profile and if
+for this profile the maximal correlation points back the that component. In mathematical
+terms, given correlations between the set of profiles/metagnes \eqn{A = {A_1,...,A_m}} and
+\eqn{S} components matrix \eqn{S = {IC1,...,ICN}}, if
+\deqn{Si = argmaxi(corr(Aj,S))} and \deqn{A_j = argmax_j(corr(S_i,A))}
 }
 \examples{
 
@@ -37,4 +44,7 @@ corr <- correlate_metagenes(
 assign_metagenes(corr$r)
 
 
+}
+\seealso{
+\code{\link{get_max_correlations}}, \code{\link{correlate_metagenes}}
 }

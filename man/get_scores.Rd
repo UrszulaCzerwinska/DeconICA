@@ -38,7 +38,7 @@ corr <- correlate_metagenes(
 
 assign <- assign_metagenes(corr$r)
 
-immune <- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 counts.abs <- (2^res_run_ica$log.counts)-1
 row.names(counts.abs) <- res_run_ica$names
 
@@ -49,6 +49,6 @@ get_scores (counts.abs, markers, summary = "mean", na.rm = TRUE)
 
 markers <- generate_markers(df = res_run_ica,n  = 10,
                            sel.ic= names(immune),
-                           return= "metagenes.ranked")
+                           return= "genes.ranked")
 get_scores (counts.abs, markers, summary = "weighted.mean", na.rm = TRUE)
 }

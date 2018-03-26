@@ -2,8 +2,7 @@
 % Please edit documentation in R/matlab_functions.R
 \name{import_ICA_res}
 \alias{import_ICA_res}
-\title{Import results of ICA
-imports files run in Matlab or precomputed}
+\title{Import results of ICA}
 \usage{
 import_ICA_res(name, ncomp, path_global_1)
 }
@@ -15,10 +14,9 @@ import_ICA_res(name, ncomp, path_global_1)
 \item{path_global_1}{absolute path of the files}
 }
 \value{
-importes \code{A} and \code{S} ICA matrix
+imports \code{A} and \code{S} ICA matrix
 }
 \description{
-Import results of ICA
 imports files run in Matlab or precomputed
 }
 \examples{

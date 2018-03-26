@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_functions.R
 \name{lolypop_plot_corr}
 \alias{lolypop_plot_corr}
-\title{Lolypop plot for a correlations}
+\title{Lolypop plot for correlations}
 \usage{
 lolypop_plot_corr(r, col, head.size = 10, head.color = "value",
   digits = 2, head.text.size = 3.5, head.text.color = "white",
@@ -30,11 +30,12 @@ indicating the number of decimal places (round) or significant digits (signif) t
 returns \code{\link[ggplot2]{ggplot}}
 }
 \description{
-Plot correlation between one metagene or known profile and all components in a form of linear plot which is a variant
-of a signal plot. Wrapper using ggplot2.
+Plot correlations between one metagene or known profile and all components in a form of linear plot
+which is a variant of a signal plot. Wrapper using ggplot2.
 }
 \details{
-Values are order from highrest correlation to lower correlation. Colors and fonts can be overwriten
+Values are order from highest correlation to lowest correlation. Colors and fonts can be overwriten.
+To see all correlations simulaneously choose \code{\link{radar_plot_corr}}
 }
 \examples{
 res_run_ica <- run_fastica (

@@ -165,7 +165,7 @@ plot_dist_test <- function(df, plot.type = c("line", "density")) {
 #' indicating the number of decimal places (round) or significant digits (signif) to be used.
 #' @param head.text.size size of the correlation text font
 #' @param head.text.color color of the correlation text font
-#' @param vertical \code {TRUE} for vertical plot,  \code{FALSE} for horizontal plot
+#' @param vertical \code{TRUE} for vertical plot,  \code{FALSE} for horizontal plot
 #' @param head.color  by default colored by correlation values, if you want one color provide color name
 #'
 #' @return
@@ -270,9 +270,9 @@ lolypop_plot_corr <-
 #' @details correlation plot between different aboundance scores of cell types in samples, correlates both matrices with each other
 #' merging two \code{data.frame}s by \code{row.name}s, on \code{\link[corrplot:corrplot]{corrplot}} \code{is.corr} parameter is
 #' set to \code{FALSE}
-#' @return \describe{\item{correlation plot} {based on \code{\link[corrplot:corrplot]{corrplot}}}
-#' \item{\code{corr.full}} {full correlation matrix}
-#' \item{\code{corr.filtere}} {correlation without correlation with itself}}
+#' @return \describe{\item{correlation plot}{based on \code{\link[corrplot:corrplot]{corrplot}}}
+#' \item{\code{corr.full}}{full correlation matrix}
+#' \item{\code{corr.filtere}}{correlation without correlation with itself}}
 #' @export
 #' @seealso  \code{\link[Hmisc:rcorr]{rcorr}}, \code{\link[corrplot:corrplot]{corrplot}}
 #' @examples

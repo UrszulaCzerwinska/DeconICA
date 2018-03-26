@@ -23,7 +23,7 @@
 #'@param path_global only if \code{R = FALSE}, the global path where files will
 #'  be written, current directory by default
 #'@param matlbpth only if \code{R = FALSE},  the path to matlab engine, it uses
-#'\code{\link[matabr:get_matlab]{get_matlab}} to find path to your matlab automatically
+#'\code{\link[matlabr:get_matlab]{get_matlab}} to find path to your matlab automatically
 #'@param export.corr \code{TRUE} if you need to export \code{S} matrix in a specific
 #'format for correlation in external java app
 #'@param fasticapth path to repository of source matlab code, it is set by defaul

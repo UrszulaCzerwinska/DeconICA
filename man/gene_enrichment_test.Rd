@@ -11,7 +11,7 @@ gene_enrichment_test(S, gene.names, immune.ics, gmt = ImmgenHUGO,
   p.value.threshold = 0.05, orient.long = TRUE)
 }
 \arguments{
-\item{S}{ranks of components, dim \code{n} corresponding to genes, \code{m}
+\item{S}{matrix of components, dim \code{n} corresponding to genes, \code{m}
 corresponding to number of components, use oriented matrix}
 
 \item{gene.names}{character vector of gene names, length needs to be equal to
@@ -24,10 +24,7 @@ enrichment test}
 \code{\link[ACSNMineR:format_from_gmt]{format_from_gmt}}, by default Immgen
 signatures \url{http://Immgen.org}}
 
-\item{alternative}{One of "greater", "less", "both" or "two.sided"
-Greater will check for enrichment, less will check for depletion, and both will look for 
-both and will keep track of the side,
-while two-sided (only for fisher test) checks if there is a difference.}
+\item{alternative}{greater will check for enrichment, less will check for depletion}
 
 \item{p.adjust.method}{correction method}
 
@@ -35,7 +32,8 @@ while two-sided (only for fisher test) checks if there is a difference.}
 
 \item{n.consider}{number of genes from the positive end to be considered}
 
-\item{min_module_size}{will remove from the analysis all modules which are (strictly) smaller than threshold}
+\item{min_module_size}{minimal module size from gmt file to be considered in
+enrichment}
 
 \item{max_module_size}{maximum moudule size from gmt file to be considered in
 enrichment}
@@ -43,23 +41,23 @@ enrichment}
 \item{p.value.threshold}{maximal p-value (corrected if correction is enabled)
 that will be displayed}
 
-\item{orient.long}{TRUE by default, in case you applied transformation to your
-S metagenes, select FALSE}
+\item{orient.long}{\code{TRUE} by default, in case you applied transformation to
+your \code{S} components, select \code{FALSE}.}
 }
 \value{
-Function returns value if there is an enrichment in provided
+returns value if there is an enrichment in provided
  signatures: \describe{ \item{metagenes}{interpreted metagene gene ranking}
  \item{enrichment}{full results of the enrichment analysis sorted by
  corrected p.value} \item{genes.list}{list of genes used for enrichment} }
 }
 \description{
 Computes an enrichment score (fisher exact test) in provided
- signatures for selected metagenes
+ signatures for selected components
 }
 \details{
-\code{gene_enrichment_test} runs enrichment of an independent
- component (or any ranked list) in known immune cell types signatures. By
- default it is using \code{S} matrix from ICA \code{\link{run_fastica}}
+\code{gene_enrichment_test} runs enrichment of a
+ component (or any ranked list) in known (i.e. immune cell types) signatures.
+ It was designed to use \code{S} matrix from  \code{\link{run_fastica}}
  \code{\link{fisher.test}} only on components indentified as correlated with
  immune metagene through function \code{identify_immune_ic} and it searches
  in Immgen signatures \url{http://Immgen.org}.
@@ -78,7 +76,7 @@ corr <- correlate_metagenes(
 
 assign <- assign_metagenes(corr$r)
 
-immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
 gene_enrichment_test(
 res_run_ica$S,
@@ -91,7 +89,7 @@ n.consider = 100,
 )
 }
 \seealso{
-\code{\link{identify_immune_ic}} identifying immune related
+\code{\link{identify_immune_comp}} identifying immune related
  components, \code{\link{run_fastica}} for running Independent Components
  Analysis, and \code{\link[ACSNMineR]{enrichment}} for enrichment in gmt
  files

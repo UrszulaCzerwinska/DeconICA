@@ -9,13 +9,15 @@ cell_voting_immgen(enrich, n = 10)
 \arguments{
 \item{enrich}{enrichment reults from \code{\link{gene_enrichment_test}}}
 
-\item{n}{look into \code{n} top results}
+\item{n}{\code{n} top results taken into account, 10 by default}
 }
 \value{
-it returns list of data frames for each result of enrichment list
-  from  \code{\link{gene_enrichment_test}}
+list of \code{data.frame}for each non \code{NULL} result of enrichment list
+  from \code{\link{gene_enrichment_test}}
 }
 \description{
+From \code{\link{gene_enrichment_test}} result contrsucts a summary table counting
+percentage of a certain cell type attributed to a component.
 Works only with immgen signatures
 }
 \examples{
@@ -32,7 +34,7 @@ corr <- correlate_metagenes(
 
 assign <- assign_metagenes(corr$r)
 
-immune_c<- identify_immune_ic(corr$r[,"M8_IMMUNE"], assign[, "IC"], threshold = 0.1)
+immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
 enrichment <- gene_enrichment_test(
 res_run_ica$S,
@@ -46,4 +48,7 @@ p.value.threshold = 0.05
 )
 
 cell_voting_immgen(enrichment$enrichment)
+}
+\seealso{
+\code{\link{gene_enrichment_test}}
 }

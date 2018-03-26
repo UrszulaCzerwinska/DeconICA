@@ -2,19 +2,21 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{get_max_correlations}
 \alias{get_max_correlations}
-\title{Assign through highest correlations}
+\title{Assign through maximal correlations}
 \usage{
 get_max_correlations(corr)
 }
 \arguments{
 \item{corr}{list of correlation matrices with correlation coefficients
-and p-values}
+and p-values, can be obtained from \code{\link{correlate_metagenes}} or
+\code{\link[Hmisc:rcorr]{rcorr}}}
 }
 \value{
-dataframe with column names, correlation coefficient, p.value
+\code{data.frame} with matched column names,
+Pearson correlation coefficient, p.value
 }
 \description{
-It assigns max correlations between set of correlated vectors
+It assigns maximal correlations between set of correlated vectors
 }
 \examples{
 res_run_ica <- run_fastica (
@@ -29,4 +31,8 @@ corr <- correlate_metagenes(
 
 get_max_correlations(corr)
 
+}
+\seealso{
+\code{\link[Hmisc:rcorr]{rcorr}}, \code{\link{correlate_metagenes}},
+\code{\link{assign_metagenes}}
 }

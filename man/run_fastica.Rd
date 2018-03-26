@@ -14,8 +14,7 @@ run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
 \arguments{
 \item{X}{a data matrix with \code{n} rows representing observations and
 \code{p} columns representing variables, place gene names in the first
-column and select \code{with.names = TRUE} to keep gene names for further
-analysis}
+column and select \code{with.names = TRUE}}
 
 \item{optimal}{check \code{TRUE} to let select best number of components for
 deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
@@ -53,15 +52,16 @@ matlab version (you need to provide parametrs of your matlab engine)}
 \item{path_global}{only if \code{R = FALSE}, the global path where files will
 be written, current directory by default}
 
-\item{matlbpth}{only if \code{R = FALSE},  the path to matlab engine, for Mac
-: MATLAB_XXX.app/Contents/MacOS/MATLAB_maci64}
+\item{matlbpth}{only if \code{R = FALSE},  the path to matlab engine, it uses
+\code{\link[matlabr:get_matlab]{get_matlab}} to find path to your matlab automatically}
 
-\item{fasticapth}{path to repository of source matlab}
+\item{fasticapth}{path to repository of source matlab code, it is set by defaul
+as comming with the package}
 
 \item{export.corr}{\code{TRUE} if you need to export \code{S} matrix in a specific
-format}
+format for correlation in external java app}
 
-\item{...}{other possible parameters from \code{\link[fastICA]{fastICA}}}
+\item{...}{other possible parameters for \code{\link[fastICA]{fastICA}}}
 }
 \value{
 A list containing the following components as in

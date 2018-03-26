@@ -39,7 +39,7 @@ it returns \code{A}, \code{S} matrices of ICA and \code{names} and
 \code{samples} for coherence
 }
 \description{
-function used inside \code{\link{run_fastica}} to run \code{fastica} with
+function used inside \code{\link{run_fastica}} to run \code{fastICA} with
 \code{icasso} stabilisation. Matalb engine is necessary
 }
 \examples{

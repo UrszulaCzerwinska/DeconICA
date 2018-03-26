@@ -2,44 +2,44 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{correlate_metagenes}
 \alias{correlate_metagenes}
-\title{Correlate independent components with known ranked lists of metagenes}
+\title{Correlate components with known ranked lists of genes}
 \usage{
 correlate_metagenes(S, gene.names, metagenes = data.list, threshold = -Inf,
   n.genes.intersect = 30, orient.long = TRUE, orient.max = FALSE, ...)
 }
 \arguments{
-\item{S}{S matrix of ICA decomposition}
+\item{S}{S matrix of components}
 
 \item{gene.names}{list of gene names, needs to be of the same length as nrow
-of S, it is recommended to run \code{\link{run_fastica}} \code{with.names =
-TRUE} to assure compatibility}
+of \code{S}, for ICA it is recommended to run \code{\link{run_fastica}}
+\code{with.names = TRUE} to assure compatibility}
 
 \item{metagenes}{named list of datasets, each with two columns 1st - gene
-names, 2nd - ranks, by default 11 metagenes from Biton et al....}
+names, 2nd - ranks, by default 11 metagenes from Biton et al. (2015), Cell}
 
-\item{threshold}{threshold for ICA components (columns of \code{S}) to be
+\item{threshold}{threshold for components (columns of \code{S}) to be
 applied before correlation, default set to -Inf (all ranks are kept)}
 
-\item{n.genes.intersect}{minimum of genes that should intersect between IC and
-metagene to keep the IC in correlation matrix}
+\item{n.genes.intersect}{minimum of genes that should intersect between a component
+and a metagene to keep the IC in correlation matrix}
 
-\item{orient.long}{orient by long tails,  default TRUE}
+\item{orient.long}{orient by long tails, default TRUE}
 
 \item{orient.max}{orient by maximal correlation, default FALSE, can be used if
 there is no long tails}
 
-\item{...}{additional params you can pass to \code{\link[Hmisc]{rcorr}}}
+\item{...}{additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}}
 }
 \value{
-provides correlation matrix with correlation cofficient \code{r},
- p.values  \code{P} and number of overlapping genes \code{n} and oriented
+a correlation matrix with correlation cofficient \code{r},
+ p.values \code{P} and number of overlapping genes \code{n}, oriented
  \code{S} matrix
 }
 \description{
-Independent components obtained with \code{\link{run_fastica}} can be
-characterised through correlation with known ranked list (metagenes), by
-default this function is using metagenes from Biton et al. (2015) Cell It is
-using \code{\link[Hmisc]{rcorr}} function for correlations
+Components obtained, for example, with \code{\link{run_fastica}} can be
+characterised through correlation with known ranked list (metagenes or profiles), by
+default this function is using metagenes from Biton et al. (2015), Cell. It is
+using \code{\link[Hmisc:rcorr]{rcorr}} function for correlations
 }
 \examples{
 res_run_ica <- run_fastica (
@@ -54,5 +54,5 @@ correlate_metagenes(
 
 }
 \seealso{
-\code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}}
+\code{\link[Hmisc]{rcorr}} \code{\link{run_fastica}} \code{\link{make_list}}
 }
