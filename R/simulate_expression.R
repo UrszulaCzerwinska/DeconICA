@@ -11,7 +11,7 @@
 #' @param markers number of markers that will distinguish cell types, can be a
 #'   number (the same number of marker genes for cell types and perturbator), can
 #'   be a vector of length x+z, it will be set to ceiling(n/20) if not provided
-#' @param mfold nulber of folds marker genes should be different from other genes
+#' @param mfold number of folds marker genes should be different from other genes
 #' @param CLnames column names (cell and perturbator)
 #' @param genes gene names
 #' @param dist.noise.sources noise that will be added to each column of basis matrix (to each source)

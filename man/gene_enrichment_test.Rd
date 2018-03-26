@@ -17,7 +17,7 @@ corresponding to number of components, use oriented matrix}
 \item{gene.names}{character vector of gene names, length needs to be equal to
 \code{n}}
 
-\item{immune.ics}{vector of charatcter names of components to use for
+\item{immune.ics}{vector of character names of components to use for
 enrichment test}
 
 \item{gmt}{data.frame obtained from gmt file with a function
@@ -28,14 +28,14 @@ signatures \url{http://Immgen.org}}
 
 \item{p.adjust.method}{correction method}
 
-\item{n}{number of top genes that wlll be used to test signature}
+\item{n}{number of top genes that will be used to test signature}
 
 \item{n.consider}{number of genes from the positive end to be considered}
 
 \item{min_module_size}{minimal module size from gmt file to be considered in
 enrichment}
 
-\item{max_module_size}{maximum moudule size from gmt file to be considered in
+\item{max_module_size}{maximum module size from gmt file to be considered in
 enrichment}
 
 \item{p.value.threshold}{maximal p-value (corrected if correction is enabled)
@@ -58,7 +58,7 @@ Computes an enrichment score (fisher exact test) in provided
 \code{gene_enrichment_test} runs enrichment of a
  component (or any ranked list) in known (i.e. immune cell types) signatures.
  It was designed to use \code{S} matrix from  \code{\link{run_fastica}}
- \code{\link{fisher.test}} only on components indentified as correlated with
+ \code{\link{fisher.test}} only on components identified as correlated with
  immune metagene through function \code{identify_immune_ic} and it searches
  in Immgen signatures \url{http://Immgen.org}.
 }

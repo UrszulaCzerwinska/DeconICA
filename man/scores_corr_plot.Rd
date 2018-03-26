@@ -2,14 +2,14 @@
 % Please edit documentation in R/plot_functions.R
 \name{scores_corr_plot}
 \alias{scores_corr_plot}
-\title{Correlation plot of aboundance scores}
+\title{Correlation plot of abundance scores}
 \usage{
 scores_corr_plot(x, y, ...)
 }
 \arguments{
-\item{x}{\code{matrix} or \code{data.frame} of aboundance scores, samples in rows and cell types in columns}
+\item{x}{\code{matrix} or \code{data.frame} of abundance scores, samples in rows and cell types in columns}
 
-\item{y}{\code{matrix} or \code{data.frame} of expected (or to compare) aboundance scores, samples in rows and cell types in columns}
+\item{y}{\code{matrix} or \code{data.frame} of expected (or to compare) abundance scores, samples in rows and cell types in columns}
 
 \item{...}{additional parameters for \code{method} from \code{\link[corrplot:corrplot]{corrplot}}}
 }
@@ -19,10 +19,10 @@ scores_corr_plot(x, y, ...)
 \item{\code{corr.filtere}}{correlation without correlation with itself}}
 }
 \description{
-Produces correlation plot of aboundance scores estimated versus expected
+Produces correlation plot of abundance scores estimated versus expected
 }
 \details{
-correlation plot between different aboundance scores of cell types in samples, correlates both matrices with each other
+correlation plot between different abundance scores of cell types in samples, correlates both matrices with each other
 merging two \code{data.frame}s by \code{row.name}s, on \code{\link[corrplot:corrplot]{corrplot}} \code{is.corr} parameter is
 set to \code{FALSE}
 }

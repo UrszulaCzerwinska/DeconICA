@@ -6,7 +6,7 @@
 #'@details \code{gene_enrichment_test} runs enrichment of a
 #'  component (or any ranked list) in known (i.e. immune cell types) signatures.
 #'  It was designed to use \code{S} matrix from  \code{\link{run_fastica}}
-#'  \code{\link{fisher.test}} only on components indentified as correlated with
+#'  \code{\link{fisher.test}} only on components identified as correlated with
 #'  immune metagene through function \code{identify_immune_ic} and it searches
 #'  in Immgen signatures \url{http://Immgen.org}.
 #'
@@ -14,7 +14,7 @@
 #'  corresponding to number of components, use oriented matrix
 #'@param gene.names character vector of gene names, length needs to be equal to
 #'  \code{n}
-#'@param immune.ics vector of charatcter names of components to use for
+#'@param immune.ics vector of character names of components to use for
 #'  enrichment test
 #'@param gmt data.frame obtained from gmt file with a function
 #'  \code{\link[ACSNMineR:format_from_gmt]{format_from_gmt}}, by default Immgen
@@ -22,11 +22,11 @@
 #'@param alternative greater will check for enrichment, less will check for depletion
 #'@inheritParams stats::fisher.test
 #'@param p.adjust.method correction method
-#'@param n number of top genes that wlll be used to test signature
+#'@param n number of top genes that will be used to test signature
 #'@param n.consider number of genes from the positive end to be considered
 #'@param p.value.threshold maximal p-value (corrected if correction is enabled)
 #'  that will be displayed
-#'@param max_module_size maximum moudule size from gmt file to be considered in
+#'@param max_module_size maximum module size from gmt file to be considered in
 #'  enrichment
 #'@param min_module_size minimal module size from gmt file to be considered in
 #'  enrichment
@@ -252,11 +252,11 @@ gene_enrichment_test <-
 #
 #' Attribute cell type to a component
 #'
-#' From \code{\link{gene_enrichment_test}} result contrsucts a summary table counting
+#' From \code{\link{gene_enrichment_test}} result constructs a summary table counting
 #' percentage of a certain cell type attributed to a component.
-#' Works only with immgen signatures
+#' Works only with Immgen signatures
 #'
-#' @param enrich enrichment reults from \code{\link{gene_enrichment_test}}
+#' @param enrich enrichment results from \code{\link{gene_enrichment_test}}
 #' @param n \code{n} top results taken into account, 10 by default
 #'
 #' @return list of \code{data.frame}for each non \code{NULL} result of enrichment list

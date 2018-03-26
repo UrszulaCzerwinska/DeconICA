@@ -28,7 +28,7 @@ be drawn}
 number (the same number of marker genes for cell types and perturbator), can
 be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 
-\item{mfold}{nulber of folds marker genes should be different from other genes}
+\item{mfold}{number of folds marker genes should be different from other genes}
 
 \item{CLnames}{column names (cell and perturbator)}
 

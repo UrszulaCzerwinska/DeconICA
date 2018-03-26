@@ -4,8 +4,8 @@
 \alias{generate_markers}
 \title{Generate markers from components}
 \usage{
-generate_markers(df, n = 30, thr = Inf, sel.ic = paste("IC", 1:ncol(df$S),
-  sep = ""), return = "gene.list", orient.long = TRUE)
+generate_markers(df, n = 30, thr = Inf, sel.comp = paste("IC",
+  1:ncol(df$S), sep = ""), return = "gene.list", orient.long = TRUE)
 }
 \arguments{
 \item{df}{list (usually output of \code{run_fastica}) containing at least \code{S}
@@ -17,7 +17,7 @@ default}
 \item{thr}{max gene expression, if removal of outliers is necessary, Inf (no
 threshold) by default.}
 
-\item{sel.ic}{components of interst (i.e. indentified as specific to some profiles/metagnes
+\item{sel.comp}{components of interest (i.e. identified as specific to some profiles/metagenes
 (i.e. immune cells)), by default it takes all columns of S matrix, can be provided as valid
 column names or numeric index}
 
@@ -27,7 +27,7 @@ column names or numeric index}
 }
 \value{
 function returns either list of gene markers \code{gene.list} for each
-  component or list of \code{gene.ranked} which are gene nemes with weights
+  component or list of \code{gene.ranked} which are gene names with weights
 }
 \description{
 It extracts from set of components (i.e. ICA S matrix) the n top genes (with
@@ -50,8 +50,8 @@ assign <- assign_metagenes(corr$r)
 
 immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
-generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune))
-generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.ranked")
+generate_markers(df = res_run_ica,n = 10,sel.comp= names(immune))
+generate_markers(df = res_run_ica,n = 10,sel.comp= names(immune), return= "gene.ranked")
 }
 \seealso{
 \code{run_fastica}, \code{\link{get_scores}}

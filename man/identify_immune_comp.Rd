@@ -7,7 +7,7 @@
 identify_immune_comp(x, l, threshold = 0.1)
 }
 \arguments{
-\item{x}{the correaltion with immune metagene can be retreived from
+\item{x}{the correlation with immune metagene can be retrieved from
 \code{\link{correlate_metagenes}} output}
 
 \item{l}{vector of names of assigned components}
@@ -15,7 +15,7 @@ identify_immune_comp(x, l, threshold = 0.1)
 \item{threshold}{lower bound for filtering correlation [0,1]}
 }
 \value{
-it returns data frame of IC names and correlations passing the
+it returns data frame of component names and correlations passing the
 \code{threshold}
 }
 \description{

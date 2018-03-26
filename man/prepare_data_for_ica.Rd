@@ -2,14 +2,14 @@
 % Please edit documentation in R/matlab_functions.R
 \name{prepare_data_for_ica}
 \alias{prepare_data_for_ica}
-\title{Formates data for ICA in MATLAB}
+\title{Formats data for ICA in MATLAB}
 \usage{
 prepare_data_for_ica(df, names, samples = NULL)
 }
 \arguments{
 \item{df}{numerical data matrix}
 
-\item{names}{gene names characer vector}
+\item{names}{gene names character vector}
 
 \item{samples}{if not provided column names will be used}
 }
@@ -20,7 +20,7 @@ prepare_data_for_ica(df, names, samples = NULL)
 \item{\code{samples}}{sample names}
 }
 \description{
-Formates data for ICA in MATLAB
+Formats data for ICA in MATLAB
 }
 \examples{
 

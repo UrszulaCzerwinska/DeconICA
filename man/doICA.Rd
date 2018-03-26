@@ -26,10 +26,10 @@ your name}
 \item{export.corr}{\code{FALSE} by default, if you want to use a java
 correlation function later or select \code{TRUE}}
 
-\item{corr_folder}{\code{"CORRELATION"} by default, only if you seleced
+\item{corr_folder}{\code{"CORRELATION"} by default, only if you selected
 \code{export.corr = TRUE}}
 
-\item{matlbpth}{is found automaticaly with \code{\link{get_matlab}} function,
+\item{matlbpth}{is found automatically with \code{\link{get_matlab}} function,
 replace if not functional}
 
 \item{fasticapth}{path to \code{fastica++} repository with MATLAB scripts}
@@ -40,7 +40,7 @@ it returns \code{A}, \code{S} matrices of ICA and \code{names} and
 }
 \description{
 function used inside \code{\link{run_fastica}} to run \code{fastICA} with
-\code{icasso} stabilisation. Matalb engine is necessary
+\code{icasso} stabilization. Matlab engine is necessary
 }
 \examples{
 \dontrun{

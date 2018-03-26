@@ -2,7 +2,7 @@
 % Please edit documentation in R/correlate_metagenes.R
 \name{assign_metagenes}
 \alias{assign_metagenes}
-\title{Assign components to a metagne through mutual reciprocity}
+\title{Assign components to a metagene through mutual reciprocity}
 \usage{
 assign_metagenes(r, exclude_name = "M8_IMMUNE")
 }
@@ -25,7 +25,7 @@ Attributes labels to components under condition of mutual reciprocal correlation
 This function assign a component to a metagene/profile through
 verification if the component's the maximal correlation points to a given profile and if
 for this profile the maximal correlation points back the that component. In mathematical
-terms, given correlations between the set of profiles/metagnes \eqn{A = {A_1,...,A_m}} and
+terms, given correlations between the set of profiles/metagenes \eqn{A = {A_1,...,A_m}} and
 \eqn{S} components matrix \eqn{S = {IC1,...,ICN}}, if
 \deqn{Si = argmaxi(corr(Aj,S))} and \deqn{A_j = argmax_j(corr(S_i,A))}
 }

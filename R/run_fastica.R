@@ -6,14 +6,14 @@
 #'@param X a data matrix with \code{n} rows representing observations and
 #'  \code{p} columns representing variables, place gene names in the first
 #'  column and select \code{with.names = TRUE}
-#'@param row.center if \code{TRUE} substract row mean from data
+#'@param row.center if \code{TRUE} subtract row mean from data
 #'@param with.names if first column of X is row.names please indicate
 #'  \code{TRUE}, in case of duplicated names, the transcript with highest
 #'  variance will be kept, names need to be HUGO names, if names are not
 #'  provided at this step, you can provide them later
 #'@param gene.names character vector of row names - gene names
 #'@param R if TRUE (default) the R version of fastICA is running, else the
-#'  matlab version (you need to provide parametrs of your matlab engine)
+#'  matlab version (you need to provide parameters of your matlab engine)
 #'@param optimal check \code{TRUE} to let select best number of components for
 #'  deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
 #'  then number of components will be selected according to Kaiser Rule (90
@@ -26,8 +26,8 @@
 #'\code{\link[matlabr:get_matlab]{get_matlab}} to find path to your matlab automatically
 #'@param export.corr \code{TRUE} if you need to export \code{S} matrix in a specific
 #'format for correlation in external java app
-#'@param fasticapth path to repository of source matlab code, it is set by defaul
-#'as comming with the package
+#'@param fasticapth path to repository of source matlab code, it is set by default
+#'as coming with the package
 #'@param ... other possible parameters for \code{\link[fastICA]{fastICA}}
 #'@return A list containing the following components as in
 #'  \code{\link[fastICA]{fastICA}} \describe{

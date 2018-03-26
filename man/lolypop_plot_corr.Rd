@@ -17,7 +17,7 @@ lolypop_plot_corr(r, col, head.size = 10, head.color = "value",
 
 \item{head.color}{by default colored by correlation values, if you want one color provide color name}
 
-\item{digits}{parameter of \code{\link[base]{round}} for the corellation showed on the plot. integer
+\item{digits}{parameter of \code{\link[base]{round}} for the correlation showed on the plot. integer
 indicating the number of decimal places (round) or significant digits (signif) to be used.}
 
 \item{head.text.size}{size of the correlation text font}
@@ -34,8 +34,8 @@ Plot correlations between one metagene or known profile and all components in a 
 which is a variant of a signal plot. Wrapper using ggplot2.
 }
 \details{
-Values are order from highest correlation to lowest correlation. Colors and fonts can be overwriten.
-To see all correlations simulaneously choose \code{\link{radar_plot_corr}}
+Values are order from highest correlation to lowest correlation. Colors and fonts can be overwritten.
+To see all correlations simultaneously choose \code{\link{radar_plot_corr}}
 }
 \examples{
 res_run_ica <- run_fastica (

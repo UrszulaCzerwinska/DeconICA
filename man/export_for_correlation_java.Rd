@@ -8,7 +8,7 @@ export_for_correlation_java(corr_folder = "CORRELATION", names, S, samples, A,
   ncomp, name, path_global_1 = getwd())
 }
 \arguments{
-\item{corr_folder}{export folder name \code{"CORRELATION"} by defualt}
+\item{corr_folder}{export folder name \code{"CORRELATION"} by default}
 
 \item{names}{gene names}
 

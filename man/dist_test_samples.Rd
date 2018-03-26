@@ -2,7 +2,7 @@
 % Please edit documentation in R/dist_test_samples.R
 \name{dist_test_samples}
 \alias{dist_test_samples}
-\title{Test impact of each Independ Component}
+\title{Test impact of each Independent Component}
 \usage{
 dist_test_samples(A, sample.names, quant = c(0.1, 0.9), X.counts, test.type,
   thr = 0.1, isLog = NULL, return = "p.value", wide = TRUE)
@@ -19,9 +19,9 @@ of \code{A}}
 
 \item{test.type}{test of distributions to perform}
 
-\item{thr}{threshold of maximal p.value consiered 0.1 by default}
+\item{thr}{threshold of maximal p.value considered 0.1 by default}
 
-\item{isLog}{by default \code{NULL}, if \code{X} is not conts but log,
+\item{isLog}{by default \code{NULL}, if \code{X} is not counts but log,
 provide the base of log, for natural logarithm use \code{exp(1)}}
 
 \item{return}{if you want to return p.values select}

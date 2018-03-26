@@ -17,12 +17,12 @@ matrix with correlation and p-values}
 \item{point.size}{\code{size} parameter in \code{\link[ggplot2]{geom_point}}}
 }
 \value{
-Radar plots for correclations of each input component with matagene/profile,
+Radar plots for correlations of each input component with matagene/profile,
 Returns a list containing the \code{data.frame} \code{df} used to generate the plot
 - long format - and the plot itself \code{p}.
 }
 \description{
-Wrapper using ggplot2 to plot correlations between ICs and given metagenes or
+Wrapper using ggplot2 to plot correlations between components and given metagenes or
 pure profiles
 }
 \examples{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_proportions.R
 \name{get_scores}
 \alias{get_scores}
-\title{Get aboundance scores}
+\title{Get abundance scores}
 \usage{
 get_scores(df, markers.list, summary = "mean", ...)
 }
@@ -13,7 +13,7 @@ rows}
 \item{markers.list}{list of genes or list of genes with weights}
 
 \item{summary}{can be any type of mean i.e. \code{mean}, \code{gm_mean}
-(geometric mean), \code{harmonic_mean}, \code{weighted.mean}. For wieghted
+(geometric mean), \code{harmonic_mean}, \code{weighted.mean}. For weighted
 mean weights are needed along with gene names}
 
 \item{...}{optional parameters for the mean function}
@@ -22,7 +22,7 @@ mean weights are needed along with gene names}
 Function returns numerical value for each column (sample) of provided data frame
 }
 \description{
-It calulates aboundance scores through a mean of marker genes
+It calculates abundance scores through a mean of marker genes
 }
 \examples{
 set.seed(123)
@@ -43,12 +43,12 @@ counts.abs <- (2^res_run_ica$log.counts)-1
 row.names(counts.abs) <- res_run_ica$names
 
 markers <- generate_markers(df = res_run_ica,n = 10,
-                            sel.ic= names(immune),
+                            sel.comp= names(immune),
                             return= "gene.list")
 get_scores (counts.abs, markers, summary = "mean", na.rm = TRUE)
 
 markers <- generate_markers(df = res_run_ica,n  = 10,
-                           sel.ic= names(immune),
+                           sel.comp= names(immune),
                            return= "genes.ranked")
 get_scores (counts.abs, markers, summary = "weighted.mean", na.rm = TRUE)
 }

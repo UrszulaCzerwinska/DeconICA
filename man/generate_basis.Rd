@@ -4,18 +4,18 @@
 \alias{generate_basis}
 \title{Generate basis matrix}
 \usage{
-generate_basis(df, sel.ic, markers, orient.long = TRUE)
+generate_basis(df, sel.comp, markers, orient.long = TRUE)
 }
 \arguments{
 \item{df}{output of \code{run_fastica} containing at least \code{S} and
 \code{names} elements}
 
-\item{sel.ic}{ICs indentified as specific sources (i.e. immune cells), by
-default it takes all ICs of S matrix, can be provided as valid column names
+\item{sel.comp}{components identified as specific sources (i.e. immune cells), by
+default it takes all components of S matrix, can be provided as valid column names
 or numeric index}
 
 \item{markers}{list of markers that should be used for basis matrix (i.e.
-"gene.list" from \code{generate_markers}), can be also simple vecor or
+"gene.list" from \code{generate_markers}), can be also simple vector or
 list of gene names}
 
 \item{orient.long}{TRUE by default, if you modified S matrix and you don't want it
@@ -46,7 +46,7 @@ assign <- assign_metagenes(corr$r)
 
 immune <- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
-markers <- generate_markers(df = res_run_ica,n = 10,sel.ic= names(immune), return= "gene.list")
-basis <- generate_basis(df = res_run_ica,sel.ic= names(immune),markers= markers )
+markers <- generate_markers(df = res_run_ica,n = 10,sel.comp= names(immune), return= "gene.list")
+basis <- generate_basis(df = res_run_ica,sel.comp= names(immune),markers= markers )
 pheatmap::pheatmap(basis )
 }

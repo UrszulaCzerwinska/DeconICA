@@ -7,7 +7,7 @@
 cell_voting_immgen(enrich, n = 10)
 }
 \arguments{
-\item{enrich}{enrichment reults from \code{\link{gene_enrichment_test}}}
+\item{enrich}{enrichment results from \code{\link{gene_enrichment_test}}}
 
 \item{n}{\code{n} top results taken into account, 10 by default}
 }
@@ -16,9 +16,9 @@ list of \code{data.frame}for each non \code{NULL} result of enrichment list
   from \code{\link{gene_enrichment_test}}
 }
 \description{
-From \code{\link{gene_enrichment_test}} result contrsucts a summary table counting
+From \code{\link{gene_enrichment_test}} result constructs a summary table counting
 percentage of a certain cell type attributed to a component.
-Works only with immgen signatures
+Works only with Immgen signatures
 }
 \examples{
 set.seed(123)

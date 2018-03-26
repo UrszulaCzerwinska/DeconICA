@@ -13,7 +13,8 @@ most_variant_IC(S, A, X, n = 5)
 
 \item{X}{data, either post-PCA data of \code{\link{run_fastica}} \code{X} matrix}
 
-\item{n}{number of top ICs if \code{n} = "all" then fev for all ICs is returned}
+\item{n}{number of top ICs if \code{n} = "all" then fraction of variance explained for
+all ICs is returned}
 }
 \value{
 returns a data frame with n top ICs numbers ranked by their fraction of variance explained

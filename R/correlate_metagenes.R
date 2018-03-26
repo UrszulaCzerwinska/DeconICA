@@ -1,7 +1,7 @@
 #'Correlate components with known ranked lists of genes
 #'
 #'Components obtained, for example, with \code{\link{run_fastica}} can be
-#'characterised through correlation with known ranked list (metagenes or profiles), by
+#'characterized through correlation with known ranked list (metagenes or profiles), by
 #'default this function is using metagenes from Biton et al. (2015), Cell. It is
 #'using \code{\link[Hmisc:rcorr]{rcorr}} function for correlations
 #'
@@ -14,13 +14,13 @@
 #'@param threshold threshold for components (columns of \code{S}) to be
 #'  applied before correlation, default set to -Inf (all ranks are kept)
 #'@param n.genes.intersect minimum of genes that should intersect between a component
-#'and a metagene to keep the IC in correlation matrix
+#'and a metagene to keep the component in correlation matrix
 #'@param orient.long orient by long tails, default TRUE
 #'@param orient.max orient by maximal correlation, default FALSE, can be used if
 #'  there is no long tails
 #'@param ... additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}
 #'@inheritParams Hmisc::rcorr
-#'@return a correlation matrix with correlation cofficient \code{r},
+#'@return a correlation matrix with correlation coefficient \code{r},
 #'  p.values \code{P} and number of overlapping genes \code{n}, oriented
 #'  \code{S} matrix
 #'
@@ -117,14 +117,14 @@ correlate_metagenes <-
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
-#' Assign components to a metagne through mutual reciprocity
+#' Assign components to a metagene through mutual reciprocity
 #'
 #' Attributes labels to components under condition of mutual reciprocal correlation
 #'
 #' @details  This function assign a component to a metagene/profile through
 #' verification if the component's the maximal correlation points to a given profile and if
 #' for this profile the maximal correlation points back the that component. In mathematical
-#' terms, given correlations between the set of profiles/metagnes \eqn{A = {A_1,...,A_m}} and
+#' terms, given correlations between the set of profiles/metagenes \eqn{A = {A_1,...,A_m}} and
 #' \eqn{S} components matrix \eqn{S = {IC1,...,ICN}}, if
 #' \deqn{Si = argmaxi(corr(Aj,S))} and \deqn{A_j = argmax_j(corr(S_i,A))}
 #'
@@ -186,13 +186,13 @@ assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
 #
 #' Identify components related to immune signal
 #'
-#' @param x the correaltion with immune metagene can be retreived from
+#' @param x the correlation with immune metagene can be retrieved from
 #'   \code{\link{correlate_metagenes}} output
 #' @param l vector of names of assigned components
 #' @param threshold lower bound for filtering correlation [0,1]
 #'
 #' @return
-#' it returns data frame of IC names and correlations passing the
+#' it returns data frame of component names and correlations passing the
 #' \code{threshold}
 #' @export
 #'

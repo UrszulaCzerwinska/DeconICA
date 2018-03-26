@@ -1,6 +1,6 @@
 #' Radar plot of correlations
 #'
-#' Wrapper using ggplot2 to plot correlations between ICs and given metagenes or
+#' Wrapper using ggplot2 to plot correlations between components and given metagenes or
 #' pure profiles
 #'
 #' @param df output of function \code{\link{correlate_metagenes}} - correlation
@@ -9,7 +9,7 @@
 #' @param size.el.txt define general size of letters, 15 by default
 #' @param point.size \code{size} parameter in \code{\link[ggplot2]{geom_point}}
 #'
-#' @return Radar plots for correclations of each input component with matagene/profile,
+#' @return Radar plots for correlations of each input component with matagene/profile,
 #' Returns a list containing the \code{data.frame} \code{df} used to generate the plot
 #' - long format - and the plot itself \code{p}.
 #'
@@ -96,7 +96,7 @@ radar_plot_corr <-
 #
 #'Plot results of density test
 #'
-#'Wrapper over \code{\link[ggplot2:ggplot]{ggplot}} ploting either rank or
+#'Wrapper over \code{\link[ggplot2:ggplot]{ggplot}} plotting either rank or
 #'density versus selected value in \code{\link{dist_test_samples}} (p.value or
 #'test statistics)
 #'
@@ -155,13 +155,13 @@ plot_dist_test <- function(df, plot.type = c("line", "density")) {
 #' Plot correlations between one metagene or known profile and all components in a form of linear plot
 #' which is a variant of a signal plot. Wrapper using ggplot2.
 #'
-#' @details Values are order from highest correlation to lowest correlation. Colors and fonts can be overwriten.
-#' To see all correlations simulaneously choose \code{\link{radar_plot_corr}}
+#' @details Values are order from highest correlation to lowest correlation. Colors and fonts can be overwritten.
+#' To see all correlations simultaneously choose \code{\link{radar_plot_corr}}
 #'
 #' @param r correlation matrix \code{r} matrix of output \code{\link{correlate_metagenes}}
 #' @param col select column either index or column name
 #' @param head.size size of the point of correlation
-#' @param digits parameter of \code{\link[base]{round}} for the corellation showed on the plot. integer
+#' @param digits parameter of \code{\link[base]{round}} for the correlation showed on the plot. integer
 #' indicating the number of decimal places (round) or significant digits (signif) to be used.
 #' @param head.text.size size of the correlation text font
 #' @param head.text.color color of the correlation text font
@@ -260,14 +260,14 @@ lolypop_plot_corr <-
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
-#' Correlation plot of aboundance scores
+#' Correlation plot of abundance scores
 #'
-#' Produces correlation plot of aboundance scores estimated versus expected
+#' Produces correlation plot of abundance scores estimated versus expected
 #'
-#' @param x \code{matrix} or \code{data.frame} of aboundance scores, samples in rows and cell types in columns
-#' @param y \code{matrix} or \code{data.frame} of expected (or to compare) aboundance scores, samples in rows and cell types in columns
+#' @param x \code{matrix} or \code{data.frame} of abundance scores, samples in rows and cell types in columns
+#' @param y \code{matrix} or \code{data.frame} of expected (or to compare) abundance scores, samples in rows and cell types in columns
 #' @param ...  additional parameters for \code{method} from \code{\link[corrplot:corrplot]{corrplot}}
-#' @details correlation plot between different aboundance scores of cell types in samples, correlates both matrices with each other
+#' @details correlation plot between different abundance scores of cell types in samples, correlates both matrices with each other
 #' merging two \code{data.frame}s by \code{row.name}s, on \code{\link[corrplot:corrplot]{corrplot}} \code{is.corr} parameter is
 #' set to \code{FALSE}
 #' @return \describe{\item{correlation plot}{based on \code{\link[corrplot:corrplot]{corrplot}}}

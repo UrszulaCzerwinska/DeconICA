@@ -21,7 +21,7 @@ names, 2nd - ranks, by default 11 metagenes from Biton et al. (2015), Cell}
 applied before correlation, default set to -Inf (all ranks are kept)}
 
 \item{n.genes.intersect}{minimum of genes that should intersect between a component
-and a metagene to keep the IC in correlation matrix}
+and a metagene to keep the component in correlation matrix}
 
 \item{orient.long}{orient by long tails, default TRUE}
 
@@ -31,13 +31,13 @@ there is no long tails}
 \item{...}{additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}}
 }
 \value{
-a correlation matrix with correlation cofficient \code{r},
+a correlation matrix with correlation coefficient \code{r},
  p.values \code{P} and number of overlapping genes \code{n}, oriented
  \code{S} matrix
 }
 \description{
 Components obtained, for example, with \code{\link{run_fastica}} can be
-characterised through correlation with known ranked list (metagenes or profiles), by
+characterized through correlation with known ranked list (metagenes or profiles), by
 default this function is using metagenes from Biton et al. (2015), Cell. It is
 using \code{\link[Hmisc:rcorr]{rcorr}} function for correlations
 }

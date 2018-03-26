@@ -15,7 +15,7 @@ plot_dist_test(df, plot.type = c("line", "density"))
 returns a line or density plot of p.value or test statistics versus rank or density
 }
 \description{
-Wrapper over \code{\link[ggplot2:ggplot]{ggplot}} ploting either rank or
+Wrapper over \code{\link[ggplot2:ggplot]{ggplot}} plotting either rank or
 density versus selected value in \code{\link{dist_test_samples}} (p.value or
 test statistics)
 }

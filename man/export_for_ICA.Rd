@@ -10,9 +10,9 @@ export_for_ICA(df.scaled.t, names, samples, path_global = getwd(),
 \arguments{
 \item{df.scaled.t}{scaled numerical matrix}
 
-\item{names}{gene names, vector of chatracter string}
+\item{names}{gene names, vector of character string}
 
-\item{samples}{sample names, vector of chatracter string}
+\item{samples}{sample names, vector of character string}
 
 \item{path_global}{path to export files, current directory by default}
 

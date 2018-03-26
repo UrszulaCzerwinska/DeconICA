@@ -21,7 +21,7 @@ doICABatch(df, vec, path_global = getwd(), names, samples, name = NULL,
 
 \item{name}{name of the dataset, if not provided, name of R variable}
 
-\item{matlbpth}{path to matlab, found automaticaly with \code{\link{get_matlab}}}
+\item{matlbpth}{path to matlab, found automatically with \code{\link{get_matlab}}}
 
 \item{fasticapth}{path to \code{fastica++}}
 }

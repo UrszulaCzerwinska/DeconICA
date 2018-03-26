@@ -1,7 +1,7 @@
 #' Call \code{doICA} matlab function
 #'
 #' function used inside \code{\link{run_fastica}} to run \code{fastICA} with
-#' \code{icasso} stabilisation. Matalb engine is necessary
+#' \code{icasso} stabilization. Matlab engine is necessary
 #'
 #' @param df.scaled.t scaled numerical data matrix
 #' @param names gene names, no duplicates
@@ -12,9 +12,9 @@
 #'   your name
 #' @param export.corr \code{FALSE} by default, if you want to use a java
 #'   correlation function later or select \code{TRUE}
-#' @param corr_folder \code{"CORRELATION"} by default, only if you seleced
+#' @param corr_folder \code{"CORRELATION"} by default, only if you selected
 #'   \code{export.corr = TRUE}
-#' @param matlbpth is found automaticaly with \code{\link{get_matlab}} function,
+#' @param matlbpth is found automatically with \code{\link{get_matlab}} function,
 #'   replace if not functional
 #' @param fasticapth path to \code{fastica++} repository with MATLAB scripts
 #'
@@ -157,7 +157,7 @@ import_ICA_res <- function(name, ncomp, path_global_1) {
 #'
 #' needed for an external function in java
 #'
-#' @param corr_folder export folder name \code{"CORRELATION"} by defualt
+#' @param corr_folder export folder name \code{"CORRELATION"} by default
 #' @param names gene names
 #' @param S \code{S} ICA matrix
 #' @param samples sample names
@@ -249,8 +249,8 @@ export_for_correlation_java <-
 #' export files in right format to run fastICA in MATLAB or BiodICA
 #'
 #' @param df.scaled.t scaled numerical matrix
-#' @param names gene names, vector of chatracter string
-#' @param samples sample names, vector of chatracter string
+#' @param names gene names, vector of character string
+#' @param samples sample names, vector of character string
 #' @param path_global path to export files, current directory by default
 #' @param name name of the dataset
 #' @param n number of components
@@ -322,10 +322,10 @@ export_for_ICA <-
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
-#' Formates data for ICA in MATLAB
+#' Formats data for ICA in MATLAB
 #'
 #' @param df numerical data matrix
-#' @param names gene names characer vector
+#' @param names gene names character vector
 #' @param samples if not provided column names will be used
 #'
 #' @return
@@ -387,7 +387,7 @@ prepare_data_for_ica <- function(df, names, samples = NULL) {
 #' @param names gene names
 #' @param samples sample names
 #' @param name name of the dataset, if not provided, name of R variable
-#' @param matlbpth path to matlab, found automaticaly with \code{\link{get_matlab}}
+#' @param matlbpth path to matlab, found automatically with \code{\link{get_matlab}}
 #' @param fasticapth path to \code{fastica++}
 #'
 #' @return

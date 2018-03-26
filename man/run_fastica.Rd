@@ -21,7 +21,7 @@ deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
 then number of components will be selected according to Kaiser Rule (90
 percent of variance explained)}
 
-\item{row.center}{if \code{TRUE} substract row mean from data}
+\item{row.center}{if \code{TRUE} subtract row mean from data}
 
 \item{with.names}{if first column of X is row.names please indicate
 \code{TRUE}, in case of duplicated names, the transcript with highest
@@ -47,7 +47,7 @@ provided at this step, you can provide them later}
 \item{isLog}{if data is in log \code{TRUE} if data is in counts \code{FALSE}}
 
 \item{R}{if TRUE (default) the R version of fastICA is running, else the
-matlab version (you need to provide parametrs of your matlab engine)}
+matlab version (you need to provide parameters of your matlab engine)}
 
 \item{path_global}{only if \code{R = FALSE}, the global path where files will
 be written, current directory by default}
@@ -55,8 +55,8 @@ be written, current directory by default}
 \item{matlbpth}{only if \code{R = FALSE},  the path to matlab engine, it uses
 \code{\link[matlabr:get_matlab]{get_matlab}} to find path to your matlab automatically}
 
-\item{fasticapth}{path to repository of source matlab code, it is set by defaul
-as comming with the package}
+\item{fasticapth}{path to repository of source matlab code, it is set by default
+as coming with the package}
 
 \item{export.corr}{\code{TRUE} if you need to export \code{S} matrix in a specific
 format for correlation in external java app}

@@ -1,4 +1,4 @@
-#' Test impact of each Independ Component
+#' Test impact of each Independent Component
 #'
 #' This function is applying distribution statistical test (i.e. \code{t.test},
 #' \code{wilcox.test}) to evaluate which ICs have highest impact on differences
@@ -9,13 +9,13 @@
 #'   of \code{A}
 #' @param quant quantiles to use, in form of \code{c(x, y)}
 #' @param test.type test of distributions to perform
-#' @param isLog by default \code{NULL}, if \code{X} is not conts but log,
+#' @param isLog by default \code{NULL}, if \code{X} is not counts but log,
 #'   provide the base of log, for natural logarithm use \code{exp(1)}
 #' @param X.counts expression data
 #' @param return if you want to return p.values select
 #' @param wide should the output matrix be in wide format (FALSE preferable for
 #'   plotting)
-#' @param thr threshold of maximal p.value consiered 0.1 by default
+#' @param thr threshold of maximal p.value considered 0.1 by default
 #'
 #' @return returns a matrix (in long or wide) format
 #' @export
@@ -174,7 +174,8 @@ dist_test_samples <-
 #' @param S result of \code{\link{run_fastica}} the \code{S} matrix
 #' @param A result of \code{\link{run_fastica}} the \code{A} matrix
 #' @param X data, either post-PCA data of \code{\link{run_fastica}} \code{X} matrix
-#' @param n number of top ICs if \code{n} = "all" then fev for all ICs is returned
+#' @param n number of top ICs if \code{n} = "all" then fraction of variance explained for
+#' all ICs is returned
 #'
 #' @return
 #' returns a data frame with n top ICs numbers ranked by their fraction of variance explained
