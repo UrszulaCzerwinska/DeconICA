@@ -36,6 +36,7 @@ data-raw
 inst/doc
 GDCdata
 *.rda
+brouillon
 
 # Windows image file caches
 Thumbs.db
