@@ -101,7 +101,10 @@ run_fastica <-
       }
       names <- X[, 1]
       X <- X[, 2:ncol(X)]
+    } else {
+      names <- make.names(seq(1, nrow(X), 1))
     }
+
     #define colnames
     if (!is.null(colnames(X))) {
       samples <- colnames(X)
@@ -125,7 +128,7 @@ run_fastica <-
     # center rows if needed
     if (row.center)
       X <- .center_rowmeans(X)
-    if (all.equal(round(mean(as.matrix(X[1, ])), 2), 0) != TRUE)
+    if (all.equal(round(mean(as.matrix(X[1,])), 2), 0) != TRUE)
       message("your data is not mean centerd by rows (genes)")
 
     if (optimal) {
@@ -173,10 +176,12 @@ run_fastica <-
     } else {
       #running ICA with Matlab with icasso stabilisation
       #detect operating system
-      sys <- switch(Sys.info()[["sysname"]],
-             Windows = "Windows",
-             Linux  = "Linux",
-             Darwin = "Mac")
+      sys <- switch(
+        Sys.info()[["sysname"]],
+        Windows = "Windows",
+        Linux  = "Linux",
+        Darwin = "Mac"
+      )
       message("Running MATLAB ICA")
       X.ica <-
         doICA(
@@ -192,6 +197,10 @@ run_fastica <-
           fasticapth = fasticapth
         )
     }
+    colnames(X.ica$A) <- samples
+    row.names(X.ica$A) <- paste0("IC", 1:nrow(X.ica$A))
+    colnames(X.ica$S) <- paste0("IC", 1:ncol(X.ica$S))
+    row.names(X.ica$S) <- names
     # add names if with.names
     message("adding names to the object")
     if (with.names) {
