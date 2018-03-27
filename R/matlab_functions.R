@@ -81,7 +81,7 @@ doICA <-
 
     cmd <- paste0(fun, "(", path, ",", file, ",", ncomp, ")")
 
-    run_matlab_code_2(c(cd, cmd), matcmd = matlbpth)
+    run_matlab_code_2(c(cd, cmd), matlbpth = matlbpth)
 
     res.imp <-
       import_ICA_res(name = name,
@@ -444,11 +444,10 @@ doICABatch <-
 
     file = paste("'", paste(name, "_numerical.txt", sep = ""), "'", sep =
                    "")
-    matlbpth = matlbpth
     fasticapth = fasticapth
     cd <- paste0("cd('", fasticapth, "');")
     cmd <- paste0(fun, "(", path, ",", file, ",", ncomp, ")")
-    run_matlab_code_2(c(cd, cmd), matcmd = matlbpth)
+    run_matlab_code_2(c(cd, cmd), matlbpth = matlbpth)
     t.imp.path = paste(path_global_1, "avg_stability.plot.txt", sep = "")
     T = utils::read.delim(t.imp.path, header = FALSE, sep = "\t")
     row.names(T) = as.character(T[, 1])
@@ -485,16 +484,17 @@ doICABatch <-
 #' @title Run matlab script
 #'
 #' @description This function runs a matlab script, and
-#' returns exit statuses, slighly modified from matlabr
+#' returns exit statuses, slightly modified version of
+#' \code{\link[matlabr]{run_matlab_script}}
 #' @param fname Filename of matlab script (.m file)
 #' @param verbose print diagnostic messages
 #' @param ... Options passed to \code{\link{system}}
-#' @param matcmd path to matlab engine
-#' @inheritParams matlabr::get_matlab
+#' @param matlbpth path to matlab engine
+#' @inheritParams get_matlab_2
 #' @export
 #' @return Exit status of matlab code
 run_matlab_script_2 = function(fname,
-                               matcmd = NULL,
+                               matlbpth = NULL,
                                verbose = TRUE,
                                desktop = FALSE,
                                splash = FALSE,
@@ -502,12 +502,12 @@ run_matlab_script_2 = function(fname,
                                wait = TRUE,
                                ...) {
   stopifnot(file.exists(fname))
-  if (is.null(matcmd))
-    matcmd <- matlabr::get_matlab(
+    matcmd <- get_matlab_2(
       desktop = desktop,
       splash = splash,
       display = display,
-      wait = wait
+      wait = wait,
+      mpath = matlbpth
     )
   cmd <- paste0(
     ' "',
@@ -534,7 +534,8 @@ run_matlab_script_2 = function(fname,
 #'
 #' @description This function takes in matlab code, where
 #' the last line must end with a ;, and returns the exit
-#' status
+#' status, slightly modified version of
+#' \code{\link[matlabr]{run_matlab_code}}
 #' @param code Character vector of code.
 #' @param endlines Logical of whether the semicolon (;) should be
 #' pasted to each element of the vector.
@@ -543,18 +544,18 @@ run_matlab_script_2 = function(fname,
 #' @param paths_to_add Character vector of PATHs to add to the
 #' script using \code{\link{add_path}}
 #' @param ... Options passed to \code{\link{run_matlab_script}}
-#' @param matcmd path to matlab engine
+#' @param matlbpth path to matlab engine
 #' @export
 #' @return Exit status of matlab code
 #' @examples
 #' if (matlabr::have_matlab()){
-#'    run_matlab_code_2("disp(version)")
+#'    run_matlab_code_2("disp(version)", matlbpth = "matlbpth")
 #'    run_matlab_code_2("disp(version)", paths_to_add = "~/")
 #'    run_matlab_code_2(c("disp('The version of the matlab is:')", "disp(version)"))
 #'    run_matlab_code_2(c("x = 5", "disp(['The value of x is ', num2str(x)])"))
 #' }
 run_matlab_code_2 = function(code,
-                             matcmd = NULL,
+                             matlbpth = NULL,
                              endlines = TRUE,
                              verbose = TRUE,
                              add_clear_all = FALSE,
@@ -583,7 +584,7 @@ run_matlab_code_2 = function(code,
     message(paste0("Script created: ", fname))
   }
   x <-
-    run_matlab_script_2(fname, matcmd = matcmd, verbose = verbose, ...)
+    run_matlab_script_2(fname, matlbpth = matlbpth,  verbose = verbose, ...)
   return(x)
 }
 #
@@ -604,4 +605,109 @@ add_path = function(path) {
   })
   path = unname(unlist(path))
   return(path)
+}
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#
+#' @title Find matlab path
+#'
+#' @description This tries to find matlab's path using a system which
+#' command, and then, if not found, looks at \code{getOption("matlab.path")}.  If not path is found, it fails.
+#' @param try_defaults (logical) If \code{matlab} is not found from
+#' \code{Sys.which}, and \code{matlab.path} not found, then try some
+#' default PATHs for Linux and OS X.
+#' @param desktop Should desktop be active for MATLAB?
+#' @param splash Should splash be active for MATLAB?
+#' @param display Should display be active for MATLAB?
+#' @param wait Should R wait for the command to finish.  Both
+#' passed to \code{\link{system}} and adds the \code{-wait} flag.
+#' @param mpath path to matlab if known
+#' @export
+#' @return Character of command for matlab
+#' @examples
+#' if (matlabr::have_matlab()) {
+#' get_matlab_2()
+#' }
+get_matlab_2 = function(
+  try_defaults = TRUE,
+  desktop = FALSE,
+  splash = FALSE,
+  display = FALSE,
+  wait = TRUE,
+  mpath = NULL){
+
+  # find.matlab <- system("which matlab", ignore.stdout=TRUE)
+  mat = paste0(
+    "matlab",
+    ifelse(
+      .Platform$OS.type %in% "windows",
+      ".exe",
+      "")
+  )
+  myfunc = function(x, name) {
+    x = as.logical(x)
+    ifelse(x, "", paste0("-no", name))
+  }
+  desktop = myfunc(desktop, "desktop")
+  splash = myfunc(splash, "splash")
+  display = myfunc(display, "display")
+  wait = ifelse(
+    .Platform$OS.type %in% "windows",
+    ifelse(wait, "-wait", ""),
+    "")
+  matcmd <- paste0(mat, " ",
+                   wait, " ",
+                   desktop, " ",
+                   splash, " ",
+                   display, " -r ")
+
+
+  if(is.null(mpath)) {
+
+  find.matlab = as.numeric(Sys.which(mat) == "")
+
+  if (find.matlab != 0) {
+    mpath = getOption("matlab.path")
+
+    ####################################
+    # Trying defaults
+    ####################################
+    if (is.null(mpath)) {
+      if (try_defaults) {
+        this.year = as.numeric(format(Sys.Date(), "%Y"))
+        years = seq(this.year + 1, this.year - 5, by = -1)
+        mac_ends = c(outer(years, c("a", "b"), paste0))
+        def_paths = c(
+          "/usr/local/bin",
+          "/usr/bin",
+          paste0("/Applications/MATLAB_R", mac_ends, ".app/bin"),
+          paste0("C:/Program Files/MATLAB/R", mac_ends, "/bin"),
+          paste0("D:/Program Files/MATLAB/R", mac_ends, "/bin")
+        )
+        for (ipath in def_paths) {
+          def_path = file.path(ipath, mat)
+          if (file.exists(def_path)) {
+            warning(paste0("Setting matlab.path to ", ipath))
+            options(matlab.path = ipath)
+            mpath = ipath
+            break;
+          } # end def_path
+        } # end loop
+      } # end try_defaults
+    } # end null mpath
+
+    stopifnot(!is.null(mpath))
+    stopifnot(file.exists(mpath))
+    mpath = shQuote(mpath)
+    matcmd <- file.path(mpath, matcmd)
+  }
+  } else {
+    mpath = mpath
+    stopifnot(!is.null(mpath))
+    mpath = shQuote(mpath)
+    matcmd <- file.path(mpath, matcmd)
+  }
+
+  return(matcmd)
 }

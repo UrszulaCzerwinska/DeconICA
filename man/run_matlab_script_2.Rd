@@ -4,13 +4,13 @@
 \alias{run_matlab_script_2}
 \title{Run matlab script}
 \usage{
-run_matlab_script_2(fname, matcmd = NULL, verbose = TRUE, desktop = FALSE,
-  splash = FALSE, display = FALSE, wait = TRUE, ...)
+run_matlab_script_2(fname, matlbpth = NULL, verbose = TRUE,
+  desktop = FALSE, splash = FALSE, display = FALSE, wait = TRUE, ...)
 }
 \arguments{
 \item{fname}{Filename of matlab script (.m file)}
 
-\item{matcmd}{path to matlab engine}
+\item{matlbpth}{path to matlab engine}
 
 \item{verbose}{print diagnostic messages}
 
@@ -30,5 +30,6 @@ Exit status of matlab code
 }
 \description{
 This function runs a matlab script, and
-returns exit statuses, slighly modified from matlabr
+returns exit statuses, slightly modified version of
+\code{\link[matlabr]{run_matlab_script}}
 }

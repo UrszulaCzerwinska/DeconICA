@@ -4,13 +4,13 @@
 \alias{run_matlab_code_2}
 \title{Runs matlab code}
 \usage{
-run_matlab_code_2(code, matcmd = NULL, endlines = TRUE, verbose = TRUE,
+run_matlab_code_2(code, matlbpth = NULL, endlines = TRUE, verbose = TRUE,
   add_clear_all = FALSE, paths_to_add = NULL, ...)
 }
 \arguments{
 \item{code}{Character vector of code.}
 
-\item{matcmd}{path to matlab engine}
+\item{matlbpth}{path to matlab engine}
 
 \item{endlines}{Logical of whether the semicolon (;) should be
 pasted to each element of the vector.}
@@ -30,11 +30,12 @@ Exit status of matlab code
 \description{
 This function takes in matlab code, where
 the last line must end with a ;, and returns the exit
-status
+status, slightly modified version of
+\code{\link[matlabr]{run_matlab_code}}
 }
 \examples{
 if (matlabr::have_matlab()){
-   run_matlab_code_2("disp(version)")
+   run_matlab_code_2("disp(version)", matlbpth = "matlbpth")
    run_matlab_code_2("disp(version)", paths_to_add = "~/")
    run_matlab_code_2(c("disp('The version of the matlab is:')", "disp(version)"))
    run_matlab_code_2(c("x = 5", "disp(['The value of x is ', num2str(x)])"))
