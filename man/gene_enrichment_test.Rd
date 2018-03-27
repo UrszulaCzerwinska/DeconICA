@@ -67,7 +67,7 @@ set.seed(123)
 res_run_ica <- run_fastica (
  Example_ds,
  optimal = FALSE,
- n.comp = 20,
+ n.comp = 40,
  with.names = TRUE
 )
 corr <- correlate_metagenes(
@@ -86,7 +86,9 @@ alternative = "greater",
 p.adjust.method = "BH",
 n = 50,
 n.consider = 100,
+p.value.threshold = 0.05
 )
+
 }
 \seealso{
 \code{\link{identify_immune_comp}} identifying immune related

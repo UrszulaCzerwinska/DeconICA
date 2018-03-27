@@ -27,7 +27,7 @@
 #' \code{\link{import_ICA_res}}, code{\link{export_for_correlation_java}}
 #' @examples
 #'\dontrun{
-#' data(Example_ds)
+#'data(Example_ds)
 #'res.pre <-
 #'  prepare_data_for_ica(Example_ds[, -1], names = Example_ds[, 1])
 #'res.do <- doICA(
@@ -50,8 +50,11 @@ doICA <-
            name = FALSE,
            export.corr = FALSE,
            corr_folder = "CORRELATION",
-           matlbpth = matlabr::get_matlab(),
+           matlbpth = NULL,
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
+    if (is.null(matlbpth) &
+        (!(matlabr::have_matlab())))
+      stop("Matlab could not be found on your disk \n provide path to your matlab in \'matlbpth\'")
     path.init <- getwd()
     res.exp <- export_for_ICA(
       df.scaled.t = df.scaled.t,
@@ -71,14 +74,14 @@ doICA <-
 
     file = paste("'", paste(name, "_numerical.txt", sep = ""), "'", sep =
                    "")
-    matlbpth = matlbpth
+
     fasticapth = fasticapth
 
     cd <- paste0("cd('", fasticapth, "');")
 
     cmd <- paste0(fun, "(", path, ",", file, ",", ncomp, ")")
 
-    matlabr::run_matlab_code(c(cd, cmd))
+    run_matlab_code_2(c(cd, cmd), matcmd = matlbpth)
 
     res.imp <-
       import_ICA_res(name = name,
@@ -372,8 +375,7 @@ prepare_data_for_ica <- function(df, names, samples = NULL) {
     )
   )
 }
-
-
+#
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 #
@@ -413,8 +415,11 @@ doICABatch <-
            names,
            samples,
            name = NULL,
-           matlbpth = matlabr::get_matlab(),
+           matlbpth = NULL,
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
+    if (is.null(matlbpth) &
+        (!(matlabr::have_matlab())))
+      stop("Matlab could not be found on your disk \n provide path to your matlab in \'matlbpth\'")
     res.pre <-
       prepare_data_for_ica(df = df,
                            names = names,
@@ -443,7 +448,7 @@ doICABatch <-
     fasticapth = fasticapth
     cd <- paste0("cd('", fasticapth, "');")
     cmd <- paste0(fun, "(", path, ",", file, ",", ncomp, ")")
-    matlabr::run_matlab_code(c(cd, cmd))
+    run_matlab_code_2(c(cd, cmd), matcmd = matlbpth)
     t.imp.path = paste(path_global_1, "avg_stability.plot.txt", sep = "")
     T = utils::read.delim(t.imp.path, header = FALSE, sep = "\t")
     row.names(T) = as.character(T[, 1])
@@ -473,3 +478,130 @@ doICABatch <-
       Av.stability.p = p3
     ))
   }
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#
+#' @title Run matlab script
+#'
+#' @description This function runs a matlab script, and
+#' returns exit statuses, slighly modified from matlabr
+#' @param fname Filename of matlab script (.m file)
+#' @param verbose print diagnostic messages
+#' @param ... Options passed to \code{\link{system}}
+#' @param matcmd path to matlab engine
+#' @inheritParams matlabr::get_matlab
+#' @export
+#' @return Exit status of matlab code
+run_matlab_script_2 = function(fname,
+                               matcmd = NULL,
+                               verbose = TRUE,
+                               desktop = FALSE,
+                               splash = FALSE,
+                               display = FALSE,
+                               wait = TRUE,
+                               ...) {
+  stopifnot(file.exists(fname))
+  if (is.null(matcmd))
+    matcmd <- matlabr::get_matlab(
+      desktop = desktop,
+      splash = splash,
+      display = display,
+      wait = wait
+    )
+  cmd <- paste0(
+    ' "',
+    "try, run('",
+    fname,
+    "'); ",
+    "catch err, disp(err.message); ",
+    "exit(1); end; exit(0);",
+    '"'
+  )
+  cmd <- paste0(matcmd, cmd)
+  if (verbose) {
+    message("Command run is:")
+    message(cmd)
+  }
+  x <- system(cmd, wait = wait, ...)
+  return(x)
+}
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#
+#' @title Runs matlab code
+#'
+#' @description This function takes in matlab code, where
+#' the last line must end with a ;, and returns the exit
+#' status
+#' @param code Character vector of code.
+#' @param endlines Logical of whether the semicolon (;) should be
+#' pasted to each element of the vector.
+#' @param verbose Print out filename to run
+#' @param add_clear_all Add \code{clear all;} to the beginning of code
+#' @param paths_to_add Character vector of PATHs to add to the
+#' script using \code{\link{add_path}}
+#' @param ... Options passed to \code{\link{run_matlab_script}}
+#' @param matcmd path to matlab engine
+#' @export
+#' @return Exit status of matlab code
+#' @examples
+#' if (matlabr::have_matlab()){
+#'    run_matlab_code_2("disp(version)")
+#'    run_matlab_code_2("disp(version)", paths_to_add = "~/")
+#'    run_matlab_code_2(c("disp('The version of the matlab is:')", "disp(version)"))
+#'    run_matlab_code_2(c("x = 5", "disp(['The value of x is ', num2str(x)])"))
+#' }
+run_matlab_code_2 = function(code,
+                             matcmd = NULL,
+                             endlines = TRUE,
+                             verbose = TRUE,
+                             add_clear_all = FALSE,
+                             paths_to_add = NULL,
+                             ...) {
+  code <- c(ifelse(add_clear_all, "clear all;", ""),
+            paste0("cd('", getwd(), "');"),
+            code)
+  if (!is.null(paths_to_add)) {
+    paths_to_add = add_path(paths_to_add)
+    code = c(code, paths_to_add)
+  }
+  sep <- ifelse(endlines, ";", " ")
+  code <- paste0(code, sep = sep, collapse = "\n")
+  code <- gsub(";;", ";", code)
+  #   cmd <- paste(' "try \n')
+  #   cmd <- paste(cmd, code)
+  #   cmd <- paste(cmd, "\n catch err \n disp(err.message); \n exit(1); \n")
+  #   cmd <- paste0(cmd, 'end; \n exit(0);"')
+  #   cmd = gsub("\n", ";", cmd)
+  #   cmd = paste0(matcmd, cmd)
+  cmd <- code
+  fname <- tempfile(fileext = ".m")
+  cat(cmd, file = fname)
+  if (verbose) {
+    message(paste0("Script created: ", fname))
+  }
+  x <-
+    run_matlab_script_2(fname, matcmd = matcmd, verbose = verbose, ...)
+  return(x)
+}
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#
+#' Create PATHs to add to MATLAB PATHs
+#'
+#' @param path path to add
+#'
+#' @return A character vector
+#' @examples
+#' add_path("~/")
+#' @export
+add_path = function(path) {
+  path = sapply(path, function(x) {
+    paste0("addpath('", path, "');")
+  })
+  path = unname(unlist(path))
+  return(path)
+}

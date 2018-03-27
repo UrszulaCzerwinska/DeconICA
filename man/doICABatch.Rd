@@ -5,8 +5,8 @@
 \title{\code{doBatchICA}}
 \usage{
 doICABatch(df, vec, path_global = getwd(), names, samples, name = NULL,
-  matlbpth = matlabr::get_matlab(),
-  fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"))
+  matlbpth = NULL, fasticapth = paste0(path.package("deconica", quiet =
+  TRUE), "/fastica++"))
 }
 \arguments{
 \item{df}{numerical data matrix}

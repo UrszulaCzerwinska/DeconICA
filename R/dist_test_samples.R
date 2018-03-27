@@ -95,17 +95,21 @@ dist_test_samples <-
         exprs.group2 <- X.counts[, names(group2)]
         mat <- cbind(exprs.group1, exprs.group2)
         if (test.type == "exactTest") {
-          mat <- data.frame(mat)
-          DGE <-
-            edgeR::DGEList(mat, group = rep(c("Cond1type", "Cond2type"),
-                                            c(length(group1), length(group2))))
-          # Analysis using common dispersion
-          disp <-
-            edgeR::estimateCommonDisp(DGE) # Estimating the common dispersion
-          #tested <- exactTest(disp,pair=c("Normal","Tumor")) # Testing
-          tested <-
-            edgeR::exactTest(disp, pair = c("Cond1type", "Cond2type")) # Testing
-          return(tested$table$PValue[order(tested$table$PValue)])
+          if (requireNamespace("edgeR", quietly = TRUE)) {
+            mat <- data.frame(mat)
+            DGE <-
+              edgeR::DGEList(mat, group = rep(c("Cond1type", "Cond2type"),
+                                              c(length(group1), length(group2))))
+            # Analysis using common dispersion
+            disp <-
+              edgeR::estimateCommonDisp(DGE) # Estimating the common dispersion
+            #tested <- exactTest(disp,pair=c("Normal","Tumor")) # Testing
+            tested <-
+              edgeR::exactTest(disp, pair = c("Cond1type", "Cond2type")) # Testing
+            return(tested$table$PValue[order(tested$table$PValue)])
+          } else {
+            stop("Please install package 'edgeR' to do this.")
+          }
         } else {
           if (test.type == "t.test") {
             res <- apply(mat, 1, function(x)
@@ -152,7 +156,7 @@ dist_test_samples <-
       if (!is.null(thr)) {
         keep <- apply(res.df, 1, function(x)
           all(x < thr))
-        res.df <- stats::na.omit(res.df[keep, ])
+        res.df <- stats::na.omit(res.df[keep,])
       }
       if (wide) {
         return(res.df)
@@ -211,5 +215,3 @@ most_variant_IC <- function(S, A, X, n = 5) {
   colnames(res) <- "fev"
   return(res)
 }
-
-

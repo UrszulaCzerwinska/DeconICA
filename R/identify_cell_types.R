@@ -49,7 +49,7 @@
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
 #'  optimal = FALSE,
-#'  n.comp = 20,
+#'  n.comp = 40,
 #'  with.names = TRUE
 #')
 #'corr <- correlate_metagenes(
@@ -68,7 +68,9 @@
 #'p.adjust.method = "BH",
 #'n = 50,
 #'n.consider = 100,
+#'p.value.threshold = 0.05
 #')
+#'
 gene_enrichment_test <-
   function(S,
            gene.names,
@@ -128,14 +130,12 @@ gene_enrichment_test <-
         )
       )
     } else {
-      stop(
-        paste(
-          "Not enough overlap between provided list and gmt signatures: ",
-          sum(present),
-          "/",
-          length(gene.names),
-          sep = ""
-        )
+      warning(
+        "Small overlap between provided gene list and gmt signatures: ",
+        sum(present),
+        "/",
+        length(gene.names),
+        sep = ""
       )
     }
     if (length(as.matrix(gene.names)) != nrow(S))
@@ -148,14 +148,14 @@ gene_enrichment_test <-
     colnames(S) <- paste("IC", 1:ncol(S), sep = "")
     colnames(gene.names) <- "gene.names"
     table <- data.frame(gene.names, S)[c("gene.names", immune.ics)]
-    table.uni <- table[present, ]
+    table.uni <- table[present,]
 
     message("saving metagenes")
     #the list of IC and genes (no filter)
     metagenes.list <- sapply(immune.ics, function(i) {
       # apply quantile or direct threshold
 
-      table <- table[order(-table[, i]), ]
+      table <- table[order(-table[, i]),]
       t <- table[, c("gene.names", i)]
 
     }, simplify = FALSE, USE.NAMES = TRUE)
@@ -165,10 +165,10 @@ gene_enrichment_test <-
     # the list of genes for enrichment respecing threshold n
     genes.list <-
       sapply(immune.ics, function(i) {
-        t <- table.uni [order(-table.uni [, i]), ]
+        t <- table.uni [order(-table.uni [, i]),]
         t <- t[, c("gene.names", i)]
         names <- as.array(t[, 1])
-        }, simplify = FALSE, USE.NAMES = TRUE)
+      }, simplify = FALSE, USE.NAMES = TRUE)
 
     #number of ros of result
     enrichment <- sapply(immune.ics, function(n.ic) {
@@ -221,29 +221,33 @@ gene_enrichment_test <-
       #multiple testing correction
       df[["p.value.corrected"]] <-
         stats::p.adjust(df[["p.value"]], method = p.adjust.method)
-      df <- df[order(df[["p.value.corrected"]]), ]
+      df <- df[order(df[["p.value.corrected"]]),]
 
       message("applying p.value.threshold")
       df <-
-        df[which(df[["p.value.corrected"]] < p.value.threshold), ]
+        df[which(df[["p.value.corrected"]] < p.value.threshold),]
 
     }, simplify = FALSE, USE.NAMES = TRUE)
 
     enrichment <- enrichment[sapply(enrichment, function(s)
       nrow(s) > 0)]
-    metagenes.list <-
-      metagenes.list[sapply(enrichment, function(s)
-        ! (is.null(s)))]
-    genes.list <-
-      genes.list[sapply(enrichment, function(s)
-        ! (is.null(s)))]
-    message("")
-    message("DONE")
-    return(list(
-      metagenes = metagenes.list,
-      genes.list = genes.list,
-      enrichment = enrichment
-    ))
+    if (length(enrichment) >= 1) {
+      metagenes.list <-
+        metagenes.list[sapply(enrichment, function(s)
+          ! (is.null(s)))]
+      genes.list <-
+        genes.list[sapply(enrichment, function(s)
+          ! (is.null(s)))]
+      message("")
+      message("DONE")
+      return(list(
+        metagenes = metagenes.list,
+        genes.list = genes.list,
+        enrichment = enrichment
+      ))
+    } else {
+      stop("no modules over the threshold")
+    }
   }
 
 #
@@ -271,7 +275,7 @@ gene_enrichment_test <-
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
 #'  optimal = FALSE,
-#'  n.comp = 20,
+#'  n.comp = 40,
 #'  with.names = TRUE
 #')
 #'corr <- correlate_metagenes(

@@ -3,20 +3,27 @@
 \docType{data}
 \name{Example_ds}
 \alias{Example_ds}
-\title{Example of dataset}
+\title{Example of a cancer dataset}
 \format{a dataframe with the
 \describe{
-  \item{module}{first column}
-  \item{module length}{second column}
-  \item{gene names}{third column}
+  \item{rows}{5000}
+  \item{columns}{60}
+  \item{first column}{is related to GENE names}
  }}
 \source{
-\url{zezez}
+\url{http://www.thelancet.com/journals/lancet/article/PIIS0140-6736(05)17947-1}
 }
 \usage{
 Example_ds
 }
 \description{
-OVCA
+A sample of 5000 genes and 59 samples from transcriptome  of lymph-node-negative
+breast cancer published in Wang et al. (2005)
+}
+\details{
+Wang, Y., Klijn, J.G., Zhang, Y., Sieuwerts, A.M., Look, M.P., Yang, F., Talantov, D.,
+Timmermans, M., Meijer-Van Gelder, M.E., Yu, J., Jatkoe, T., Berns, E.M., Atkins, D.,
+Foekens, J.A.: Gene-expression profiles to predict distant metastasis of
+lymph-node-negative primary breast cancer. Lancet 365(9460) (2005) 671–679
 }
 \keyword{datasets}

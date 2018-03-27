@@ -22,7 +22,6 @@ Imports:
     ggplot2 (>= 2.2.1),
     ACSNMineR (>= 0.16.8.25),
     utils (>= 3.4.1),
-    edgeR (>= 3.18.1),
     reshape(>= 0.8.7),
     gtools(>= 3.5.0),
     NMF(>= 0.20.6),
@@ -30,5 +29,12 @@ Imports:
     png(>= 0.1.7),
     grDevices(>= 3.4.1),
     matlabr(>= 1.5.0)
-Suggests: testthat, pheatmap
-biocViews:
+Suggests:  
+    edgeR(>= 3.18.1),
+    testthat, 
+    pheatmap,
+    knitr,
+    rmarkdown,
+    CellMix
+biocViews: 
+VignetteBuilder: knitr

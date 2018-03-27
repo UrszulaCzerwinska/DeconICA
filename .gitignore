@@ -5,39 +5,31 @@
 
 # Output files from R CMD check
 /*.Rcheck/
-
 # Session Data files
 *.RData
-
 # Output files from R CMD build
 /*.tar.gz
-
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
-
 # Mac Storage 
 .DS_Store
 .AppleDouble
 .LSOverride
-
 # Windows Installer files
 *.cab
 *.msi
 *.msm
 *.msp
-
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
-
 #heavy repos
 data-raw
 inst/doc
 GDCdata
 *.rda
 brouillon
-
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

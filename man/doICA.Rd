@@ -5,8 +5,7 @@
 \title{Call \code{doICA} matlab function}
 \usage{
 doICA(df.scaled.t, names, samples, path_global = getwd(), n, name = FALSE,
-  export.corr = FALSE, corr_folder = "CORRELATION",
-  matlbpth = matlabr::get_matlab(),
+  export.corr = FALSE, corr_folder = "CORRELATION", matlbpth = NULL,
   fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"))
 }
 \arguments{
