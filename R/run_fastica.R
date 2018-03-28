@@ -1,7 +1,7 @@
 #'Decompose dataset with ICA.
 #'
 #'This is a wrapper of \code{\link[fastICA]{fastICA}}. It allows compute number
-#'of ICs optimal for over decomposition for immune deconvolution.
+#'of ICs overdecompose for over decomposition for immune deconvolution.
 #'
 #'@param X a data matrix with \code{n} rows representing observations and
 #'  \code{p} columns representing variables, place gene names in the first
@@ -14,7 +14,7 @@
 #'@param gene.names character vector of row names - gene names
 #'@param R if TRUE (default) the R version of fastICA is running, else the
 #'  matlab version (you need to provide parameters of your matlab engine)
-#'@param optimal check \code{TRUE} to let select best number of components for
+#'@param overdecompose check \code{TRUE} to let select best number of components for
 #'  deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
 #'  then number of components will be selected according to Kaiser Rule (90
 #'  percent of variance explained)
@@ -53,10 +53,10 @@
 #' S <- matrix(runif(10000), 5000, 2)
 #' A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 #' X <- data.frame(S %*% A)
-#' run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE)
+#' run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 #' #matlab
 #' \dontrun{
-#'run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, R = FALSE)
+#'run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE, R = FALSE)
 #'}
 #' # matrix with gene names
 #' S <- matrix(runif(10000), 5000, 2)
@@ -64,13 +64,13 @@
 #' X <- data.frame(S %*% A)
 #' names <- paste("A",1:nrow(X), sep="")
 #' X <- cbind(names,X)
-#' run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, with.names = TRUE)
+#' run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE, with.names = TRUE)
 #'
 #'@seealso \code{\link[fastICA]{fastICA}}
 #'  \url{https://cran.r-project.org/web/packages/fastICA/index.html}
 run_fastica <-
   function(X,
-           optimal = TRUE,
+           overdecompose = TRUE,
            row.center = TRUE,
            with.names = FALSE,
            gene.names = NULL,
@@ -131,14 +131,14 @@ run_fastica <-
     if (all.equal(round(mean(as.matrix(X[1,])), 2), 0) != TRUE)
       message("your data is not mean centerd by rows (genes)")
 
-    if (optimal) {
+    if (overdecompose) {
       if (ncol(X) < 120) {
         message("applying Kaiser Rule")
         pca <- stats::prcomp(X, center = FALSE, scale. = FALSE)
         .cumVar(pca)
         n.pca <- which(.cumVar(pca) > 0.9)[1]
         n.comp <- n.pca
-        message(paste("optimal number of components should be : ", n.pca, sep =
+        message(paste("overdecompose number of components should be : ", n.pca, sep =
                         ""))
       } else {
         n.comp <- 100

@@ -4,10 +4,10 @@
 \alias{run_fastica}
 \title{Decompose dataset with ICA.}
 \usage{
-run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
-  gene.names = NULL, alg.typ = "parallel", method = "C", n.comp = 100,
-  isLog = TRUE, R = TRUE, path_global = getwd(),
-  matlbpth = matlabr::get_matlab(),
+run_fastica(X, overdecompose = TRUE, row.center = TRUE,
+  with.names = FALSE, gene.names = NULL, alg.typ = "parallel",
+  method = "C", n.comp = 100, isLog = TRUE, R = TRUE,
+  path_global = getwd(), matlbpth = matlabr::get_matlab(),
   fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"),
   export.corr = FALSE, ...)
 }
@@ -16,7 +16,7 @@ run_fastica(X, optimal = TRUE, row.center = TRUE, with.names = FALSE,
 \code{p} columns representing variables, place gene names in the first
 column and select \code{with.names = TRUE}}
 
-\item{optimal}{check \code{TRUE} to let select best number of components for
+\item{overdecompose}{check \code{TRUE} to let select best number of components for
 deconvolution, for datasets >120 columns, n.comp will be set to 100, if <120
 then number of components will be selected according to Kaiser Rule (90
 percent of variance explained)}
@@ -84,7 +84,7 @@ A list containing the following components as in
 }
 \description{
 This is a wrapper of \code{\link[fastICA]{fastICA}}. It allows compute number
-of ICs optimal for over decomposition for immune deconvolution.
+of ICs overdecompose for over decomposition for immune deconvolution.
 }
 \examples{
 
@@ -92,10 +92,10 @@ of ICs optimal for over decomposition for immune deconvolution.
 S <- matrix(runif(10000), 5000, 2)
 A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 X <- data.frame(S \%*\% A)
-run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE)
+run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 #matlab
 \dontrun{
-run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, R = FALSE)
+run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE, R = FALSE)
 }
 # matrix with gene names
 S <- matrix(runif(10000), 5000, 2)
@@ -103,7 +103,7 @@ A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 X <- data.frame(S \%*\% A)
 names <- paste("A",1:nrow(X), sep="")
 X <- cbind(names,X)
-run_fastica(X, row.center = TRUE, n.comp = 2, optimal = FALSE, with.names = TRUE)
+run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE, with.names = TRUE)
 
 }
 \seealso{

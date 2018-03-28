@@ -1,10 +1,14 @@
 ---
 title: "Introduction to deconICA"
+subtitile: "Deconvolution of transcriptome through Immune Component Analysis"
 author: "Urszula Czerwinska"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+    prettydoc::html_pretty:
+        theme: cayman
+        highlight: vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{"Introduction to deconICA"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,11 +20,65 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+Here is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. **DeconICA** stands for **Deconvolution of transcriptome through Immune Component Analysis**. The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+In this vignette we present short introduction to the blind source spearation techniques, the biological foundation of the problem and finally we walk you through examples on how to use [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package.
+
+If you are intrested only in practical examples of [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA), skip directly to [Tutorial](#Tut) section.
+
+# Background
+
+## Blind source separation
+
+### Independent Components Analysis
+
+### NMF
+
+### convex hull methods
+
+### attractor metagenes
+
+## Biological mixed samples
+
+### transcriptome
+
+
+# Tutorial {#Tut}
+
+## How to install
+You can install `deconICA` from GitHub with:
+```{r, eval = FALSE, echo = TRUE}
+#install.packages("devtools")
+devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE)
+```
+or 
+```{r, eval = FALSE, echo = TRUE}
+install.packages("githubinstall")
+githubinstall::githubinstall("DeconICA", build_vignettes = TRUE)
+```
+
+[**TO DO**] You can install the stable version from [CRAN](https://cran.r-project.org/web/packages/deconica/index.html)
+```{r, eval = FALSE, echo = TRUE}
+install.packages('deconica', dependencies = TRUE)
+```
+
+Then load package with
+```{r}
+library(deconica)
+```
+
+## Overview of functions
+
+You can use `run_fastica()` function to decompose a matrix into independent components
+```{r}
+S <- matrix(runif(10000), 5000, 2)
+A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
+X <- data.frame(S %*% A)
+res <- run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
+str(res)
+```
+In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `{r} row.center = TRUE`. We also checked `overdecompose = FALSE` as `overdecompose = TRUE`
+
 
 ## Vignette Info
 

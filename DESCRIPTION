@@ -35,6 +35,7 @@ Suggests:
     pheatmap,
     knitr,
     rmarkdown,
-    CellMix
+    CellMix,
+    prettydoc
 biocViews: 
 VignetteBuilder: knitr
