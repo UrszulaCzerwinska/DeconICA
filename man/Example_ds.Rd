@@ -4,26 +4,22 @@
 \name{Example_ds}
 \alias{Example_ds}
 \title{Example of a cancer dataset}
-\format{a dataframe with the
-\describe{
-  \item{rows}{5000}
-  \item{columns}{60}
-  \item{first column}{is related to GENE names}
- }}
+\format{a dataframe with the \describe{ \item{rows}{10000} \item{columns}{60}
+ \item{first column}{is related to GENE names} }}
 \source{
-\url{http://www.thelancet.com/journals/lancet/article/PIIS0140-6736(05)17947-1}
+\url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23720}
 }
 \usage{
 Example_ds
 }
 \description{
-A sample of 5000 genes and 59 samples from transcriptome  of lymph-node-negative
-breast cancer published in Wang et al. (2005)
+A sample of 10000 genes and 59 randomly selected samples from transcriptome  of inflammatory
+breast cance (IBC)
 }
 \details{
-Wang, Y., Klijn, J.G., Zhang, Y., Sieuwerts, A.M., Look, M.P., Yang, F., Talantov, D.,
-Timmermans, M., Meijer-Van Gelder, M.E., Yu, J., Jatkoe, T., Berns, E.M., Atkins, D.,
-Foekens, J.A.: Gene-expression profiles to predict distant metastasis of
-lymph-node-negative primary breast cancer. Lancet 365(9460) (2005) 671–679
+Bekhouche I, Finetti P, Adelaïde J, Ferrari A et al. High-resolution
+comparative genomic hybridization of inflammatory breast cancer and
+identification of candidate genes. PLoS One 2011 Feb 9;6(2):e16950. PMID:
+21339811
 }
 \keyword{datasets}

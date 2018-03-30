@@ -66,8 +66,8 @@ Computes an enrichment score (fisher exact test) in provided
 set.seed(123)
 res_run_ica <- run_fastica (
  Example_ds,
- optimal = FALSE,
- n.comp = 40,
+ overdecompose = FALSE,
+ n.comp = 41,
  with.names = TRUE
 )
 corr <- correlate_metagenes(
@@ -83,10 +83,10 @@ res_run_ica$S,
 res_run_ica$names,
 names(immune_c),
 alternative = "greater",
-p.adjust.method = "BH",
+p.adjust.method = "none",
 n = 50,
 n.consider = 100,
-p.value.threshold = 0.05
+p.value.threshold = 0.005
 )
 
 }

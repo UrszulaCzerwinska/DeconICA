@@ -26,7 +26,7 @@ S <- matrix(stats::rnbinom(10000, mu = 6, size = 10), 500, 80)
 dat <- matrix(runif(1600,min =1, max=10 ), 80, 80, byrow = TRUE)
 A <- dat / rowSums(dat)
 X <- data.frame(S \%*\% A)
-res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, optimal = FALSE)
+res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, overdecompose = FALSE)
 
 #run the funtion selecting wide = FALSE
 res.ttest <- dist_test_samples(A = res_run_ica$A,

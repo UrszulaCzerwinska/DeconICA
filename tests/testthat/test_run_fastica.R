@@ -9,7 +9,7 @@ test_that("fastICA output dimensions", {
       X,
       row.center = TRUE,
       n.comp = 2,
-      optimal = FALSE,
+      overdecompose= FALSE,
       with.names = FALSE
     )
   expect_equal(ncol(test$S), 2)
@@ -18,7 +18,7 @@ test_that("fastICA output dimensions", {
   expect_equal(ncol(test$A), ncol(X))
 })
 
-test_that("fastICA testing optimal for limited number of samples", {
+test_that("fastICA testing overdecomposefor limited number of samples", {
   set.seed(10)
   S <- matrix(runif(10000), 5000, 70)
   A <- matrix(c(1, 1, -1, 3), 70, 90, byrow = TRUE)
@@ -28,14 +28,14 @@ test_that("fastICA testing optimal for limited number of samples", {
       X,
       row.center = TRUE,
       n.comp = 10,
-      optimal = TRUE,
+      overdecompose= TRUE,
       with.names = FALSE
     )
   expect_equal(ncol(test$S), 2)
   expect_equal(nrow(test$S), nrow(X))
 })
 
-test_that("fastICA testing optimal for big number of samples", {
+test_that("fastICA testing overdecomposefor big number of samples", {
   set.seed(10)
   S <- matrix(runif(10000), 5000, 70)
   A <- matrix(c(1, 1, -1, 3), 70, 200, byrow = TRUE)
@@ -45,7 +45,7 @@ test_that("fastICA testing optimal for big number of samples", {
       X,
       row.center = TRUE,
       n.comp = 10,
-      optimal = TRUE,
+      overdecompose= TRUE,
       with.names = FALSE
     )
   expect_equal(ncol(test$S), 100)
@@ -64,7 +64,7 @@ test_that("fastICA testing names", {
       X,
       row.center = TRUE,
       n.comp = 10,
-      optimal = TRUE,
+      overdecompose= TRUE,
       with.names = TRUE
     )
   expect_equal(test$names, names)

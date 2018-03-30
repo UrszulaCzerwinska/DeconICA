@@ -6,3 +6,5 @@ devtools::use_testthat()
 devtools::document()
 roxygen2::roxygenise()
 R CMD Rd2pdf DeconICA/
+rmarkdown::render('vignettes/DeconICA_introduction.Rmd')
+install.packages(, repos = NULL, type="source")

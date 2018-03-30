@@ -26,7 +26,7 @@ Compute variance explained by each Independent Component
 set.seed(123)
 res_fastica <- run_fastica (
  Example_ds,
- optimal = FALSE,
+ overdecompose = FALSE,
  n.comp = 20,
  with.names = TRUE
 )

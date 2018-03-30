@@ -27,7 +27,7 @@
 #'set.seed(123)
 #'  res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')
@@ -104,7 +104,7 @@ generate_markers <-
 #'set.seed(123)
 #'  res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')
@@ -156,7 +156,7 @@ generate_basis <- function(df, sel.comp, markers, orient.long = TRUE) {
 #'set.seed(123)
 #'  res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')

@@ -24,7 +24,7 @@
 #' @examples
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')
@@ -44,7 +44,6 @@
 #'
 #'radar_plot_corr(corr, point.size = 0)$p +
 #'ggplot2::geom_point(size = 8, alpha = 0.4)
-
 radar_plot_corr <-
   function(df,
            ax.size = NULL,
@@ -62,8 +61,9 @@ radar_plot_corr <-
     component <- correlation <- metagene <- NULL
     chart <-
       data.frame(IC = row.names(df$r[, 1, drop = FALSE]), df$r)
+
     chart.long  <-
-      do.call("rbind", lapply(2:(ncol(chart) - 1), function(i)
+      do.call("rbind", lapply(2:ncol(chart), function(i)
         data.frame(chart[, 1], chart[, i], colnames(chart)[i])))
     colnames(chart.long) <-
       c("component", "correlation", "metagene")
@@ -117,7 +117,7 @@ radar_plot_corr <-
 #' dat <- matrix(runif(1600,min =1, max=10 ), 80, 80, byrow = TRUE)
 #' A <- dat / rowSums(dat)
 #' X <- data.frame(S %*% A)
-#' res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, optimal = FALSE)
+#' res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, overdecompose = FALSE)
 #'
 #'#run the funtion selecting wide = FALSE
 #' res.ttest <- dist_test_samples(A = res_run_ica$A,
@@ -182,7 +182,7 @@ plot_dist_test <- function(df, plot.type = c("line", "density")) {
 #' @examples
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')
@@ -249,12 +249,13 @@ lolypop_plot_corr <-
       ggplot2::scale_color_distiller(palette = "Spectral") +
       ggplot2::theme_bw()
     if (vertical) {
-      grDevices::dev.off()
+      grDevices::dev.new( noRStudioGD = TRUE)
       (p <- p + ggplot2::coord_flip())
     } else {
-      grDevices::dev.off()
+      grDevices::dev.new(noRStudioGD = TRUE)
       p
     }
+return(p)
   }
 #
 #---------------------------------------------------------------------

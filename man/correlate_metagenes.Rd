@@ -4,7 +4,7 @@
 \alias{correlate_metagenes}
 \title{Correlate components with known ranked lists of genes}
 \usage{
-correlate_metagenes(S, gene.names, metagenes = data.list, threshold = -Inf,
+correlate_metagenes(S, gene.names, metagenes = Biton.list, threshold = -Inf,
   n.genes.intersect = 30, orient.long = TRUE, orient.max = FALSE, ...)
 }
 \arguments{
@@ -44,7 +44,7 @@ using \code{\link[Hmisc:rcorr]{rcorr}} function for correlations
 \examples{
 res_run_ica <- run_fastica (
  Example_ds,
- optimal = FALSE,
+ overdecompose = FALSE,
  n.comp = 5,
  with.names = TRUE
 )

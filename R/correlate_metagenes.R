@@ -31,7 +31,7 @@
 #'@examples
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 5,
 #'  with.names = TRUE
 #')
@@ -42,7 +42,7 @@
 correlate_metagenes <-
   function(S,
            gene.names,
-           metagenes = data.list,
+           metagenes = Biton.list,
            threshold = -Inf,
            n.genes.intersect = 30,
            orient.long = TRUE,
@@ -145,7 +145,7 @@ correlate_metagenes <-
 #'
 #' res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 5,
 #'  with.names = TRUE
 #')
@@ -200,7 +200,7 @@ assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
 #'
 #' res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')
@@ -237,7 +237,7 @@ identify_immune_comp <- function(x, l, threshold = 0.1) {
 #' @examples
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 5,
 #'  with.names = TRUE
 #')

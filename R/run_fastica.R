@@ -203,9 +203,7 @@ run_fastica <-
     row.names(X.ica$S) <- names
     # add names if with.names
     message("adding names to the object")
-    if (with.names) {
-      X.ica[["names"]] <- as.character(names)
-    }
+    X.ica[["names"]] <- as.character(names)
     #add sample names
     message("adding sample names to the object")
     X.ica[["samples"]] <- samples

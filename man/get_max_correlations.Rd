@@ -21,7 +21,7 @@ It assigns maximal correlations between set of correlated vectors
 \examples{
 res_run_ica <- run_fastica (
  Example_ds,
- optimal = FALSE,
+ overdecompose = FALSE,
  n.comp = 5,
  with.names = TRUE
 )

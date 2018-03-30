@@ -48,8 +48,8 @@
 #' set.seed(123)
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
-#'  n.comp = 40,
+#'  overdecompose = FALSE,
+#'  n.comp = 41,
 #'  with.names = TRUE
 #')
 #'corr <- correlate_metagenes(
@@ -65,10 +65,10 @@
 #'res_run_ica$names,
 #'names(immune_c),
 #'alternative = "greater",
-#'p.adjust.method = "BH",
+#'p.adjust.method = "none",
 #'n = 50,
 #'n.consider = 100,
-#'p.value.threshold = 0.05
+#'p.value.threshold = 0.005
 #')
 #'
 gene_enrichment_test <-
@@ -274,8 +274,7 @@ gene_enrichment_test <-
 #' set.seed(123)
 #'res_run_ica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
-#'  n.comp = 40,
+#'  overdecompose = TRUE,
 #'  with.names = TRUE
 #')
 #'corr <- correlate_metagenes(
@@ -283,7 +282,6 @@ gene_enrichment_test <-
 #'    gene.names = res_run_ica$names)
 #'
 #'assign <- assign_metagenes(corr$r)
-#'
 #'immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 #'
 #'enrichment <- gene_enrichment_test(
@@ -291,10 +289,10 @@ gene_enrichment_test <-
 #'res_run_ica$names,
 #'names(immune_c),
 #'alternative = "greater",
-#'p.adjust.method = "BH",
+#'p.adjust.method = "none",
 #'n = 50,
 #'n.consider = 100,
-#'p.value.threshold = 0.05
+#'p.value.threshold = 0.005
 #')
 #'
 #'cell_voting_immgen(enrichment$enrichment)
@@ -328,3 +326,4 @@ cell_voting_immgen <-
                  ), " %", sep = ""))
     }, simplify = FALSE, USE.NAMES = TRUE)
   }
+

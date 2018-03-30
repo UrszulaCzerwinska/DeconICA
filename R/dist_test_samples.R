@@ -27,7 +27,7 @@
 #' dat <- matrix(runif(1600,min =1, max=10 ), 80, 80, byrow = TRUE)
 #' A <- dat / rowSums(dat)
 #' X <- data.frame(S %*% A)
-#' res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, optimal = FALSE)
+#' res_run_ica <- run_fastica(X, row.center = TRUE, n.comp = 5, overdecompose = FALSE)
 #'
 #'#stats::t.test
 #'dist_test_samples(A = res_run_ica$A,
@@ -189,7 +189,7 @@ dist_test_samples <-
 #' set.seed(123)
 #'res_fastica <- run_fastica (
 #'  Example_ds,
-#'  optimal = FALSE,
+#'  overdecompose = FALSE,
 #'  n.comp = 20,
 #'  with.names = TRUE
 #')

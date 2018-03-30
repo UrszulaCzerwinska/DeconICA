@@ -28,7 +28,7 @@ pure profiles
 \examples{
 res_run_ica <- run_fastica (
  Example_ds,
- optimal = FALSE,
+ overdecompose = FALSE,
  n.comp = 20,
  with.names = TRUE
 )

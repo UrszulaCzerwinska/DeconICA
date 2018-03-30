@@ -7,6 +7,12 @@ output:
     prettydoc::html_pretty:
         theme: cayman
         highlight: vignette
+        toc: yes
+    pdf_document:
+        highlight: vignette
+        toc: yes
+#bibliography: introDeconICA.bib
+
 vignette: >
   %\VignetteIndexEntry{"Introduction to deconICA"}
   %\VignetteEngine{knitr::rmarkdown}
@@ -69,6 +75,9 @@ library(deconica)
 
 ## Overview of functions
 
+In this section we will discuss main functions of the package and their different options on computationally light toy examples. If you are interested in demo application of `deconICA` with biological arguments go straight to section [use cases XX](#cases)
+
+
 You can use `run_fastica()` function to decompose a matrix into independent components
 ```{r}
 S <- matrix(runif(10000), 5000, 2)
@@ -77,7 +86,230 @@ X <- data.frame(S %*% A)
 res <- run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 str(res)
 ```
-In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `{r} row.center = TRUE`. We also checked `overdecompose = FALSE` as `overdecompose = TRUE`
+`run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `{r} row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome [see section ####]. Other parameters were selected as default. 
+
+Full description of the `run_fastica` parameters can be found in help `?run_fastica`. 
+
+The main differences between `run_fastica` and `fastica` are:
+
+* if column names are provided with the matrix, duplicated names are removed and entries with higher variance are kept
+* it transforms data into log2 if data are in row counts 
+* it runs a PCA before ICA to denoise the matrix
+* it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in *vignette: running fastICA with icasso stabilisation*)
+* it returns in a `list` 
+  + input `data.frame` without duplicated entries and before log transformation: `log.counts`
+  + `names` row names vector
+  + `samples`sample names vector
+  + `A`, `S`, `K` and `W` matrices (see `?run_fastica` for details) if run in `R=TRUE`
+  + `A` and `S` matrices if run with `R=FALSE`
+* `overdecompose` parameter that selects number of composed needed to perform overdecomposition of the input matrix
+  
+Therefore, `run_fastica()` performs ICA decomposition of the matrix and provides additional features usefull for the downstream analysis. The use of more advanced options will be demonstrated later on in this tutorial. It generates *components* or *sources* to which we will refer later on in the tutorial.
+  
+The step naturally following `run_fastica()` is `correlate_metagenes()`.
+
+It is common that after an unsuperivsed decomposition, components should have attributed an interpretation or a  meaning or a label. We call this process *interpret* components or *identify* sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list. 
+
+An efficient way to in intrpret a component is to use correlation with some known profile or as we call it a *metagene*. If we dispose of a known weighted list of genes that characterize a biological phenomena or a cell type (a metagene), we can them correlate with obtained components and verify is some of decomposed sources are close to the known cells/functions. 
+
+In our `deconICA` pipeline `correlate_metagenes()` can be used in order to correlate knowledge-driven metagenes with the data driven components.
+
+```{r}
+data(Example_ds)
+#decompose the matrix
+set.seed(123)
+res_run_ica <- run_fastica (
+  Example_ds,
+  overdecompose = FALSE,
+  with.names = TRUE,
+  n.comp = 10
+)
+
+#correlate with Biton et al. metagenes
+corr <- correlate_metagenes(S = res_run_ica$S,
+                          gene.names = res_run_ica$names, 
+                          metagenes = Biton.list
+                           )
+```
+In this case we use an example of an extract, of 60 samples and 5000 genes, from transcriptomic data from breast cancer [@wanXXX]. At first, dataset is decomposed into an arbitrary number of 10 components. The `correlate_metagenes()` correlates the obtained `S` matrix with *Biton et al.* metagenes. This set of 11 metagens is data-driven and was derived in the article @BitonXXX from pan-cancer transcriptome as the reproducible signals, common to many cancer types. Some of the signatures as BCLAPATHWAYS or UROTHELIALDIF(ferentiation) were shared amond many datasets, but within bladder cancer. They can bees as a sort of negative control.
+
+However, any set weighted signatures with reasonable size can be used as metagenes. Later in this tutorial we use immune cell profiles optimized for cell type deconvolution from [@cibersortXXX] `LM22.list`.
+
+One can controle a minimal number of correlated gennes with `n.genes.intersect` it is set to a magic number in statistics (30) by default.
+
+```{r}
+names(corr)
+```
+The `correlate_metagenes()` returns `n`, `r`, `P` matrices which correspond to [`Hmisc::rcorr`](https://www.rdocumentation.org/packages/Hmisc/versions/4.1-0/topics/rcorr) function output, number of genes on which correlation is based, correlation coefficient and p-value.
+
+The `S.or` stands for `S` matrix that is *oriented*. Why the matrix should be oriented? If you used ICA to decompose gene expression then the positive and negative projections do not have meaning by itself. We developed a methodology orienting data in the direction of the *long tail* of the distribution. Which means highest absolute values of a component weight should be positive. 
+However, if the distribution doesn't have *tails* and is close to gaussian, an alternative, can be orienting components through matrimal correlation. If we are confident with our metagenes, we can orient the `S` matrix so that the maximal correlation is always postive. We demontrate the use of `orient.max = FALSE` and obtained `S.or`in [use cases section](#cases). One can decide not to orient the `S` matrix through selecting `orient.long = FALSE` and `orient.max = FALSE`.
+
+If we have a look at `r` matrix, we see, indeed, it contains correlations between components and provided metagenes.
+```{r}
+head(corr$r)
+```
+
+These correlation matrix can be visualised in many ways. We propose a *radar plot* to evaluate quickly if there is a good match between metagenes and components. We focus on positive correlations.
+
+```{r}
+p <- radar_plot_corr(corr, size.el.txt = 10, point.size = 2)
+```
+```{r,echo =FALSE}
+p$p
+```
+
+The function  `radar_plot_corr()` returns as well the matrix in long format suitable for `ggplot2` plots.
+
+```{r}
+head(p$df)
+```
+In order to *zoom in* into a correlation with a specific metagene, one can use a function `lolypop_plot_corr()`
+  
+Here we can visualize for example CELLCYCLE metagene that seems a bit unbigous.
+```{r eval = FALSE}
+lolypop_plot_corr(corr$r,"M7_CELLCYCLE")
+```
+```{r echo = FALSE}
+p1 <-lolypop_plot_corr(corr$r,"M7_CELLCYCLE")
+```
+```{r, echo = FALSE}
+p1
+```
+
+We can observe that the highest correlation is negative IC1: -0.4. and positive correlations are quite low and threre is no a specific component that corresponds to CELLCYCLE. 
+
+However, if we look at IMMUNE metagene, we can select one strongly correlated component: IC7, Pearson correlation coefficient equal to 0.72.
+```{r eval = FALSE}
+lolypop_plot_corr(corr$r,"M8_IMMUNE")
+```
+```{r echo=FALSE}
+p2 <- lolypop_plot_corr(corr$r,"M8_IMMUNE")
+
+```
+```{r echo=FALSE}
+p2
+```
+
+In case we have many profiles, an outomatic extraction of corresponding pairs metagene - component is handy. 
+
+A natural way is consider the component which Pearson correlation coefficient is highest as the one *corresponding* to a metagene.
+You can use `get_max_correlations()` to retreive this information from the correlation matrix. 
+```{r}
+# retreive max correlations
+ max.corr <- get_max_correlations(corr)
+# order
+ max.corr.ordered <- max.corr[order(-max.corr$r),]
+# show table
+ knitr::kable(max.corr.ordered, row.names = FALSE)
+```
+
+`get_max_correlations()` provides pearson correlation `r` column and the p-valye `p.val` to help decide if the maximal correlation can be used as labelling. One can decide on minimal threshold, or p-value to take a decision.
+
+Another way to assign maetagene to a component can be trough reciprocal correlations. This method was used in our research articles [@MSTD; @LaurasRBH_paper]. In brief, given correlations between the set of metagenes $M=\{M_{1},...,M_{m}\}$ and $S$ matrix $S=\{IC_{1},...,IC_{N}\}$, if $S_{i}=argmax_i (corr(M_{j},S))$ and $A_{j}=argmax_j (corr(S_{i},M))$, then $S_{i}$ and $M_{j}$ are reciprocal. This approach is usefull with assumption that there should be one component corresponding to a metagene and one metagene corresponding to a component.
+
+```{r}
+# retreive reciprocal correlations
+reciprocal.corr <- assign_metagenes(corr$r, exclude_name = NULL)
+# show table
+knitr::kable(reciprocal.corr, row.names = FALSE)
+```
+
+Here the correspondiing pairs do not follow a speciic order. The six of components find a reciprocal match.
+
+We can also overdecompose our sample data
+```{r}
+data(Example_ds)
+#decompose the matrix
+set.seed(123)
+res_run_ica_overdecompose <- run_fastica (
+  Example_ds,
+  overdecompose = TRUE,
+  with.names = TRUE
+)
+
+# correlate with Biton et al. metagenes
+corr_Biton <- correlate_metagenes(S = res_run_ica_overdecompose$S,
+                            gene.names = res_run_ica_overdecompose$names,
+                            metagenes = Biton.list
+                            )
+# correlate with LM22 cell profiles
+corr_LM22 <- correlate_metagenes(S = res_run_ica_overdecompose$S,
+                            gene.names = res_run_ica_overdecompose$names,
+                            metagenes = LM22.list
+                            )
+
+```
+We can illustrate correlations with Biton et al. metagenes...
+```{r, eval = FALSE}
+radar_plot_corr(corr_Biton, size.el.txt = 10, point.size = 2)
+```
+```{r, echo = FALSE}
+p3 <- radar_plot_corr(corr, size.el.txt = 10, point.size = 2)
+```
+```{r, echo = FALSE}
+p3
+```
+... and with LM22 immune cell type profiles.
+```{r, eval = FALSE}
+radar_plot_corr(corr_LM22, size.el.txt = 10, point.size = 2)
+```
+```{r, echo = FALSE}
+p4 <- radar_plot_corr(corr_LM22, size.el.txt = 10, point.size = 2)
+```
+```{r, echo = FALSE}
+p4
+```
+And zoom in the *M8_IMMUNE* metagene.
+```{r, eval = FALSE}
+lolypop_plot_corr(corr_Biton$r,"M8_IMMUNE")
+```
+```{r echo=FALSE}
+p5 <- lolypop_plot_corr(corr_Biton$r,"M8_IMMUNE")
+```
+```{r,echo=FALSE}
+p5
+```
+
+As we have several components corresponding to the M8_IMMUNE and a few matches with immune profiles. One can use enrichment test to confirm this results.
+
+First we runn reciprocal assignement so that we can exclude from immune signals the ones identied as for example cell cycle.
+
+```{r}
+# reciprocal.corr.Biton <-
+#   assign_metagenes(corr_Biton$r, exclude_name = c("M8_IMMUNE", "M2_GC_CONTENT"))
+# immune.components <-
+#   identify_immune_comp(corr_Biton$r[, "M8_IMMUNE"], reciprocal.corr.Biton$component)
+```
+```{r}
+# immune.components
+```
+
+And we can verify to which cells they may correspond through enrichment test (based on Fisher exact test).
+```{r}
+# enrichment.immune <- gene_enrichment_test(
+#   res_run_ica_overdecompose$S,
+#   res_run_ica_overdecompose$names,
+#   immune.ics = immune.components,
+#   alternative = "greater",
+#   p.adjust.method = "BH"
+#   )
+```
+
+```{r}
+#names(enrichment.immune)
+```
+```{r}
+#knitr::kable(enrichment.immune$enrich)
+```
+
+```{r}
+#cell_voting_immgen(enrichment.immune$enrich)
+```
+
+
+#### generate markers
+#### get scores
 
 
 ## Vignette Info

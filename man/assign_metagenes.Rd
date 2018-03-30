@@ -33,7 +33,7 @@ terms, given correlations between the set of profiles/metagenes \eqn{A = {A_1,..
 
 res_run_ica <- run_fastica (
  Example_ds,
- optimal = FALSE,
+ overdecompose = FALSE,
  n.comp = 5,
  with.names = TRUE
 )
