@@ -83,7 +83,7 @@ You can use `run_fastica()` function to decompose a matrix into independent comp
 S <- matrix(runif(10000), 5000, 2)
 A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 X <- data.frame(S %*% A)
-res <- run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
+res <- run_fastica(X = X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 str(res)
 ```
 `run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `{r} row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome [see section ####]. Other parameters were selected as default. 

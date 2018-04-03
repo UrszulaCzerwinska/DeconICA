@@ -56,6 +56,7 @@ doICA <-
         (!(matlabr::have_matlab())))
       stop("Matlab could not be found on your disk \n provide path to your matlab in \'matlbpth\'")
     path.init <- getwd()
+
     res.exp <- export_for_ICA(
       df.scaled.t = df.scaled.t,
       names = names,
@@ -64,6 +65,7 @@ doICA <-
       name = name,
       n = n
     )
+
     path_global_1 <- res.exp$path_global_1
     name <- res.exp$name
     fun = "doICA"
@@ -100,7 +102,7 @@ doICA <-
       )
     setwd(path.init)
     return(list(
-      A = t(res.imp$A),
+      A = res.imp$A,
       S = res.imp$S,
       names = names,
       samples = samples
@@ -143,14 +145,14 @@ import_ICA_res <- function(name, ncomp, path_global_1) {
                         "_"), "num", sep = ".")
   a.imp.path = paste(path_global_1, a.imp, sep = "")
   A = utils::read.delim(a.imp.path, header = FALSE, sep = "\t")
-  s.imp = paste(paste("S", paste(name, "_numerical.txt", sep = ""), ncomp, sep =
+  s.imp = paste(paste("S", paste(name,"_numerical.txt", sep = ""), ncomp, sep =
                         "_"), "num", sep = ".")
   s.imp.path = paste(path_global_1, s.imp, sep = "")
   S = utils::read.delim(s.imp.path, header = FALSE, sep = "\t")
 
   A = A[, 1:(ncol(A) - 1)]
   S = S[, 1:(ncol(S) - 1)]
-  return(list(A = A, S = S))
+  return(list(A = t(A), S = S))
 }
 #
 #---------------------------------------------------------------------
@@ -207,7 +209,7 @@ export_for_correlation_java <-
            ncomp,
            name,
            path_global_1 = getwd()) {
-    path1 <- paste0(path_global_1,"/", corr_folder,"/" )
+    path1 <- paste0(path_global_1,"/../", corr_folder,"/" )
     dir.create(path1)
     utils::write.table(
       cbind(names, S),
@@ -220,7 +222,7 @@ export_for_correlation_java <-
       sep = "\t"
     )
     utils::write.table(
-      data.frame(SAMPLES = samples, A),
+      data.frame(SAMPLES = samples, t(A)),
       file = paste0(
         path_global_1,
         paste(name, ncomp, "full_samples", "txt", sep = ".")

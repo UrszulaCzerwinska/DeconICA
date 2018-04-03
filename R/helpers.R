@@ -168,3 +168,25 @@ harmonic_mean <- function(a, ...){
   samp[samp > upr] <- upr
   samp
 }
+
+#' Verify if data is in log scale
+#'
+#' @param x \code{data.frame} or \code{matrix}
+#'
+#' @return
+#' \code{TRUE} or \code{FALSE}
+#' @export
+#'
+#' @examples
+#' M <- matrix(sample(-1:14, 100, replace = TRUE),10,10, byrow = TRUE)
+#' is_logscale(M)
+#' M2 <- 2^M
+#' is_logscale(M2)
+is_logscale <- function(x){
+  qx <- as.numeric(quantile(x, c(0., 0.25, 0.5, 0.75, 0.99, 1.0), na.rm=T))
+  LogC <- (qx[5] > 100) ||
+    (qx[6]-qx[1] > 50 && qx[2] > 0) ||
+    (qx[2] > 0 && qx[2] < 1 && qx[4] > 1 && qx[4] < 2)
+  !LogC
+}
+

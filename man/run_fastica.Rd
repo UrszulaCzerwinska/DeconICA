@@ -5,11 +5,11 @@
 \title{Decompose dataset with ICA.}
 \usage{
 run_fastica(X, overdecompose = TRUE, row.center = TRUE,
-  with.names = FALSE, gene.names = NULL, alg.typ = "parallel",
-  method = "C", n.comp = 100, isLog = TRUE, R = TRUE,
-  path_global = getwd(), matlbpth = matlabr::get_matlab(),
+  with.names = FALSE, gene.names = NULL, samples = NULL,
+  alg.typ = "parallel", method = "C", n.comp = 100, isLog = TRUE,
+  R = TRUE, path_global = getwd(), matlbpth = NULL,
   fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++"),
-  export.corr = FALSE, ...)
+  export.corr = FALSE, name = NULL, ...)
 }
 \arguments{
 \item{X}{a data matrix with \code{n} rows representing observations and
@@ -29,6 +29,8 @@ variance will be kept, names need to be HUGO names, if names are not
 provided at this step, you can provide them later}
 
 \item{gene.names}{character vector of row names - gene names}
+
+\item{samples}{if samples names different from column names}
 
 \item{alg.typ}{if \code{alg.typ == "parallel"} the components are extracted
     simultaneously (the default). if \code{alg.typ == "deflation"} the
@@ -61,6 +63,8 @@ as coming with the package}
 \item{export.corr}{\code{TRUE} if you need to export \code{S} matrix in a specific
 format for correlation in external java app}
 
+\item{name}{important for Matlab version, defines the name of your files}
+
 \item{...}{other possible parameters for \code{\link[fastICA]{fastICA}}}
 }
 \value{
@@ -89,13 +93,13 @@ of ICs overdecompose for over decomposition for immune deconvolution.
 \examples{
 
 # numerical matrix
-S <- matrix(runif(10000), 5000, 2)
-A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
+S <- matrix(runif(10000), 10, 2)
+A <- matrix(sample(-3:3, 16, replace = TRUE),2,8, byrow = TRUE)
 X <- data.frame(S \%*\% A)
 run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 #matlab
 \dontrun{
-run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE, R = FALSE)
+run_fastica(X, row.center = TRUE, n.comp = 3, overdecompose = FALSE, R = FALSE)
 }
 # matrix with gene names
 S <- matrix(runif(10000), 5000, 2)
