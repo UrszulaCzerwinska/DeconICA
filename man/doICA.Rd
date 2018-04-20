@@ -28,7 +28,7 @@ correlation function later or select \code{TRUE}}
 \item{corr_folder}{\code{"CORRELATION"} by default, only if you selected
 \code{export.corr = TRUE}}
 
-\item{matlbpth}{is found automatically with \code{\link{get_matlab}} function,
+\item{matlbpth}{is found automatically with \code{\link{get_matlab_2}} function,
 replace if not functional}
 
 \item{fasticapth}{path to \code{fastica++} repository with MATLAB scripts}

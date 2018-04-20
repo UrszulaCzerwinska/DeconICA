@@ -22,7 +22,7 @@ pasted to each element of the vector.}
 \item{paths_to_add}{Character vector of PATHs to add to the
 script using \code{\link{add_path}}}
 
-\item{...}{Options passed to \code{\link{run_matlab_script}}}
+\item{...}{Options passed to \code{\link[matlabr]{run_matlab_script}}}
 }
 \value{
 Exit status of matlab code

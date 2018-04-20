@@ -24,7 +24,7 @@ It should be available shortly on [CRAN](https://cran.r-project.org/web/packages
 ---
 ### more information
 
-*  for examples and tutorial 
+*  for examples and tutorial: [online](./DeconICA_introduction.html)
 ```r 
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```

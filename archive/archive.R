@@ -297,8 +297,8 @@ get_enrichment <-
 
 
 best.correlations <- function(x,y, mean = TRUE, ...){
-  cor.fill <-corr.scores.plot(x,y, ...)$filtered
-  assign <- assign_metagenes(cor.fill, immune_name = NULL)
+  cor.fill <-scores_corr_plot(x,y, ...)$corr.filtered
+  assign <- assign_metagenes(cor.fill, exclude_name = NULL)
   res <- data.frame(assign, value = apply(assign,1, function(row) cor.fill [row[2], row[1]]))
   if(mean) {
     return(mean(res[,"value"]) )

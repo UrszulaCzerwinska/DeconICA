@@ -177,7 +177,7 @@ generate_basis <- function(df, sel.comp, markers, orient.long = TRUE) {
 #'
 #'markers <- generate_markers(df = res_run_ica,n  = 10,
 #'                            sel.comp= names(immune),
-#'                            return= "genes.ranked")
+#'                            return= "gene.ranked")
 #'get_scores (counts.abs, markers, summary = "weighted.mean", na.rm = TRUE)
 get_scores <-
   function(df,

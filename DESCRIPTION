@@ -16,26 +16,27 @@ Language: en-US
 RoxygenNote: 6.0.1
 Imports:
     fastICA (>= 1.2-1),
-    magrittr (>= 1.5),
     stats (>= 3.4.1),
     Hmisc (>= 4.0.3),
-    ggplot2 (>= 2.2.1),
-    ACSNMineR (>= 0.16.8.25),
     utils (>= 3.4.1),
-    reshape(>= 0.8.7),
-    gtools(>= 3.5.0),
-    NMF(>= 0.20.6),
-    corrplot(>= 0.84),
-    png(>= 0.1.7),
-    grDevices(>= 3.4.1),
-    matlabr(>= 1.5.0)
+    gtools (>= 3.5.0)
 Suggests:  
-    edgeR(>= 3.18.1),
+    edgeR (>= 3.18.1),
     testthat, 
     pheatmap,
     knitr,
     rmarkdown,
     CellMix,
-    prettydoc
+    prettydoc,
+    kableExtra,
+    analytics,
+    ACSNMineR (>= 0.16.8.25),
+    matlabr (>= 1.5.0),
+    ggplot2  (>= 2.2.1),
+    corrplot (>= 0.84),
+    reshape (>= 0.8.7),
+    png (>= 0.1.7),
+    grDevices (>= 3.4.1),
+    NMF (>= 0.20.6)
 biocViews: 
 VignetteBuilder: knitr

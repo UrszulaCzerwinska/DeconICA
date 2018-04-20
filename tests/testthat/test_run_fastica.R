@@ -79,3 +79,4 @@ test_that("removing duplicates", {
   X.2 <- .remove_duplicates(X)
   expect_equal(nrow(X.2), length(unique(names)))
 })
+

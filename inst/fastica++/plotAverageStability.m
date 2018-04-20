@@ -54,6 +54,22 @@ for i=3:size(ls,1)
 end
 
 
+fullFileName2 = fullfile(folder, '/avg_stability.plot.txt');
+
+
+T=[array(:,1),array(:,2)];
+
+dlmwrite(fullFileName2 ,T, '\t');
+
+fig_stab = bar(array(:,1),array(:,2)); ylim([0 1]);
+
+
+fullFileName = fullfile(folder, '/stability.png');
+
+saveas(fig_stab,fullFileName);
+
+
+
 %[h,p] = hist(mstd);
             %plot(p,h,'r-','LineWidth',5); hold on;
             

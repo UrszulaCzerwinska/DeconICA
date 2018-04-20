@@ -5,3 +5,5 @@ data-raw
 ^GDCdata$
 ^archive$
 ^brouillon$
+^docs$
+^vignettes_html$

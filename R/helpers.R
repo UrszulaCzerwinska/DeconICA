@@ -1,8 +1,3 @@
-#' @importFrom magrittr "%>%"
-#'
-#'
-#'
-
 ### removes mean row-wise
 # x - row
 .center_rowmeans <- function(x) {
@@ -183,7 +178,7 @@ harmonic_mean <- function(a, ...){
 #' M2 <- 2^M
 #' is_logscale(M2)
 is_logscale <- function(x){
-  qx <- as.numeric(quantile(x, c(0., 0.25, 0.5, 0.75, 0.99, 1.0), na.rm=T))
+  qx <- as.numeric(stats::quantile(x, c(0., 0.25, 0.5, 0.75, 0.99, 1.0), na.rm=T))
   LogC <- (qx[5] > 100) ||
     (qx[6]-qx[1] > 50 && qx[2] > 0) ||
     (qx[2] > 0 && qx[2] < 1 && qx[4] > 1 && qx[4] < 2)

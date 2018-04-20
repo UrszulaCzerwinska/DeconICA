@@ -18,9 +18,9 @@ test_that("correlate_metagenes strong threshold", {
     deconica::correlate_metagenes(
       S = res_run_ica$S,
       gene.names = res_run_ica$names, threshold = 3)
-  expect_equal(nrow(test$n),4 )
+  expect_equal(nrow(test$n),5 )
   expect_equal(ncol(test$n),11)
-  expect_equal(length(test$n), 44)
+  expect_equal(length(test$n), 55)
   expect_equal(length(test), 4)
 })
 

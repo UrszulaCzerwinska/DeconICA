@@ -4,7 +4,7 @@
 \alias{doICABatch}
 \title{\code{doBatchICA}}
 \usage{
-doICABatch(df, vec, path_global = getwd(), names, samples, name = NULL,
+doICABatch(df, vec, path_global = getwd(), names, samples, name = FALSE,
   matlbpth = NULL, fasticapth = paste0(path.package("deconica", quiet =
   TRUE), "/fastica++"))
 }
@@ -21,7 +21,7 @@ doICABatch(df, vec, path_global = getwd(), names, samples, name = NULL,
 
 \item{name}{name of the dataset, if not provided, name of R variable}
 
-\item{matlbpth}{path to matlab, found automatically with \code{\link{get_matlab}}}
+\item{matlbpth}{path to matlab, found automatically with \code{\link{get_matlab_2}}}
 
 \item{fasticapth}{path to \code{fastica++}}
 }
@@ -43,4 +43,5 @@ doICABatch(
   fasticapth = paste0(path.package("deconica", quiet = FALSE), "/fastica++")
 )
 }
+
 }

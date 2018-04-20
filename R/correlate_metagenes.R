@@ -52,9 +52,13 @@ correlate_metagenes <-
     if (orient.long &
         orient.max)
       stop("select one or none orienting method")
-    if (orient.long)
+    if (orient.long) {
       S_or <- S <- .orient_funct(S)
-    colnames(S_or) <- colnames(S) <- paste0("IC", 1:ncol(S))
+      colnames(S_or) <- colnames(S) <- paste0("IC", 1:ncol(S))
+    } else {
+      colnames(S) <- paste0("IC", 1:ncol(S))
+    }
+
     # verify if gene names are correct
     if (length(as.matrix(gene.names)) != nrow(S))
       stop("wrong number of gene names")
@@ -82,7 +86,7 @@ correlate_metagenes <-
 
     if (orient.max) {
       S <- .orient_max(S, r)
-      colnames(S_or) <- paste0("IC", 1:ncol(S))
+      colnames(S) <- paste0("IC", 1:ncol(S))
       S[S < threshold] <- NA
       res <- data.frame(gene.names, S)
       for (i in 1:length(metagenes)) {

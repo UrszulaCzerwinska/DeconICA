@@ -4,7 +4,7 @@
 \name{Example_ds}
 \alias{Example_ds}
 \title{Example of a cancer dataset}
-\format{a dataframe with the \describe{ \item{rows}{10000} \item{columns}{60}
+\format{a dataframe with the \describe{ \item{rows}{21320} \item{columns}{61}
  \item{first column}{is related to GENE names} }}
 \source{
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23720}
@@ -13,8 +13,8 @@
 Example_ds
 }
 \description{
-A sample of 10000 genes and 59 randomly selected samples from transcriptome  of inflammatory
-breast cance (IBC)
+A a sample 60 randomly selected samples from transcriptome of inflammatory
+breast cance (IBC). Data were centred and in tranformed in log2 before sampling
 }
 \details{
 Bekhouche I, Finetti P, Adelaïde J, Ferrari A et al. High-resolution

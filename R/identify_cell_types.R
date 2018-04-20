@@ -157,7 +157,7 @@ gene_enrichment_test <-
 
       table <- table[order(-table[, i]),]
       t <- table[, c("gene.names", i)]
-
+      t <- t[1:n,]
     }, simplify = FALSE, USE.NAMES = TRUE)
 
     message("extracting top genes")
@@ -167,7 +167,8 @@ gene_enrichment_test <-
       sapply(immune.ics, function(i) {
         t <- table.uni [order(-table.uni [, i]),]
         t <- t[, c("gene.names", i)]
-        names <- as.array(t[, 1])
+        t <- t[1:n,]
+        names <- as.character(as.array(t[, 1]))
       }, simplify = FALSE, USE.NAMES = TRUE)
 
     #number of ros of result

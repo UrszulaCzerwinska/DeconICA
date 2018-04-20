@@ -55,7 +55,7 @@
 #' S <- matrix(runif(10000), 10, 2)
 #' A <- matrix(sample(-3:3, 16, replace = TRUE),2,8, byrow = TRUE)
 #' X <- data.frame(S %*% A)
-#'run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
+#' run_fastica(X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 #' #matlab
 #' \dontrun{
 #'run_fastica(X, row.center = TRUE, n.comp = 3, overdecompose = FALSE, R = FALSE)

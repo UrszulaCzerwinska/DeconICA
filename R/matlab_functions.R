@@ -14,7 +14,7 @@
 #'   correlation function later or select \code{TRUE}
 #' @param corr_folder \code{"CORRELATION"} by default, only if you selected
 #'   \code{export.corr = TRUE}
-#' @param matlbpth is found automatically with \code{\link{get_matlab}} function,
+#' @param matlbpth is found automatically with \code{\link{get_matlab_2}} function,
 #'   replace if not functional
 #' @param fasticapth path to \code{fastica++} repository with MATLAB scripts
 #'
@@ -52,6 +52,10 @@ doICA <-
            corr_folder = "CORRELATION",
            matlbpth = NULL,
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
+    package<-"matlabr"
+    new.packages <- package[!(package %in% installed.packages()[,"Package"])]
+    if(length(new.packages)) install.packages(new.packages)
+
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
       stop("Matlab could not be found on your disk \n provide path to your matlab in \'matlbpth\'")
@@ -391,7 +395,7 @@ prepare_data_for_ica <- function(df, names, samples = NULL) {
 #' @param names gene names
 #' @param samples sample names
 #' @param name name of the dataset, if not provided, name of R variable
-#' @param matlbpth path to matlab, found automatically with \code{\link{get_matlab}}
+#' @param matlbpth path to matlab, found automatically with \code{\link{get_matlab_2}}
 #' @param fasticapth path to \code{fastica++}
 #'
 #' @return
@@ -410,15 +414,21 @@ prepare_data_for_ica <- function(df, names, samples = NULL) {
 #'   fasticapth = paste0(path.package("deconica", quiet = FALSE), "/fastica++")
 #' )
 #' }
+#'
 doICABatch <-
   function(df,
            vec,
            path_global = getwd(),
            names,
            samples,
-           name = NULL,
+           name = FALSE,
            matlbpth = NULL,
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
+
+    package<-c("matlabr", "png")
+    new.packages <- package[!(package %in% installed.packages()[,"Package"])]
+    if(length(new.packages)) install.packages(new.packages)
+
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
       stop("Matlab could not be found on your disk \n provide path to your matlab in \'matlbpth\'")
@@ -545,7 +555,7 @@ run_matlab_script_2 = function(fname,
 #' @param add_clear_all Add \code{clear all;} to the beginning of code
 #' @param paths_to_add Character vector of PATHs to add to the
 #' script using \code{\link{add_path}}
-#' @param ... Options passed to \code{\link{run_matlab_script}}
+#' @param ... Options passed to \code{\link[matlabr]{run_matlab_script}}
 #' @param matlbpth path to matlab engine
 #' @export
 #' @return Exit status of matlab code
@@ -602,6 +612,10 @@ run_matlab_code_2 = function(code,
 #' add_path("~/")
 #' @export
 add_path = function(path) {
+  package<-"matlabr"
+  new.packages <- package[!(package %in% installed.packages()[,"Package"])]
+  if(length(new.packages)) install.packages(new.packages)
+
   path = sapply(path, function(x) {
     paste0("addpath('", path, "');")
   })

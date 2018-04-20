@@ -28,7 +28,7 @@ be drawn}
 number (the same number of marker genes for cell types and perturbator), can
 be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 
-\item{mfold}{number of folds marker genes should be different from other genes}
+\item{mfold}{number of fold change between gene markers and other genes}
 
 \item{CLnames}{column names (cell and perturbator)}
 
@@ -56,7 +56,7 @@ be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 Function simulating gene expression of mixed cell types with a perturbator (i.e. proliferation, stress)
 }
 \examples{
-res <- simulate_gene_expresssion (3, 100, 100, 2 , markers = 5)
+res <- simulate_gene_expresssion (3, 100, 100, 2 , markers = c(4,5,5,3,4))
 #visualise the basis matrix
 pheatmap::pheatmap(res$basis_matrix)
 #visualize expression

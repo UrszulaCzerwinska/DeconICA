@@ -49,6 +49,12 @@ radar_plot_corr <-
            ax.size = NULL,
            size.el.txt = 15,
            point.size = 5) {
+    package <- "ggplot2"
+    new.packages <-
+      package[!(package %in% installed.packages()[, "Package"])]
+    if (length(new.packages))
+      install.packages(new.packages)
+
     rows <- ceiling(sqrt(ncol(df$r)))
     if (is.null(ax.size)) {
       if (nrow(df$r) < 30L) {
@@ -81,7 +87,7 @@ radar_plot_corr <-
         ggplot2::geom_point(size = point.size) +
         ggplot2::coord_polar() +
         ggplot2::theme_bw() +
-        ggplot2::facet_wrap(~ metagene, nrow = rows, ncol = rows) +
+        ggplot2::facet_wrap( ~ metagene, nrow = rows, ncol = rows) +
         ggplot2::scale_color_distiller(palette = "Spectral") +
         ggplot2::theme(
           text = ggplot2::element_text(size = size.el.txt),
@@ -133,6 +139,12 @@ radar_plot_corr <-
 #'plot_dist_test(res.ttest, plot.type = "density")
 #'plot_dist_test(res.ttest, plot.type = "line")
 plot_dist_test <- function(df, plot.type = c("line", "density")) {
+  package <- c("ggplot2", "grDevices")
+  new.packages <-
+    package[!(package %in% installed.packages()[, "Package"])]
+  if (length(new.packages))
+    install.packages(new.packages)
+
   value <-  component <-  rank <- NULL
   names(df) <- c("rank", "component", "value")
   grDevices::dev.off()
@@ -206,9 +218,15 @@ lolypop_plot_corr <-
            head.text.size = 3.5,
            head.text.color = "white",
            vertical = TRUE) {
+    package <- c("ggplot2", "grDevices")
+    new.packages <-
+      package[!(package %in% installed.packages()[, "Package"])]
+    if (length(new.packages))
+      install.packages(new.packages)
+
     vec <- r[, col, drop = FALSE]
     r.1 <- data.frame(component = row.names(vec), corr = vec)
-    r.2 <- r.1[order(r.1[, 2]),]
+    r.2 <- r.1[order(r.1[, 2]), ]
     levels(r.2[, 2]) <- r.2[, 2]
     r.2$component <- factor(r.2$component, levels =  r.2[, 1])
     #input metagene and component (ICs) ordered + level correction
@@ -249,13 +267,11 @@ lolypop_plot_corr <-
       ggplot2::scale_color_distiller(palette = "Spectral") +
       ggplot2::theme_bw()
     if (vertical) {
-      grDevices::dev.new( noRStudioGD = TRUE)
       (p <- p + ggplot2::coord_flip())
     } else {
-      grDevices::dev.new(noRStudioGD = TRUE)
       p
     }
-return(p)
+    return(p)
   }
 #
 #---------------------------------------------------------------------
@@ -285,9 +301,15 @@ return(p)
 #' scores_corr_plot(x,y, method = "number", tl.col = "black")
 #' scores_corr_plot(x,y, method = "square", tl.col = "black")
 scores_corr_plot <- function(x, y, ...) {
-  m <- merge(x, y, by="row.names")
-  row.names(m)<- m[,1]
-  m$Row.names<- NULL
+  package <- c("corrplot", "grDevices")
+  new.packages <-
+    package[!(package %in% installed.packages()[, "Package"])]
+  if (length(new.packages))
+    install.packages(new.packages)
+
+  m <- merge(x, y, by = "row.names")
+  row.names(m) <- m[, 1]
+  m$Row.names <- NULL
   df <- data.frame(m)
   cex.before <- graphics::par("cex")
   graphics::par(cex = 0.7)
@@ -300,6 +322,55 @@ scores_corr_plot <- function(x, y, ...) {
     cl.cex = 1 / graphics::par("cex"),
     ...
   )
-  return(list(corr.full = corr, corr.filtered =corr$r[(ncol(x) + 1):nrow(corr$r), 1:ncol(x)]))
+  return(list(
+    corr.full = corr,
+    corr.filtered = corr$r[(ncol(x) + 1):nrow(corr$r), 1:ncol(x)]
+  ))
 }
 
+#
+#---------------------------------------------------------------------
+#---------------------------------------------------------------------
+#
+#' Plot cell proportions
+#'
+#' Plots scores for all samples as a fraction of one in each samples
+#'
+#' @param dat scores data.frame with cell types in lines and samples in columns
+#'
+#' @return
+#' a stzcked bar plot based on ggplot2
+#' @export
+#'
+#' @examples
+#' #random matrix y
+#' y <- data.frame(matrix(runif(10000), ncol = 100, nrow = 10))
+#' #plot
+#' stacked_proportions_plot(y)
+
+stacked_proportions_plot <- function(dat) {
+  packages <- c("ggplot2", "reshape")
+  new.packages <-
+    packages[!(packages %in% installed.packages()[, "Package"])]
+  if (length(new.packages))
+    install.packages(new.packages)
+
+  cols <- colnames(dat)
+  dat <- as.matrix(dat)
+  dat <- dat %*% diag(1 / colSums(dat))
+  dat <- data.frame(dat)
+  colnames(dat) <- cols
+  dat$row <- row.names(dat)
+  dat2 <- reshape::melt(dat, id.vars = "row")
+  colnames(dat2)[1] <- "cell_type"
+
+  dat2[, 1] <- as.factor(dat2[, 1])
+  variable <- value <- cell_type <- NULL
+  ggplot2::ggplot(dat2, ggplot2::aes(x = variable, y = value, fill = cell_type)) +
+    ggplot2::geom_bar(stat = "identity") +
+    ggplot2::xlab("\nSample") +
+    ggplot2::ylab("Relative proportion\n") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1))
+
+}
