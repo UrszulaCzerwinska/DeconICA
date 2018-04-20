@@ -7,6 +7,7 @@ output:
     highlight: vignette
     theme: cayman
     toc: yes
+    keep_md: true
     self_contained: no
   pdf_document:
     keep_tex: true
