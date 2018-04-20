@@ -24,11 +24,11 @@ It should be available shortly on [CRAN](https://cran.r-project.org/web/packages
 ---
 ### more information
 
-*  for examples and tutorial: [online](./DeconICA_introduction.html)
+*  for examples and tutorial: 
 ```r 
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
-   or at [package github repository](https://github.com/UrszulaCzerwinska/DeconICA/tree/master/inst/doc)
+   or at [package github repository]() (TBA)
 
 * list of functions
 ```r 
