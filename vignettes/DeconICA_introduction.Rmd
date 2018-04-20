@@ -4,11 +4,11 @@ subtitile: "Deconvolution of transcriptome through Immune Component Analysis"
 author: "Urszula Czerwinska"
 date: "`r Sys.Date()`"
 output: 
+    pdf_document:
+        highlight: tango
+        toc: yes
     prettydoc::html_pretty:
         theme: cayman
-        highlight: vignette
-        toc: yes
-    pdf_document:
         highlight: vignette
         toc: yes
 bibliography: vignette1.bib
@@ -388,10 +388,10 @@ GE_SDY420_batch.res<-doICABatch(GE_SDY420,
 ```
 
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("./_MSTD_estimate.png")
+knitr::include_graphics("/Users/ulala/Documents/CURIE/R_code/DeconICA/vignettes/_MSTD_estimate.png ")
 ```
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("./_AverageStability.png")
+knitr::include_graphics("/Users/ulala/Documents/CURIE/R_code/DeconICA/vignettes/_AverageStability.png")
 ```
 
 The MST = 39 indicates most reproducible number of components. Let's verify if among 39 components we find components associated with the immune cells.
