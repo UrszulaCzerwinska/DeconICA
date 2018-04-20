@@ -3,16 +3,14 @@ title: "Introduction to deconICA"
 author: "Urszula Czerwinska"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    keep_tex: true
-    highlight: tango
-    toc: yes
-  html_document:
-    df_print: paged
-    toc: yes
   prettydoc::html_pretty:
     highlight: vignette
     theme: cayman
+    toc: yes
+    self_contained: no
+  pdf_document:
+    keep_tex: true
+    highlight: tango
     toc: yes
 editor_options:
   chunk_output_type: inline
@@ -29,7 +27,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 library(kableExtra)
 ```
 
@@ -390,7 +388,7 @@ GE_SDY420_batch.res<-doICABatch(GE_SDY420,
 ```
 
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-#knitr::include_graphics("_MSTD_estimate.png")
+knitr::include_graphics("_MSTD_estimate.png")
 ```
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
 #knitr::include_graphics("_AverageStability.png")
@@ -503,7 +501,7 @@ And we can confront the aboundance scores.
 scores_corr_plot(GE_SDY420_ica_39_scores,FACS_SDY420.fil,  tl.col = "black")
 ```
 ```{r}
-knitr::include_graphics("./CorrBlood.jpeg")
+#knitr::include_graphics("./CorrBlood.jpeg")
 ```
 
 The estimation of aboundance gives remarquable accuracy (Pearson correlation coefficient):
