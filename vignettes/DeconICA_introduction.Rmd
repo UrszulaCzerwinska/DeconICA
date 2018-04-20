@@ -1,23 +1,25 @@
 ---
 title: "Introduction to deconICA"
-subtitile: "Deconvolution of transcriptome through Immune Component Analysis"
 author: "Urszula Czerwinska"
 date: "`r Sys.Date()`"
-output: 
-    pdf_document:
-        highlight: tango
-        toc: yes
-    prettydoc::html_pretty:
-        theme: cayman
-        highlight: vignette
-        toc: yes
-bibliography: vignette1.bib
-vignette: >
-  %\VignetteIndexEntry{"Introduction to deconICA"}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
+output:
+  pdf_document:
+    keep_tex: true
+    highlight: tango
+    toc: yes
+  html_document:
+    df_print: paged
+    toc: yes
+  prettydoc::html_pretty:
+    highlight: vignette
+    theme: cayman
+    toc: yes
+editor_options:
   chunk_output_type: inline
+subtitile: Deconvolution of transcriptome through Immune Component Analysis
+bibliography: vignette1.bib
+vignette: |
+  %\VignetteIndexEntry{"Introduction to deconICA"} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -27,7 +29,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r echo = FALSE}
+```{r include=FALSE}
 library(kableExtra)
 ```
 
@@ -388,10 +390,10 @@ GE_SDY420_batch.res<-doICABatch(GE_SDY420,
 ```
 
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("/Users/ulala/Documents/CURIE/R_code/DeconICA/vignettes/_MSTD_estimate.png ")
+#knitr::include_graphics("_MSTD_estimate.png")
 ```
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("/Users/ulala/Documents/CURIE/R_code/DeconICA/vignettes/_AverageStability.png")
+#knitr::include_graphics("_AverageStability.png")
 ```
 
 The MST = 39 indicates most reproducible number of components. Let's verify if among 39 components we find components associated with the immune cells.
@@ -515,8 +517,9 @@ The estimation of aboundance gives remarquable accuracy (Pearson correlation coe
 This results is also highly comparable with (or even better than) results obtained with other tools, published in *xCell* publication by @Aran2017.
 
 ```{r, fig.align='center', echo= FALSE}
-knitr::include_graphics("./SDY420.comp.png")
+#knitr::include_graphics("./SDY420.comp.png")
 ```
+
 ## Overview of functions
 
 In this section we will discuss main functions of the package and their different options on computationally light toy examples. If you are interested in demo application of `deconICA` with biological arguments go straight to section [Demonstration of DeconICA package](#cases)
@@ -974,45 +977,45 @@ stacked_proportions_plot(MCP.counter.scores[c(-10,-9),])
 
 ## Simulate Data 
 
+TBA
+<!-- ## Vignette Info -->
 
-## Vignette Info
+<!-- Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette. -->
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+<!-- ## Styles -->
 
-## Styles
+<!-- The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows: -->
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+<!--     output:  -->
+<!--       rmarkdown::html_vignette: -->
+<!--         css: mystyles.css -->
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+<!-- ## Figures -->
 
-## Figures
+<!-- The figure sizes have been customised so that you can easily put two images side-by-side.  -->
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+<!-- ```{r, fig.show='hold'} -->
+<!-- plot(1:10) -->
+<!-- plot(10:1) -->
+<!-- ``` -->
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
+<!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+<!--     output: -->
+<!--       rmarkdown::html_vignette: -->
+<!--         fig_caption: yes -->
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+<!-- Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**. -->
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+<!-- ## More Examples -->
 
-## More Examples
+<!-- You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`. -->
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+<!-- ```{r, echo=FALSE, results='asis'} -->
+<!-- knitr::kable(head(mtcars, 10)) -->
+<!-- ``` -->
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
+<!-- Also a quote using `>`: -->
 
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+<!-- > "He who gives up [code] safety for [code] speed deserves neither." -->
+<!-- ([via](https://twitter.com/hadleywickham/status/504368538874703872)) -->
