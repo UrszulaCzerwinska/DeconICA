@@ -22,18 +22,19 @@ build_vignettes = TRUE)
 It should be available shortly on [CRAN](https://cran.r-project.org/web/packages/deconica/index.html)
 
 ---
+check out the package website: [https://urszulaczerwinska.github.io/DeconICA/](https://urszulaczerwinska.github.io/DeconICA/)
 ### more information
 
 *  for examples and tutorial: 
 ```r 
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
-   or at [package github repository](./docs/DeconICA_introduction.md) (TBA)
+   or at [package github repository](https://urszulaczerwinska.github.io/DeconICA/DeconICA_introduction.md)
 
 * list of functions
 ```r 
 help(package="deconica")
 ```
-* pdf manual
- link
+* pdf manual (TBA)
+ 
 

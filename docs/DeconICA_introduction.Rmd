@@ -358,7 +358,7 @@ corrplot::corrplot(
 Here we will use `SDY420` dataset from [Immport](http://www.immport.org/immport-open/public/home/home) database that @Aran2017 kindly shared with us. They contain PBMC  expression data of 104 healthy patients and paired FACS proportion estimation.
 ```{r echo = FALSE}
 #import expression data
-GE_SDY420 <- read.delim("./inst/data-raw/xCell_ImmPort/GE_SDY420.txt", row.names=1, stringsAsFactors=FALSE)
+GE_SDY420 <- read.delim("../inst/data-raw/xCell_ImmPort/GE_SDY420.txt", row.names=1, stringsAsFactors=FALSE)
 ```
 ```{r eval = FALSE}
 #import expression data
@@ -383,10 +383,10 @@ GE_SDY420_batch.res<-doICABatch(GE_SDY420,
 ```
 
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("figures-ext/_MSTD_estimate.png")
+knitr::include_graphics("./figures-ext/MSTD_estimate.png")
 ```
 ```{r echo = FALSE, fig.align='center', out.height='359.3px', out.width='433.3px'}
-knitr::include_graphics("figures-ext/_AverageStability.png")
+knitr::include_graphics("./figures-ext/AverageStability.png")
 ```
 
 The MST = 39 indicates most reproducible number of components. Let's verify if among 39 components we find components associated with the immune cells.
@@ -641,7 +641,7 @@ You can use `get_max_correlations()` to retreive this information from the corre
 # order
  max.corr.ordered <- max.corr[order(-max.corr$r),]
 # show table
- knitr::kable(max.corr.ordered, row.names = FALSE)
+kable(max.corr.ordered,"html", row.names = FALSE)
 ```
 
 `get_max_correlations()` provides pearson correlation `r` column and the p-valye `p.val` to help decide if the maximal correlation can be used as labelling. One can decide on minimal threshold, or p-value to take a decision.
@@ -652,7 +652,7 @@ Another way to assign maetagene to a component can be trough reciprocal correlat
 # retreive reciprocal correlations
 reciprocal.corr <- assign_metagenes(corr$r, exclude_name = NULL)
 # show table
-knitr::kable(reciprocal.corr, row.names = FALSE)
+kable(reciprocal.corr, "html",row.names = FALSE)
 ```
 
 Here the correspondiing pairs do not follow a speciic order. The six of components find a reciprocal match.
@@ -776,36 +776,41 @@ kable(enrichment.immune$enrichment$IC4[1:3,], "html", row.names = FALSE) %>%
 ```
 If you use ImmgenHUGO list of signatures, `cell_voting_immgen()`can be used to summarise results.
 ```{r}
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC4,
+  "html",
   row.names = FALSE,
   caption = "IC4"
   )
 ```
 ```{r}
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC28,
+  "html",
   row.names = FALSE,
   caption = paste("IC28")
   )
 ```
 ```{r}
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC39,
+  "html",
   row.names = FALSE,
   caption = paste("IC39")
   )
 ```
 ```{r}
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC49,
+  "html",
   row.names = FALSE,
   caption = paste("IC49")
   )
 ```
 ```{r}
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC68,
+  "html",
   row.names = FALSE,
   caption = paste("IC68")
   )
@@ -866,7 +871,7 @@ This result can be cross-verified with radar plot and maximal correlations with 
 # order
  max.corr.ordered <- max.corr[order(-max.corr$r),]
 # show table
- knitr::kable(max.corr.ordered, row.names = FALSE)
+kable(max.corr.ordered, "html",row.names = FALSE)
 
 ```
 

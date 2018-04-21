@@ -822,8 +822,8 @@ GE_SDY420_batch.res<-doICABatch(GE_SDY420,
            samples = colnames(GE_SDY420))
 ```
 
-<img src="figures-ext/_MSTD_estimate.png" width="433.3px" height="359.3px" style="display: block; margin: auto;" />
-<img src="figures-ext/_AverageStability.png" width="433.3px" height="359.3px" style="display: block; margin: auto;" />
+<img src="./figures-ext/MSTD_estimate.png" width="433.3px" height="359.3px" style="display: block; margin: auto;" />
+<img src="./figures-ext/AverageStability.png" width="433.3px" height="359.3px" style="display: block; margin: auto;" />
 
 The MST = 39 indicates most reproducible number of components. Let's verify if among 39 components we find components associated with the immune cells.
 
@@ -1210,24 +1210,87 @@ You can use `get_max_correlations()` to retreive this information from the corre
 # order
  max.corr.ordered <- max.corr[order(-max.corr$r),]
 # show table
- knitr::kable(max.corr.ordered, row.names = FALSE)
+kable(max.corr.ordered,"html", row.names = FALSE)
 ```
 
-
-
-TYPE                         IC              r       p.val
----------------------------  -----  ----------  ----------
-M2_GC_CONTENT                IC10    0.7812173   0.0000000
-M12_MYOFIBROBLASTS           IC4     0.7534325   0.0000000
-M8_IMMUNE                    IC9     0.7266403   0.0000000
-M7_CELLCYCLE                 IC5     0.6030764   0.0000000
-M3_SMOOTH_MUSCLE             IC4     0.4400201   0.0000000
-M5_INTERFERON                IC9     0.4092376   0.0000000
-M4_MITOCHONRIA_TRANSLATION   IC6     0.3450359   0.0000000
-M6_BASALLIKE                 IC8     0.2297117   0.0000000
-M14_STRESS                   IC4     0.2218676   0.0000000
-M13_BLCAPATHWAYS             IC1     0.1155118   0.0000000
-M9_UROTHELIALDIFF            IC3     0.0370318   0.0002561
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> TYPE </th>
+   <th style="text-align:left;"> IC </th>
+   <th style="text-align:right;"> r </th>
+   <th style="text-align:right;"> p.val </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> M2_GC_CONTENT </td>
+   <td style="text-align:left;"> IC10 </td>
+   <td style="text-align:right;"> 0.7812173 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M12_MYOFIBROBLASTS </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.7534325 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M8_IMMUNE </td>
+   <td style="text-align:left;"> IC9 </td>
+   <td style="text-align:right;"> 0.7266403 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M7_CELLCYCLE </td>
+   <td style="text-align:left;"> IC5 </td>
+   <td style="text-align:right;"> 0.6030764 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M3_SMOOTH_MUSCLE </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.4400201 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M5_INTERFERON </td>
+   <td style="text-align:left;"> IC9 </td>
+   <td style="text-align:right;"> 0.4092376 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M4_MITOCHONRIA_TRANSLATION </td>
+   <td style="text-align:left;"> IC6 </td>
+   <td style="text-align:right;"> 0.3450359 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M6_BASALLIKE </td>
+   <td style="text-align:left;"> IC8 </td>
+   <td style="text-align:right;"> 0.2297117 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M14_STRESS </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.2218676 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M13_BLCAPATHWAYS </td>
+   <td style="text-align:left;"> IC1 </td>
+   <td style="text-align:right;"> 0.1155118 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M9_UROTHELIALDIFF </td>
+   <td style="text-align:left;"> IC3 </td>
+   <td style="text-align:right;"> 0.0370318 </td>
+   <td style="text-align:right;"> 0.0002561 </td>
+  </tr>
+</tbody>
+</table>
 
 `get_max_correlations()` provides pearson correlation `r` column and the p-valye `p.val` to help decide if the maximal correlation can be used as labelling. One can decide on minimal threshold, or p-value to take a decision.
 
@@ -1240,19 +1303,43 @@ reciprocal.corr <- assign_metagenes(corr$r, exclude_name = NULL)
 #> no profiles to exlude provided
 #> DONE
 # show table
-knitr::kable(reciprocal.corr, row.names = FALSE)
+kable(reciprocal.corr, "html",row.names = FALSE)
 ```
 
-
-
-profile                      component 
----------------------------  ----------
-M12_MYOFIBROBLASTS           IC4       
-M2_GC_CONTENT                IC10      
-M4_MITOCHONRIA_TRANSLATION   IC6       
-M6_BASALLIKE                 IC8       
-M7_CELLCYCLE                 IC5       
-M8_IMMUNE                    IC9       
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> profile </th>
+   <th style="text-align:left;"> component </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> M12_MYOFIBROBLASTS </td>
+   <td style="text-align:left;"> IC4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M2_GC_CONTENT </td>
+   <td style="text-align:left;"> IC10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M4_MITOCHONRIA_TRANSLATION </td>
+   <td style="text-align:left;"> IC6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M6_BASALLIKE </td>
+   <td style="text-align:left;"> IC8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M7_CELLCYCLE </td>
+   <td style="text-align:left;"> IC5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M8_IMMUNE </td>
+   <td style="text-align:left;"> IC9 </td>
+  </tr>
+</tbody>
+</table>
 
 Here the correspondiing pairs do not follow a speciic order. The six of components find a reciprocal match.
 
@@ -1469,93 +1556,165 @@ kable(enrichment.immune$enrichment$IC4[1:3,], "html", row.names = FALSE) %>%
 If you use ImmgenHUGO list of signatures, `cell_voting_immgen()`can be used to summarise results.
 
 ```r
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC4,
+  "html",
   row.names = FALSE,
   caption = "IC4"
   )
 ```
 
-
-
-Table: IC4
-
-cell.type             vote    
---------------------  --------
-NK.cells              68.21 % 
-gamma.delta.T.cells   20.84 % 
-alpha.beta.T.cells    8.27 %  
-Myeloid.Cells         2.68 %  
+<table>
+<caption>IC4</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cell.type </th>
+   <th style="text-align:left;"> vote </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> NK.cells </td>
+   <td style="text-align:left;"> 68.21 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gamma.delta.T.cells </td>
+   <td style="text-align:left;"> 20.84 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> alpha.beta.T.cells </td>
+   <td style="text-align:left;"> 8.27 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Myeloid.Cells </td>
+   <td style="text-align:left;"> 2.68 % </td>
+  </tr>
+</tbody>
+</table>
 
 ```r
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC28,
+  "html",
   row.names = FALSE,
   caption = paste("IC28")
   )
 ```
 
-
-
-Table: IC28
-
-cell.type       vote    
---------------  --------
-Stromal.Cells   75.22 % 
-B.cells         15.91 % 
-Myeloid.Cells   8.87 %  
+<table>
+<caption>IC28</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cell.type </th>
+   <th style="text-align:left;"> vote </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Stromal.Cells </td>
+   <td style="text-align:left;"> 75.22 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B.cells </td>
+   <td style="text-align:left;"> 15.91 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Myeloid.Cells </td>
+   <td style="text-align:left;"> 8.87 % </td>
+  </tr>
+</tbody>
+</table>
 
 ```r
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC39,
+  "html",
   row.names = FALSE,
   caption = paste("IC39")
   )
 ```
 
-
-
-Table: IC39
-
-cell.type             vote    
---------------------  --------
-gamma.delta.T.cells   71.58 % 
-alpha.beta.T.cells    28.42 % 
+<table>
+<caption>IC39</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cell.type </th>
+   <th style="text-align:left;"> vote </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> gamma.delta.T.cells </td>
+   <td style="text-align:left;"> 71.58 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> alpha.beta.T.cells </td>
+   <td style="text-align:left;"> 28.42 % </td>
+  </tr>
+</tbody>
+</table>
 
 ```r
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC49,
+  "html",
   row.names = FALSE,
   caption = paste("IC49")
   )
 ```
 
-
-
-Table: IC49
-
-cell.type       vote  
---------------  ------
-Myeloid.Cells   100 % 
+<table>
+<caption>IC49</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cell.type </th>
+   <th style="text-align:left;"> vote </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Myeloid.Cells </td>
+   <td style="text-align:left;"> 100 % </td>
+  </tr>
+</tbody>
+</table>
 
 ```r
-knitr::kable(
+kable(
   cell_voting_immgen(enrichment.immune$enrichment)$IC68,
+  "html",
   row.names = FALSE,
   caption = paste("IC68")
   )
 ```
 
-
-
-Table: IC68
-
-cell.type             vote    
---------------------  --------
-gamma.delta.T.cells   57.6 %  
-Stromal.Cells         23.56 % 
-alpha.beta.T.cells    11.43 % 
-Myeloid.Cells         7.41 %  
+<table>
+<caption>IC68</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> cell.type </th>
+   <th style="text-align:left;"> vote </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> gamma.delta.T.cells </td>
+   <td style="text-align:left;"> 57.6 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stromal.Cells </td>
+   <td style="text-align:left;"> 23.56 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> alpha.beta.T.cells </td>
+   <td style="text-align:left;"> 11.43 % </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Myeloid.Cells </td>
+   <td style="text-align:left;"> 7.41 % </td>
+  </tr>
+</tbody>
+</table>
 
 This result is not trivial to interpret.
 
@@ -2152,35 +2311,153 @@ This result can be cross-verified with radar plot and maximal correlations with 
 # order
  max.corr.ordered <- max.corr[order(-max.corr$r),]
 # show table
- knitr::kable(max.corr.ordered, row.names = FALSE)
+kable(max.corr.ordered, "html",row.names = FALSE)
 ```
 
-
-
-TYPE                           IC              r   p.val
------------------------------  -----  ----------  ------
-Plasma.cells                   IC4     0.7880667   0e+00
-T.cells.CD8                    IC39    0.4987960   0e+00
-T.cells.CD4.naive              IC39    0.4705819   0e+00
-T.cells.CD4.memory.resting     IC39    0.4691812   0e+00
-B.cells.naive                  IC4     0.4644702   0e+00
-B.cells.memory                 IC4     0.4598657   0e+00
-T.cells.follicular.helper      IC39    0.4300112   0e+00
-T.cells.gamma.delta            IC39    0.3949245   0e+00
-T.cells.regulatory..Tregs.     IC39    0.3940503   0e+00
-Macrophages.M2                 IC49    0.3654883   0e+00
-Macrophages.M1                 IC3     0.3499043   0e+00
-Dendritic.cells.resting        IC61    0.3447491   0e+00
-Neutrophils                    IC49    0.3371526   0e+00
-NK.cells.resting               IC68    0.3338840   0e+00
-Dendritic.cells.activated      IC3     0.3332215   0e+00
-Mast.cells.resting             IC56    0.3168765   0e+00
-Monocytes                      IC49    0.3099286   0e+00
-Macrophages.M0                 IC61    0.3073292   0e+00
-T.cells.CD4.memory.activated   IC39    0.3059700   0e+00
-NK.cells.activated             IC68    0.2991302   0e+00
-Eosinophils                    IC42    0.2613817   0e+00
-Mast.cells.activated           IC56    0.2329371   1e-07
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> TYPE </th>
+   <th style="text-align:left;"> IC </th>
+   <th style="text-align:right;"> r </th>
+   <th style="text-align:right;"> p.val </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Plasma.cells </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.7880667 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD8 </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.4987960 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.naive </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.4705819 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.memory.resting </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.4691812 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B.cells.naive </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.4644702 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B.cells.memory </td>
+   <td style="text-align:left;"> IC4 </td>
+   <td style="text-align:right;"> 0.4598657 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.follicular.helper </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.4300112 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.gamma.delta </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.3949245 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.regulatory..Tregs. </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.3940503 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M2 </td>
+   <td style="text-align:left;"> IC49 </td>
+   <td style="text-align:right;"> 0.3654883 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M1 </td>
+   <td style="text-align:left;"> IC3 </td>
+   <td style="text-align:right;"> 0.3499043 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Dendritic.cells.resting </td>
+   <td style="text-align:left;"> IC61 </td>
+   <td style="text-align:right;"> 0.3447491 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Neutrophils </td>
+   <td style="text-align:left;"> IC49 </td>
+   <td style="text-align:right;"> 0.3371526 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NK.cells.resting </td>
+   <td style="text-align:left;"> IC68 </td>
+   <td style="text-align:right;"> 0.3338840 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Dendritic.cells.activated </td>
+   <td style="text-align:left;"> IC3 </td>
+   <td style="text-align:right;"> 0.3332215 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mast.cells.resting </td>
+   <td style="text-align:left;"> IC56 </td>
+   <td style="text-align:right;"> 0.3168765 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Monocytes </td>
+   <td style="text-align:left;"> IC49 </td>
+   <td style="text-align:right;"> 0.3099286 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M0 </td>
+   <td style="text-align:left;"> IC61 </td>
+   <td style="text-align:right;"> 0.3073292 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.memory.activated </td>
+   <td style="text-align:left;"> IC39 </td>
+   <td style="text-align:right;"> 0.3059700 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NK.cells.activated </td>
+   <td style="text-align:left;"> IC68 </td>
+   <td style="text-align:right;"> 0.2991302 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Eosinophils </td>
+   <td style="text-align:left;"> IC42 </td>
+   <td style="text-align:right;"> 0.2613817 </td>
+   <td style="text-align:right;"> 0e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mast.cells.activated </td>
+   <td style="text-align:left;"> IC56 </td>
+   <td style="text-align:right;"> 0.2329371 </td>
+   <td style="text-align:right;"> 1e-07 </td>
+  </tr>
+</tbody>
+</table>
 
 Indeed from correlation with LM22 we learn that
 

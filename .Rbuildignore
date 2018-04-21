@@ -6,6 +6,3 @@ data-raw
 ^archive$
 ^brouillon$
 ^docs$
-^vignettes_html$
-DeconICA_introduction_files\.*
-DeconICA_introduction.md
