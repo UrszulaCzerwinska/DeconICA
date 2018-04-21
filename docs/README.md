@@ -28,7 +28,8 @@ It should be available shortly on [CRAN](https://cran.r-project.org/web/packages
 ```r 
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
-   or at [package github repository](./DeconICA_introduction.md) (TBA)
+   or at [package github repository](DeconICA_introduction.md) (TBA)
+   [package github repository2](./docs/DeconICA_introduction.md)
 
 * list of functions
 ```r 
