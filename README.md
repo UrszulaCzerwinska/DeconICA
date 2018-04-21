@@ -29,7 +29,7 @@ check out the package website: [https://urszulaczerwinska.github.io/DeconICA/](h
 ```r 
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
-   or at [package github repository](https://urszulaczerwinska.github.io/DeconICA/DeconICA_introduction.md)
+   or at [the tutorial website](https://urszulaczerwinska.github.io/DeconICA/DeconICA_introduction.html)
 
 * list of functions
 ```r 
