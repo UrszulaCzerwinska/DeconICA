@@ -51,9 +51,9 @@ radar_plot_corr <-
            point.size = 5) {
     package <- "ggplot2"
     new.packages <-
-      package[!(package %in% installed.packages()[, "Package"])]
+      package[!(package %in% utils::installed.packages()[, "Package"])]
     if (length(new.packages))
-      install.packages(new.packages)
+      utils::install.packages(new.packages)
 
     rows <- ceiling(sqrt(ncol(df$r)))
     if (is.null(ax.size)) {
@@ -141,9 +141,9 @@ radar_plot_corr <-
 plot_dist_test <- function(df, plot.type = c("line", "density")) {
   package <- c("ggplot2", "grDevices")
   new.packages <-
-    package[!(package %in% installed.packages()[, "Package"])]
+    package[!(package %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    install.packages(new.packages)
+    utils::install.packages(new.packages)
 
   value <-  component <-  rank <- NULL
   names(df) <- c("rank", "component", "value")
@@ -220,9 +220,9 @@ lolypop_plot_corr <-
            vertical = TRUE) {
     package <- c("ggplot2", "grDevices")
     new.packages <-
-      package[!(package %in% installed.packages()[, "Package"])]
+      package[!(package %in% utils::installed.packages()[, "Package"])]
     if (length(new.packages))
-      install.packages(new.packages)
+      utils::install.packages(new.packages)
 
     vec <- r[, col, drop = FALSE]
     r.1 <- data.frame(component = row.names(vec), corr = vec)
@@ -303,9 +303,9 @@ lolypop_plot_corr <-
 scores_corr_plot <- function(x, y, ...) {
   package <- c("corrplot", "grDevices")
   new.packages <-
-    package[!(package %in% installed.packages()[, "Package"])]
+    package[!(package %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    install.packages(new.packages)
+    utils::install.packages(new.packages)
 
   m <- merge(x, y, by = "row.names")
   row.names(m) <- m[, 1]
@@ -351,9 +351,9 @@ scores_corr_plot <- function(x, y, ...) {
 stacked_proportions_plot <- function(dat) {
   packages <- c("ggplot2", "reshape")
   new.packages <-
-    packages[!(packages %in% installed.packages()[, "Package"])]
+    packages[!(packages %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    install.packages(new.packages)
+    utils::install.packages(new.packages)
 
   cols <- colnames(dat)
   dat <- as.matrix(dat)

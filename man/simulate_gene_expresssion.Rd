@@ -56,7 +56,7 @@ be a vector of length x+z, it will be set to ceiling(n/20) if not provided}
 Function simulating gene expression of mixed cell types with a perturbator (i.e. proliferation, stress)
 }
 \examples{
-res <- simulate_gene_expresssion (3, 100, 100, 2 , markers = c(4,5,5,3,4))
+res <- simulate_gene_expresssion (3, 30, 10, 2 , markers = c(4,5,5,3,4))
 #visualise the basis matrix
 pheatmap::pheatmap(res$basis_matrix)
 #visualize expression

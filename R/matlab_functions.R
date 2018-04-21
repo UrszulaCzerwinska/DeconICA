@@ -53,8 +53,8 @@ doICA <-
            matlbpth = NULL,
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
     package<-"matlabr"
-    new.packages <- package[!(package %in% installed.packages()[,"Package"])]
-    if(length(new.packages)) install.packages(new.packages)
+    new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
+    if(length(new.packages)) utils::install.packages(new.packages)
 
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
@@ -426,8 +426,8 @@ doICABatch <-
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
 
     package<-c("matlabr", "png")
-    new.packages <- package[!(package %in% installed.packages()[,"Package"])]
-    if(length(new.packages)) install.packages(new.packages)
+    new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
+    if(length(new.packages)) utils::install.packages(new.packages)
 
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
@@ -613,8 +613,8 @@ run_matlab_code_2 = function(code,
 #' @export
 add_path = function(path) {
   package<-"matlabr"
-  new.packages <- package[!(package %in% installed.packages()[,"Package"])]
-  if(length(new.packages)) install.packages(new.packages)
+  new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
+  if(length(new.packages)) utils::install.packages(new.packages)
 
   path = sapply(path, function(x) {
     paste0("addpath('", path, "');")
