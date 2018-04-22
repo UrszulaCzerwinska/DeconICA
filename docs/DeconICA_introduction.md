@@ -1,7 +1,7 @@
 ---
 title: "Introduction to deconICA"
 author: "Urszula Czerwinska"
-date: "2018-04-21"
+date: "2018-04-22"
 output:
   prettydoc::html_pretty:
     highlight: vignette
@@ -12,34 +12,149 @@ output:
 editor_options:
   chunk_output_type: inline
 subtitile: Deconvolution of transcriptome through Immune Component Analysis
-bibliography: vignette1.bib
+bibliography: [vignette1.bib, references.bib]
 ---
 
 
 
 
 
-Here is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. **DeconICA** stands for **Deconvolution of transcriptome through Immune Component Analysis**. The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy. 
+This is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. 
+
+**DeconICA** stands for **Deconvolution of transcriptome through Immune Component Analysis**. 
+
+The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy. 
 
 In this vignette we present short introduction to the blind source spearation techniques, the biological foundation of the problem and finally we walk you through examples on how to use [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package.
 
 If you are intrested only in practical examples of [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA), skip directly to [Tutorial](#Tut) section.
 
+You can access this documentation on the [DeconICA website](https://urszulaczerwinska.github.io/DeconICA/).
+
 # Background
 
 ## Blind source separation
 
+Blind source separation (BSS) is the separation of a set of source signals from a set of mixed signals, without the aid of information (or with very little information) about the source signals or the mixing process. The separation is possible under a variety of conditions. 
+
+A known example of BSS is a **cocktail party problem**, there is a group of people talking at the same time. You have multiple microphones picking up mixed signals, but you want to isolate the speech of a single person. BSS can be used to separate the individual sources by using mixed signals [@Hyvarinen2000]
+
+## Application of BSS to biological data
+
+Through decomposition of the transcriptome matrix into components (aka factors or sources) we hope to recover underlying biological functions and cell types. 
+
+In tumor biopsies is it expected to find a part of Tumor Microenvironment (TME). TME includes tumor cells, fibroblasts, and a diversity of immune cells. Most studies have
+focused on individual cell types in model tumor systems, and/or on individual molecules
+mediating a crosstalk between two cells. Unraveling the complexity, organization, and mutual
+interactions of TME cellular components represents a major challenge.
+
+Several methods have been proposed to estimate the mixing proportions of sources in biological mixtures, such as: least squares regression [@Abbas2009] and more recently, non-negative least squares regression [Qiao2012], quadratic
+programming [Gong2011] and supported vector
+regression [@Newman2015]. Even though [@Vallania2017] shows that the used algorithm do not impact substantially the results. According to @Vallania2017, what matters are the gene signatures used as an input of overmentioned methods.
+
+**BSS methods do not use pre-defined cell-type signatures**. The transcriptomic matrix is decomposed into a certain number of sources and then the sources are interpreted with available knowledge (gnee signatures, cell profiles).
+
+The main argument of using BSS over supervised decomposition techniques is that the obtained result is **unbiased** by *a priori* biological hypothesis (however thre are alwyas statistical hypothesis about the nature of data) or knowledge. In addition BSS tachniques allow **discovery** of new biological signatures that can extend our available knowledge.
+
+In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT [@Newman2015], MCP counter [@Becht2016, @MCPcounter], TIMER [@Li2016] etc. are based on optimised blood signatues. With an evidence brought by single cell data, these signatures are not always characterising immune cells infiltrating tumors [@Schelker2017]. Some methods, like EPIC [@Racle2017], use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incoparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies. 
+
+Thefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attept to approach with `deconICA` pipeline.
+
+Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA. 
+
 ### Independent Components Analysis
+
+Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction [@Hyvarinen2000]. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions [@Hyvarinen2000]. There is no contraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.
+
+A mathematical way to formalize ICA is the set of equations:
+
+the set of individual source signals $s(t) = (s_{1}(t), ...,  s_{n}(t))^T$ is mixed using a matrix $A = [a_{ij}] \in \mathbb{R}^{m \times n}$ to produce a set of mixed signals, $x(t) = (x_{1}(t), ...,  x_{m}(t))^T$, as follows:
+
+ \[x(t) = A \times s(t)\]
+
+The above equation is effectively 'inverted' as follows. Blind source separation separates the set
+of mixed signals $x(t)$, through the determination of an 'unmixing' matrix  to $B = [b_{ij}] \in \mathbb{R}^{m \times n}$
+'recover' an approximation of the original signals, $y(t) = (y_{1}(t), ...,  y_{n}(t))^T$.
+
+ \[y(t) = B \times x(t)\]
+
+This algorithm uses higher-order moments for matrix approximation, considering all Gaussian
+signals as noise.
+
+Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running matlab implementation of ICA](). 
+
+For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors. 
+
+Here is a small list of ICA application to biological data:
+
+* Independent component analysis uncovers the landscape of the bladder tumor transcriptome and reveals insights into luminal and basal subtypes [@Biton2014]
+* Elucidating the altered transcriptional programs in breast cancer using independent component analysis [@Teschendorff2007]
+* Principal Manifolds for Data Visualisation and Dimension Reduction [@Gorban2008]
+* Independent component analysis of microarray data in the study of endometrial cancer [@Saidi2004]
+* Blind source separation methods for deconvolution of complex signals in cancer biology [@Zinovyev2013]
+* Determining the optimal number of independent components for reproducible transcriptomic data analysis [@Kairov2017]
+* Application of Independent Component Analysis to Tumor Transcriptomes Reveals Specific And Reproducible Immune-related Signals [@Czerwinska2018]
 
 ### NMF
 
-### convex hull methods
+Non-negative matrix factorization (NMF) is matrix factorization technique assuming that the mixing, source and mixed matrices are all non negative. It is usually written as
 
-### attractor metagenes
+\[V = WH\]
 
-## Biological mixed samples
+Matrix multiplication can be implemented as computing the column vectors of $V$ as linear combinations of the column vectors in $W$ using coefficients supplied by columns of $H$. That is, each column of $V$ can be computed as follows:
 
-### transcriptome
+\[{v}_{i}={W}{h}_{i}\]
+
+where $v_{i}$ is the $i$-th column vector of the product matrix $V$ and $h_{i}$ is the $i$-th column vector of the matrix $H$.
+
+There are many types of NMF, that differ in implementation, ways the error terms are defined and minimized.
+
+@CellMix1 proposed a framework of semi-supervised NMF for solving cell and tissue mixtures in his R package *CellMix* [@CellMix3]. His work deconvolution was of great inspiration for us and food for thoughts on the advantages and limits of BBS applied for cell type deconvolution.
+
+Renaud Gaujoux is also an author of NMF R package [@NMF1; @NMF2; @NMF3]. 
+
+Work of Cantini et al. (@Cantini2018) showed that ICA produces more reproducible results than NMF when applied to tumor transcriptomes. 
+
+However, we can always imagine the cases where NMF factorisation will be judged more adequate than ICA. Our pipeline is adaptable to interpretation of NMF factors without a need for major adjustments. We will be seen extend vignettes to show application of deconICA for interpreatation of NMF components.
+
+Here is a small list of NMF application to biological data:
+
+* Metagenes and molecular pattern discovery using matrix factorization [@Brunet2004]
+* Tumor Clustering Using Nonnegative Matrix Factorization With Gene Selection [@Chun-HouZheng2009]
+* Semi-supervised Nonnegative Matrix Factorization for gene expression deconvolution: a case study [@CellMix1]
+* Post‐modified non‐negative matrix factorization for deconvoluting the gene expression profiles of specific cell types from heterogeneous clinical samples based on RNA‐sequencing data [@Liu2017]
+* Virtual microdissection identifies distinct tumor- and stroma-specific subtypes of pancreatic ductal adenocarcinoma [@Moffitt2015]
+* A non-negative matrix factorization method for detecting modules in heterogeneous omics multi-modal data [@Yang2015]
+
+### Convex hull methods
+
+An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the "sources" are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem [@Yang2015]. The convex hull-based method does not require the independence assumption, nor the uncorrelation assumption which can be interesing in the setup of closely realted cell types. @Wang2016 apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher [@Newberg2018] provides an [user-friendly R package](https://github.com/GeneralElectric/CellDistinguisher). However, authors do not provide any method for estimation of number of sources. Additionaly, quantitative weights are provided only for signature genes that can vary for different sources.
+
+However, combining convex hull methods and `deconICA`can possibily lead to a meanigfull interpretation.
+
+Here is a small list of convex-hull application to biological data:
+
+* Computational de novo discovery of distinguishing genes for biological processes and cell types in complex tissues [Newberg2018]
+* Mathematical modelling of transcriptional heterogeneity identifies novel markers and subpopulations in complex tissues [@Wang2016]
+* Geometry of the Gene Expression Space of Individual Cells [@Yang2015]
+* Applying unmixing to gene expression data for tumor phylogeny inference [@Schwartz2010]
+* Inferring biological tasks using Pareto analysis of high-dimensional data [@Hart2015]
+
+### Attractor metagenes
+
+Another way of generating signatures, that can be run in semi-supervised or unsupervised mode is attractor metagenes method proposed by @Cheng2013. Authors describe their rationale as follows:
+
+>We can first define a consensus metagene from the average expression levels of all genes in the cluster, and rank all the individual genes in terms of their association (defined numerically by some form of correlation) with that metagene. We can then replace the member genes of the cluster with an equal number of the top-ranked genes. Some of the original genes may naturally remain as members of the cluster, but some may be replaced, as this process will ‘‘attract’’ some other genes that are more strongly correlated with the cluster. We can now define a new metagene defined by the average expression levels of the genes in the newly defined cluster, and re-rank all the individual genes in terms of their association with that new metagene; and so on. It is intuitively reasonable to expect that this iterative process will eventually converge to a cluster that contains precisely the genes that are most associated with the metagene of the same cluster, so that any other individual genes will be less strongly associated with the metagene. We can think of this particular cluster defined by the convergence of this iterative process as an ‘‘attractor,’’ i.e., a module of co-expressed genes to which many other gene sets with close but not identical membership will converge using the same computational methodology.
+
+The produced signatures' weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproductible signatures among different tumor types. Typically with the essential parmeter $\alpha = 5$, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tunig $\alpha$ obtain more or less signatures that would be possibly interpretable with `deconICA`. 
+
+Attractor metagenes R code is available on [Synapse portal](https://www.synapse.org/#!Synapse:syn1446295).
+
+Literature:
+
+* Biomolecular Events in Cancer Revealed by Attractor Metagenes [@Cheng2013]
+* Discovering Genome-Wide Tag SNPs Based on the Mutual Information of the Variants [@Elmas2016]
+* Meta-analysis of the global gene expression profile of triple-negative breast cancer identifies genes for the prognostication and treatment of aggressive breast cancer [@Al-Ejeh2014]
 
 
 # Tutorial {#Tut}
@@ -1026,7 +1141,7 @@ The estimation of aboundance gives remarquable accuracy (Pearson correlation coe
 
 This results is also highly comparable with (or even better than) results obtained with other tools, published in *xCell* publication by @Aran2017.
 
-<img src="figures-ext/SDY420.comp.png" width="4560" style="display: block; margin: auto;" />
+<img src="figures-ext/SDY420.comp.png" width="1137" style="display: block; margin: auto;" />
 
 ## Overview of functions
 
@@ -1083,7 +1198,7 @@ The main differences between `run_fastica` and `fastica` are:
 * `overdecompose` parameter that selects number of composed needed to perform overdecomposition of the input matrix
   
 Therefore, `run_fastica()` performs ICA decomposition of the matrix and provides additional features usefull for the downstream analysis. The use of more advanced options will be demonstrated later on in this tutorial. It generates *components* or *sources* to which we will refer later on in the tutorial.
-  
+
 The step naturally following `run_fastica()` is `correlate_metagenes()`.
 
 It is common that after an unsuperivsed decomposition, components should have attributed an interpretation or a  meaning or a label. We call this process *interpret* components or *identify* sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list. 
@@ -1180,7 +1295,7 @@ head(p$df)
 #> 6       IC6  1.442049e-02 M12_MYOFIBROBLASTS
 ```
 In order to *zoom in* into a correlation with a specific metagene, one can use a function `lolypop_plot_corr()`
-  
+
 Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit unbigous.
 
 ```r
@@ -2503,7 +2618,7 @@ markers_10
 #>  [1] "CST1"   "CST4"   "SHISA2" "CST2"   "KCNK1"  "CCND1"  "C8orf4"
 #>  [8] "MUM1L1" "PTGDR"  "VSTM2A"
 ```
-                 
+
 
 ```r
 basis_10 <-

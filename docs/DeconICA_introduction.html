@@ -12,7 +12,7 @@
 
 <meta name="author" content="Urszula Czerwinska" />
 
-<meta name="date" content="2018-04-21" />
+<meta name="date" content="2018-04-22" />
 
 <title>Introduction to deconICA</title>
 
@@ -89,21 +89,19 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Introduction to deconICA</h1>
 <h4 class="author project-author">Urszula Czerwinska</h4>
-<h4 class="date project-date">2018-04-21</h4>
+<h4 class="date project-date">2018-04-22</h4>
 </section>
 
 
 <div id="TOC" class="toc">
 <ul>
 <li><a href="#background">Background</a><ul>
-<li><a href="#blind-source-separation">Blind source separation</a><ul>
+<li><a href="#blind-source-separation">Blind source separation</a></li>
+<li><a href="#application-of-bss-to-biological-data">Application of BSS to biological data</a><ul>
 <li><a href="#independent-components-analysis">Independent Components Analysis</a></li>
 <li><a href="#nmf">NMF</a></li>
-<li><a href="#convex-hull-methods">convex hull methods</a></li>
-<li><a href="#attractor-metagenes">attractor metagenes</a></li>
-</ul></li>
-<li><a href="#biological-mixed-samples">Biological mixed samples</a><ul>
-<li><a href="#transcriptome">transcriptome</a></li>
+<li><a href="#convex-hull-methods">Convex hull methods</a></li>
+<li><a href="#attractor-metagenes">Attractor metagenes</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#Tut">Tutorial</a><ul>
@@ -122,30 +120,100 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 </div>
 
 <section class="main-content">
-<p>Here is an introduction to the <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> R package. <strong>DeconICA</strong> stands for <strong>Deconvolution of transcriptome through Immune Component Analysis</strong>. The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy.</p>
+<p>This is an introduction to the <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> R package.</p>
+<p><strong>DeconICA</strong> stands for <strong>Deconvolution of transcriptome through Immune Component Analysis</strong>.</p>
+<p>The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy.</p>
 <p>In this vignette we present short introduction to the blind source spearation techniques, the biological foundation of the problem and finally we walk you through examples on how to use <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> R package.</p>
 <p>If you are intrested only in practical examples of <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a>, skip directly to <a href="#Tut">Tutorial</a> section.</p>
+<p>You can access this documentation on the <a href="https://urszulaczerwinska.github.io/DeconICA/">DeconICA website</a>.</p>
 <div id="background" class="section level1">
 <h1>Background</h1>
 <div id="blind-source-separation" class="section level2">
 <h2>Blind source separation</h2>
+<p>Blind source separation (BSS) is the separation of a set of source signals from a set of mixed signals, without the aid of information (or with very little information) about the source signals or the mixing process. The separation is possible under a variety of conditions.</p>
+<p>A known example of BSS is a <strong>cocktail party problem</strong>, there is a group of people talking at the same time. You have multiple microphones picking up mixed signals, but you want to isolate the speech of a single person. BSS can be used to separate the individual sources by using mixed signals <span class="citation">(Hyvärinen and Oja 2000)</span></p>
+</div>
+<div id="application-of-bss-to-biological-data" class="section level2">
+<h2>Application of BSS to biological data</h2>
+<p>Through decomposition of the transcriptome matrix into components (aka factors or sources) we hope to recover underlying biological functions and cell types.</p>
+<p>In tumor biopsies is it expected to find a part of Tumor Microenvironment (TME). TME includes tumor cells, fibroblasts, and a diversity of immune cells. Most studies have focused on individual cell types in model tumor systems, and/or on individual molecules mediating a crosstalk between two cells. Unraveling the complexity, organization, and mutual interactions of TME cellular components represents a major challenge.</p>
+<p>Several methods have been proposed to estimate the mixing proportions of sources in biological mixtures, such as: least squares regression <span class="citation">(Abbas et al. 2009)</span> and more recently, non-negative least squares regression [Qiao2012], quadratic programming [Gong2011] and supported vector regression <span class="citation">(Newman et al. 2015)</span>. Even though <span class="citation">(Vallania et al. 2017)</span> shows that the used algorithm do not impact substantially the results. According to <span class="citation">Vallania et al. (2017)</span>, what matters are the gene signatures used as an input of overmentioned methods.</p>
+<p><strong>BSS methods do not use pre-defined cell-type signatures</strong>. The transcriptomic matrix is decomposed into a certain number of sources and then the sources are interpreted with available knowledge (gnee signatures, cell profiles).</p>
+<p>The main argument of using BSS over supervised decomposition techniques is that the obtained result is <strong>unbiased</strong> by <em>a priori</em> biological hypothesis (however thre are alwyas statistical hypothesis about the nature of data) or knowledge. In addition BSS tachniques allow <strong>discovery</strong> of new biological signatures that can extend our available knowledge.</p>
+<p>In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT <span class="citation">(Newman et al. 2015)</span>, MCP counter <span class="citation">(Becht et al. 2016, <span class="citation">Becht and de Reynies (2016)</span>)</span>, TIMER <span class="citation">(Li et al. 2016)</span> etc. are based on optimised blood signatues. With an evidence brought by single cell data, these signatures are not always characterising immune cells infiltrating tumors <span class="citation">(Schelker et al. 2017)</span>. Some methods, like EPIC <span class="citation">(Racle et al. 2017)</span>, use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incoparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies.</p>
+<p>Thefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attept to approach with <code>deconICA</code> pipeline.</p>
+<p>Here is a short overview of BSS or related algorithms that one can potentially use as an input to <code>deconICA</code>. At its actual state <code>deconICA</code> facilitates starting pipeline with ICA.</p>
 <div id="independent-components-analysis" class="section level3">
 <h3>Independent Components Analysis</h3>
+<p>Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction <span class="citation">(Hyvärinen and Oja 2000)</span>. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions <span class="citation">(Hyvärinen and Oja 2000)</span>. There is no contraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.</p>
+<p>A mathematical way to formalize ICA is the set of equations:</p>
+<p>the set of individual source signals <span class="math inline">\(s(t) = (s_{1}(t), ..., s_{n}(t))^T\)</span> is mixed using a matrix <span class="math inline">\(A = [a_{ij}] \in \mathbb{R}^{m \times n}\)</span> to produce a set of mixed signals, <span class="math inline">\(x(t) = (x_{1}(t), ..., x_{m}(t))^T\)</span>, as follows:</p>
+<p><span class="math display">\[x(t) = A \times s(t)\]</span></p>
+<p>The above equation is effectively ‘inverted’ as follows. Blind source separation separates the set of mixed signals <span class="math inline">\(x(t)\)</span>, through the determination of an ‘unmixing’ matrix to <span class="math inline">\(B = [b_{ij}] \in \mathbb{R}^{m \times n}\)</span> ‘recover’ an approximation of the original signals, <span class="math inline">\(y(t) = (y_{1}(t), ..., y_{n}(t))^T\)</span>.</p>
+<p><span class="math display">\[y(t) = B \times x(t)\]</span></p>
+<p>This algorithm uses higher-order moments for matrix approximation, considering all Gaussian signals as noise.</p>
+<p>Most efficient application of ICA is fastICA <span class="citation">(Hyvärinen and Oja 2000)</span>. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO <span class="citation">(Himberg and Hyvärinen 2003)</span>) for reproducible results. More about this is the vignette <a href="">Running matlab implementation of ICA</a>.</p>
+<p>For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors.</p>
+<p>Here is a small list of ICA application to biological data:</p>
+<ul>
+<li>Independent component analysis uncovers the landscape of the bladder tumor transcriptome and reveals insights into luminal and basal subtypes <span class="citation">(Biton et al. 2014)</span></li>
+<li>Elucidating the altered transcriptional programs in breast cancer using independent component analysis <span class="citation">(Teschendorff et al. 2007)</span></li>
+<li>Principal Manifolds for Data Visualisation and Dimension Reduction <span class="citation">(Gorban, A.N., Kégl, B., Wunsch, D.C., Zinovyev 2008)</span></li>
+<li>Independent component analysis of microarray data in the study of endometrial cancer <span class="citation">(Saidi et al. 2004)</span></li>
+<li>Blind source separation methods for deconvolution of complex signals in cancer biology <span class="citation">(Zinovyev et al. 2013)</span></li>
+<li>Determining the optimal number of independent components for reproducible transcriptomic data analysis <span class="citation">(Kairov et al. 2017)</span></li>
+<li>Application of Independent Component Analysis to Tumor Transcriptomes Reveals Specific And Reproducible Immune-related Signals <span class="citation">(Czerwinska et al. 2018)</span></li>
+</ul>
 </div>
 <div id="nmf" class="section level3">
 <h3>NMF</h3>
+<p>Non-negative matrix factorization (NMF) is matrix factorization technique assuming that the mixing, source and mixed matrices are all non negative. It is usually written as</p>
+<p><span class="math display">\[V = WH\]</span></p>
+<p>Matrix multiplication can be implemented as computing the column vectors of <span class="math inline">\(V\)</span> as linear combinations of the column vectors in <span class="math inline">\(W\)</span> using coefficients supplied by columns of <span class="math inline">\(H\)</span>. That is, each column of <span class="math inline">\(V\)</span> can be computed as follows:</p>
+<p><span class="math display">\[{v}_{i}={W}{h}_{i}\]</span></p>
+<p>where <span class="math inline">\(v_{i}\)</span> is the <span class="math inline">\(i\)</span>-th column vector of the product matrix <span class="math inline">\(V\)</span> and <span class="math inline">\(h_{i}\)</span> is the <span class="math inline">\(i\)</span>-th column vector of the matrix <span class="math inline">\(H\)</span>.</p>
+<p>There are many types of NMF, that differ in implementation, ways the error terms are defined and minimized.</p>
+<p><span class="citation">Gaujoux and Seoighe (2012)</span> proposed a framework of semi-supervised NMF for solving cell and tissue mixtures in his R package <em>CellMix</em> <span class="citation">(Gaujoux and Seoighe 2013)</span>. His work deconvolution was of great inspiration for us and food for thoughts on the advantages and limits of BBS applied for cell type deconvolution.</p>
+<p>Renaud Gaujoux is also an author of NMF R package <span class="citation">(Gaujoux and Seoighe 2010; Gaujoux and Seoighe 2015b; Gaujoux and Seoighe 2015a)</span>.</p>
+<p>Work of Cantini et al. (<span class="citation">(<span class="citeproc-not-found" data-reference-id="Cantini2018"><strong>???</strong></span>)</span>) showed that ICA produces more reproducible results than NMF when applied to tumor transcriptomes.</p>
+<p>However, we can always imagine the cases where NMF factorisation will be judged more adequate than ICA. Our pipeline is adaptable to interpretation of NMF factors without a need for major adjustments. We will be seen extend vignettes to show application of deconICA for interpreatation of NMF components.</p>
+<p>Here is a small list of NMF application to biological data:</p>
+<ul>
+<li>Metagenes and molecular pattern discovery using matrix factorization <span class="citation">(Brunet et al. 2004)</span></li>
+<li>Tumor Clustering Using Nonnegative Matrix Factorization With Gene Selection <span class="citation">(Chun-Hou Zheng et al. 2009)</span></li>
+<li>Semi-supervised Nonnegative Matrix Factorization for gene expression deconvolution: a case study <span class="citation">(Gaujoux and Seoighe 2012)</span></li>
+<li>Post‐modified non‐negative matrix factorization for deconvoluting the gene expression profiles of specific cell types from heterogeneous clinical samples based on RNA‐sequencing data <span class="citation">(Liu et al. 2017)</span></li>
+<li>Virtual microdissection identifies distinct tumor- and stroma-specific subtypes of pancreatic ductal adenocarcinoma <span class="citation">(Moffitt et al. 2015)</span></li>
+<li>A non-negative matrix factorization method for detecting modules in heterogeneous omics multi-modal data <span class="citation">(Yang and Michailidis 2015)</span></li>
+</ul>
 </div>
 <div id="convex-hull-methods" class="section level3">
-<h3>convex hull methods</h3>
+<h3>Convex hull methods</h3>
+<p>An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the “sources” are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem <span class="citation">(Yang and Michailidis 2015)</span>. The convex hull-based method does not require the independence assumption, nor the uncorrelation assumption which can be interesing in the setup of closely realted cell types. <span class="citation">Wang et al. (2016)</span> apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher <span class="citation">(Newberg et al. 2018)</span> provides an <a href="https://github.com/GeneralElectric/CellDistinguisher">user-friendly R package</a>. However, authors do not provide any method for estimation of number of sources. Additionaly, quantitative weights are provided only for signature genes that can vary for different sources.</p>
+<p>However, combining convex hull methods and <code>deconICA</code>can possibily lead to a meanigfull interpretation.</p>
+<p>Here is a small list of convex-hull application to biological data:</p>
+<ul>
+<li>Computational de novo discovery of distinguishing genes for biological processes and cell types in complex tissues [Newberg2018]</li>
+<li>Mathematical modelling of transcriptional heterogeneity identifies novel markers and subpopulations in complex tissues <span class="citation">(Wang et al. 2016)</span></li>
+<li>Geometry of the Gene Expression Space of Individual Cells <span class="citation">(Yang and Michailidis 2015)</span></li>
+<li>Applying unmixing to gene expression data for tumor phylogeny inference <span class="citation">(Schwartz and Shackney 2010)</span></li>
+<li>Inferring biological tasks using Pareto analysis of high-dimensional data <span class="citation">(Hart et al. 2015)</span></li>
+</ul>
 </div>
 <div id="attractor-metagenes" class="section level3">
-<h3>attractor metagenes</h3>
-</div>
-</div>
-<div id="biological-mixed-samples" class="section level2">
-<h2>Biological mixed samples</h2>
-<div id="transcriptome" class="section level3">
-<h3>transcriptome</h3>
+<h3>Attractor metagenes</h3>
+<p>Another way of generating signatures, that can be run in semi-supervised or unsupervised mode is attractor metagenes method proposed by <span class="citation">Cheng, Ou Yang, and Anastassiou (2013)</span>. Authors describe their rationale as follows:</p>
+<blockquote>
+<p>We can first define a consensus metagene from the average expression levels of all genes in the cluster, and rank all the individual genes in terms of their association (defined numerically by some form of correlation) with that metagene. We can then replace the member genes of the cluster with an equal number of the top-ranked genes. Some of the original genes may naturally remain as members of the cluster, but some may be replaced, as this process will ‘‘attract’’ some other genes that are more strongly correlated with the cluster. We can now define a new metagene defined by the average expression levels of the genes in the newly defined cluster, and re-rank all the individual genes in terms of their association with that new metagene; and so on. It is intuitively reasonable to expect that this iterative process will eventually converge to a cluster that contains precisely the genes that are most associated with the metagene of the same cluster, so that any other individual genes will be less strongly associated with the metagene. We can think of this particular cluster defined by the convergence of this iterative process as an ‘‘attractor,’’ i.e., a module of co-expressed genes to which many other gene sets with close but not identical membership will converge using the same computational methodology.</p>
+</blockquote>
+<p>The produced signatures’ weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproductible signatures among different tumor types. Typically with the essential parmeter <span class="math inline">\(\alpha = 5\)</span>, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tunig <span class="math inline">\(\alpha\)</span> obtain more or less signatures that would be possibly interpretable with <code>deconICA</code>.</p>
+<p>Attractor metagenes R code is available on <a href="https://www.synapse.org/#!Synapse:syn1446295">Synapse portal</a>.</p>
+<p>Literature:</p>
+<ul>
+<li>Biomolecular Events in Cancer Revealed by Attractor Metagenes <span class="citation">(Cheng, Ou Yang, and Anastassiou 2013)</span></li>
+<li>Discovering Genome-Wide Tag SNPs Based on the Mutual Information of the Variants <span class="citation">(Elmas et al. 2016)</span></li>
+<li>Meta-analysis of the global gene expression profile of triple-negative breast cancer identifies genes for the prognostication and treatment of aggressive breast cancer <span class="citation">(Al-Ejeh et al. 2014)</span></li>
+</ul>
 </div>
 </div>
 </div>
@@ -1697,7 +1765,7 @@ GSM1570054
 <li>Monocytes: 0.42</li>
 </ul>
 <p>This results is also highly comparable with (or even better than) results obtained with other tools, published in <em>xCell</em> publication by <span class="citation">Aran, Hu, and Butte (2017)</span>.</p>
-<p><img src="figures-ext/SDY420.comp.png" width="4560" style="display: block; margin: auto;" /></p>
+<p><img src="figures-ext/SDY420.comp.png" width="1137" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="overview-of-functions" class="section level2">
@@ -2533,7 +2601,7 @@ Myeloid.Cells
 </table>
 <p>This result is not trivial to interpret.</p>
 <p>A different .gmt can be also used to perform the entichment anamysis</p>
-<p>We can import for example signature genes from <em>TIMER</em> <span class="citation">(B. Li et al. 2016)</span></p>
+<p>We can import for example signature genes from <em>TIMER</em> <span class="citation">(Li et al. 2016)</span></p>
 <pre class="sourceCode r" id="cb82"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">setwd</span>(<span class="kw">path.package</span>(<span class="st">&quot;deconica&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb82-2" data-line-number="2">TIMER &lt;-</a>
 <a class="sourceLine" id="cb82-3" data-line-number="3"><span class="st">  </span>ACSNMineR<span class="op">::</span><span class="kw">format_from_gmt</span>(<span class="st">&quot;./data-raw/TIMER_cellTypes.gmt&quot;</span>)</a></code></pre>
@@ -4319,8 +4387,17 @@ IC56
 <!-- > "He who gives up [code] safety for [code] speed deserves neither." -->
 <!-- ([via](https://twitter.com/hadleywickham/status/504368538874703872)) -->
 <div id="refs" class="references">
+<div id="ref-Abbas2009">
+<p>Abbas, Alexander R., Kristen Wolslegel, Dhaya Seshasayee, Zora Modrusan, and Hilary F. Clark. 2009. “Deconvolution of Blood Microarray Data Identifies Cellular Activation Patterns in Systemic Lupus Erythematosus.” Edited by Patrick Tan. <em>PLoS ONE</em> 4 (7). Public Library of Science: e6098. doi:<a href="https://doi.org/10.1371/journal.pone.0006098">10.1371/journal.pone.0006098</a>.</p>
+</div>
+<div id="ref-Al-Ejeh2014">
+<p>Al-Ejeh, F, P T Simpson, J M Sanus, K Klein, M Kalimutho, W Shi, M Miranda, et al. 2014. “Meta-analysis of the global gene expression profile of triple-negative breast cancer identifies genes for the prognostication and treatment of aggressive breast cancer.” <em>Oncogenesis</em> 3 (4). Nature Publishing Group: e100–e100. doi:<a href="https://doi.org/10.1038/oncsis.2014.14">10.1038/oncsis.2014.14</a>.</p>
+</div>
 <div id="ref-Aran2017">
 <p>Aran, Dvir, Zicheng Hu, and Atul J Butte. 2017. “xCell: digitally portraying the tissue cellular heterogeneity landscape.” <em>Genome Biology</em> 18 (1). BioMed Central: 220. doi:<a href="https://doi.org/10.1186/s13059-017-1349-1">10.1186/s13059-017-1349-1</a>.</p>
+</div>
+<div id="ref-MCPcounter">
+<p>Becht, Etienne, and Aurelien de Reynies. 2016. <em>MCPcounter: Estimating Tissue-Infiltrating Immune and Other Stromal Subpopulations Abundances Using Gene Expression</em>.</p>
 </div>
 <div id="ref-Becht2016">
 <p>Becht, Etienne, Nicolas A. Giraldo, Laetitia Lacroix, Bénédicte Buttard, Nabila Elarouci, Florent Petitprez, Janick Selves, et al. 2016. “Estimating the population abundance of tissue-infiltrating immune and stromal cell populations using gene expression.” <em>Genome Biology</em> 17 (1). doi:<a href="https://doi.org/10.1186/s13059-016-1070-5">10.1186/s13059-016-1070-5</a>.</p>
@@ -4331,14 +4408,92 @@ IC56
 <div id="ref-Biton2014">
 <p>Biton, Anne, Isabelle Bernard-Pierrot, Yinjun Lou, Clémentine Krucker, Elodie Chapeaublanc, Carlota Rubio-Pérez, Nuria López-Bigas, et al. 2014. “Independent Component Analysis Uncovers the Landscape of the Bladder Tumor Transcriptome and Reveals Insights into Luminal and Basal Subtypes.” <em>Cell Reports</em> 9 (4): 1235–45. doi:<a href="https://doi.org/10.1016/j.celrep.2014.10.035">10.1016/j.celrep.2014.10.035</a>.</p>
 </div>
+<div id="ref-Brunet2004">
+<p>Brunet, Jean-Philippe, Pablo Tamayo, Todd R Golub, and Jill P Mesirov. 2004. “Metagenes and molecular pattern discovery using matrix factorization.” <em>Proceedings of the National Academy of Sciences of the United States of America</em> 101 (12). National Academy of Sciences: 4164–9. doi:<a href="https://doi.org/10.1073/pnas.0308531101">10.1073/pnas.0308531101</a>.</p>
+</div>
+<div id="ref-Cheng2013">
+<p>Cheng, Wei-Yi, Tai-Hsien Ou Yang, and Dimitris Anastassiou. 2013. “Biomolecular events in cancer revealed by attractor metagenes.” Edited by Isidore Rigoutsos. <em>PLoS Computational Biology</em> 9 (2): e1002920. doi:<a href="https://doi.org/10.1371/journal.pcbi.1002920">10.1371/journal.pcbi.1002920</a>.</p>
+</div>
+<div id="ref-Chun-HouZheng2009">
+<p>Chun-Hou Zheng, De-Shuang Huang, Lei Zhang, and Xiang-Zhen Kong. 2009. “Tumor Clustering Using Nonnegative Matrix Factorization with Gene Selection.” <em>IEEE Transactions on Information Technology in Biomedicine</em> 13 (4): 599–607. doi:<a href="https://doi.org/10.1109/TITB.2009.2018115">10.1109/TITB.2009.2018115</a>.</p>
+</div>
+<div id="ref-Czerwinska2018">
+<p>Czerwinska, Urszula, Laura Cantini, Ulykbek Kairov, Emmanuel Barillot, and Andrei Zinovyev. 2018. “Application of Independent Component Analysis to Tumor Transcriptomes Reveals Specific And Reproducible Immune-related Signals.” <em>Springler Proceedings</em>. LVA-ICA.</p>
+</div>
+<div id="ref-Elmas2016">
+<p>Elmas, Abdulkadir, Tai-Hsien Ou Yang, Xiaodong Wang, and Dimitris Anastassiou. 2016. “Discovering Genome-Wide Tag SNPs Based on the Mutual Information of the Variants.” Edited by Srinivas Mummidi. <em>PLOS ONE</em> 11 (12). Public Library of Science: e0167994. doi:<a href="https://doi.org/10.1371/journal.pone.0167994">10.1371/journal.pone.0167994</a>.</p>
+</div>
+<div id="ref-NMF1">
+<p>Gaujoux, Renaud, and Cathal Seoighe. 2010. “A Flexible R Package for Nonnegative Matrix Factorization.” <em>BMC Bioinformatics</em> 11 (1): 367. doi:<a href="https://doi.org/10.1186/1471-2105-11-367">10.1186/1471-2105-11-367</a>.</p>
+</div>
+<div id="ref-CellMix1">
+<p>———. 2012. “CellMix: A Comprehensive Toolbox for Gene Expression Deconvolution.” <em>(Submitted)</em>. <a href="http://web.cbio.uct.ac.za/~renaud/CRAN/web/CellMix" class="uri">http://web.cbio.uct.ac.za/~renaud/CRAN/web/CellMix</a>.</p>
+</div>
+<div id="ref-CellMix3">
+<p>———. 2013. <em>CellMix: Sample Analyses</em>. CRAN. <a href="http://cran.r-project.org/package=CellMix" class="uri">http://cran.r-project.org/package=CellMix</a>.</p>
+</div>
+<div id="ref-NMF3">
+<p>———. 2015a. <em>The Package Nmf: Manual Pages</em>. CRAN. <a href="http://cran.r-project.org/package=NMF" class="uri">http://cran.r-project.org/package=NMF</a>.</p>
+</div>
+<div id="ref-NMF2">
+<p>———. 2015b. <em>Using the Package Nmf</em>. CRAN. <a href="http://cran.r-project.org/package=NMF" class="uri">http://cran.r-project.org/package=NMF</a>.</p>
+</div>
+<div id="ref-Gorban2008">
+<p>Gorban, A.N., Kégl, B., Wunsch, D.C., Zinovyev, A. 2008. <em>Principal Manifolds for Data Visualization and Dimension Reduction</em>. Edited by Alexander N. Gorban, Balázs Kégl, Donald C. Wunsch, and Andrei Y. Zinovyev. Vol. 58. Lecture Notes in Computational Science and Enginee. Berlin, Heidelberg: Springer Berlin Heidelberg. doi:<a href="https://doi.org/10.1007/978-3-540-73750-6">10.1007/978-3-540-73750-6</a>.</p>
+</div>
+<div id="ref-Hart2015">
+<p>Hart, Yuval, Hila Sheftel, Jean Hausser, Pablo Szekely, Noa Bossel Ben-Moshe, Yael Korem, Avichai Tendler, Avraham E Mayo, and Uri Alon. 2015. “Inferring biological tasks using Pareto analysis of high-dimensional data.” <em>Nature Methods</em> 12 (3): 233–35. doi:<a href="https://doi.org/10.1038/nmeth.3254">10.1038/nmeth.3254</a>.</p>
+</div>
+<div id="ref-Himberg2003">
+<p>Himberg, Johan, and Aapo Hyvärinen. 2003. “ICASSO: Software for investigating the reliability of ICA estimates by clustering and visualization.” In <em>Neural Networks for Signal Processing - Proceedings of the Ieee Workshop</em>, 2003-Janua:259–68. doi:<a href="https://doi.org/10.1109/NNSP.2003.1318025">10.1109/NNSP.2003.1318025</a>.</p>
+</div>
+<div id="ref-Hyvarinen2000">
+<p>Hyvärinen, Aapo, and Erkki Oja. 2000. “Independent Component Analysis: Algorithms and Applications.” <em>Neural Networks</em> 13 (45): 411–30. doi:<a href="https://doi.org/10.1016/S0893-6080(00)00026-5">10.1016/S0893-6080(00)00026-5</a>.</p>
+</div>
 <div id="ref-Kairov2017">
 <p>Kairov, Ulykbek, Laura Cantini, Alessandro Greco, Askhat Molkenov, Urszula Czerwinska, Emmanuel Barillot, and Andrei Zinovyev. 2017. “Determining the optimal number of independent components for reproducible transcriptomic data analysis.” <em>BMC Genomics</em> 18 (1). doi:<a href="https://doi.org/10.1186/s12864-017-4112-9">10.1186/s12864-017-4112-9</a>.</p>
 </div>
 <div id="ref-Li2016">
 <p>Li, Bo, Eric Severson, Jean-Christophe Pignon, Haoquan Zhao, Taiwen Li, Jesse Novak, Peng Jiang, et al. 2016. “Comprehensive analyses of tumor immunity: implications for cancer immunotherapy.” <em>Genome Biology 2016 17:1</em> 29 (1). BioMed Central: 1949–55. doi:<a href="https://doi.org/10.1200/JCO.2010.30.5037">10.1200/JCO.2010.30.5037</a>.</p>
 </div>
+<div id="ref-Liu2017">
+<p>Liu, Yuan, Yu Liang, Qifan Kuang, Fanfan Xie, Yingyi Hao, Zhining Wen, and Menglong Li. 2017. “Post-modified non-negative matrix factorization for deconvoluting the gene expression profiles of specific cell types from heterogeneous clinical samples based on RNA-sequencing data.” <em>Journal of Chemometrics</em>, August. Wiley-Blackwell, e2929. doi:<a href="https://doi.org/10.1002/cem.2929">10.1002/cem.2929</a>.</p>
+</div>
+<div id="ref-Moffitt2015">
+<p>Moffitt, Richard A, Raoud Marayati, Elizabeth L Flate, Keith E Volmar, S Gabriela Herrera Loeza, Katherine A Hoadley, Naim U Rashid, et al. 2015. “Virtual microdissection identifies distinct tumor- and stroma-specific subtypes of pancreatic ductal adenocarcinoma.” <em>Nature Genetics</em>. doi:<a href="https://doi.org/10.1038/ng.3398">10.1038/ng.3398</a>.</p>
+</div>
+<div id="ref-Newberg2018">
+<p>Newberg, Lee A., Xiaowei Chen, Chinnappa D. Kodira, and Maria I. Zavodszky. 2018. “Computational de novo discovery of distinguishing genes for biological processes and cell types in complex tissues.” Edited by Paolo Provero. <em>PLOS ONE</em> 13 (3). Public Library of Science: e0193067. doi:<a href="https://doi.org/10.1371/journal.pone.0193067">10.1371/journal.pone.0193067</a>.</p>
+</div>
 <div id="ref-Newman2015">
 <p>Newman, Aaron M., Chih Long Liu, Michael R. Green, Andrew J. Gentles, Weiguo Feng, Yue Xu, Chuong D. Hoang, Maximilian Diehn, and Ash A. Alizadeh. 2015. “Robust enumeration of cell subsets from tissue expression profiles.” <em>Nature Methods</em> 12 (5): 453–57. doi:<a href="https://doi.org/10.1038/nmeth.3337">10.1038/nmeth.3337</a>.</p>
+</div>
+<div id="ref-Racle2017">
+<p>Racle, Julien, Kaat de Jonge, Petra Baumgaertner, Daniel E Speiser, and David Gfeller. 2017. “Simultaneous enumeration of cancer and immune cell types from bulk tumor gene expression data.” <em>eLife</em> 6 (November). eLife Sciences Publications, Ltd. doi:<a href="https://doi.org/10.7554/eLife.26476">10.7554/eLife.26476</a>.</p>
+</div>
+<div id="ref-Saidi2004">
+<p>Saidi, Samir A, Cathrine M Holland, David P Kreil, David J C MacKay, D Stephen Charnock-Jones, Cristin G Print, and Stephen K Smith. 2004. “Independent component analysis of microarray data in the study of endometrial cancer.” <em>Oncogene</em> 23 (39). Nature Publishing Group: 6677–83. doi:<a href="https://doi.org/10.1038/sj.onc.1207562">10.1038/sj.onc.1207562</a>.</p>
+</div>
+<div id="ref-Schelker2017">
+<p>Schelker, Max, Sonia Feau, Jinyan Du, Nav Ranu, Edda Klipp, Gavin MacBeath, Birgit Schoeberl, and Andreas Raue. 2017. “Estimation of immune cell content in tumour tissue using single-cell RNA-seq data.” <em>Nature Communications</em> 8 (1). Nature Publishing Group: 2032. doi:<a href="https://doi.org/10.1038/s41467-017-02289-3">10.1038/s41467-017-02289-3</a>.</p>
+</div>
+<div id="ref-Schwartz2010">
+<p>Schwartz, Russell, and Stanley E Shackney. 2010. “Applying unmixing to gene expression data for tumor phylogeny inference.” <em>BMC Bioinformatics</em> 11 (1): 42. doi:<a href="https://doi.org/10.1186/1471-2105-11-42">10.1186/1471-2105-11-42</a>.</p>
+</div>
+<div id="ref-Teschendorff2007">
+<p>Teschendorff, Andrew E, Michel Journée, Pierre A Absil, Rodolphe Sepulchre, and Carlos Caldas. 2007. “Elucidating the altered transcriptional programs in breast cancer using independent component analysis.” <em>PLoS Computational Biology</em> 3 (8). Public Library of Science: e161. doi:<a href="https://doi.org/10.1371/journal.pcbi.0030161">10.1371/journal.pcbi.0030161</a>.</p>
+</div>
+<div id="ref-Vallania2017">
+<p>Vallania, Francesco, Andrew Tam, Shane Lofgren, Steven Schaffert, Tej D. Azad, Erika Bongen, Meia Alsup, et al. 2017. “Leveraging heterogeneity across multiple data sets increases accuracy of cell-mixture deconvolution and reduces biological and technical biases.” <em>bioRxiv</em>, October. Cold Spring Harbor Laboratory, 206466. doi:<a href="https://doi.org/10.1101/206466">10.1101/206466</a>.</p>
+</div>
+<div id="ref-Wang2016">
+<p>Wang, Niya, Eric P. Hoffman, Lulu Chen, Li Chen, Zhen Zhang, Chunyu Liu, Guoqiang Yu, David M. Herrington, Robert Clarke, and Yue Wang. 2016. “Mathematical modelling of transcriptional heterogeneity identifies novel markers and subpopulations in complex tissues.” <em>Scientific Reports</em> 6 (1). Nature Publishing Group: 18909. doi:<a href="https://doi.org/10.1038/srep18909">10.1038/srep18909</a>.</p>
+</div>
+<div id="ref-Yang2015">
+<p>Yang, Zi, and George Michailidis. 2015. “A non-negative matrix factorization method for detecting modules in heterogeneous omics multi-modal data.” <em>Bioinformatics</em> 32 (1): btv544. doi:<a href="https://doi.org/10.1093/bioinformatics/btv544">10.1093/bioinformatics/btv544</a>.</p>
+</div>
+<div id="ref-Zinovyev2013">
+<p>Zinovyev, Andrei, Ulykbek Kairov, Tatyana Karpenyuk, and Erlan Ramanculov. 2013. “Blind source separation methods for deconvolution of complex signals in cancer biology.” <em>Biochemical and Biophysical Research Communications</em> 430 (3): 1182–7. doi:<a href="https://doi.org/10.1016/j.bbrc.2012.12.043">10.1016/j.bbrc.2012.12.043</a>.</p>
 </div>
 </div>
 </div>
