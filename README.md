@@ -30,9 +30,9 @@ check out the package website: [https://urszulaczerwinska.github.io/DeconICA/](h
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
    or at 
-   
-   * vignette 1 : [Introduction to deconICA](https://urszulaczerwinska.github.io/DeconICA/DeconICA_introduction.html) 
-   * vignette 2 : [Running fastICA with icasso stabilisation](https://urszulaczerwinska.github.io/DeconICA/Icasso.html) 
+   + vignette 1 : [Introduction to deconICA](https://urszulaczerwinska.github.io/DeconICA/DeconICA_introduction.html) 
+   + vignette 2 : [Running fastICA with icasso stabilisation](https://urszulaczerwinska.github.io/DeconICA/Icasso.html) 
+
 
 * list of functions
 ```r 
