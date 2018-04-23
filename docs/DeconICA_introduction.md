@@ -86,7 +86,7 @@ of mixed signals $x(t)$, through the determination of an 'unmixing' matrix  to $
 This algorithm uses higher-order moments for matrix approximation, considering all Gaussian
 signals as noise.
 
-Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running fastICA with icasso stabilisation](). 
+Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running fastICA with icasso stabilisation](Icasso.html). 
 
 For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors. 
 
@@ -133,7 +133,7 @@ Here is a small list of NMF application to biological data:
 
 ### Convex hull methods
 
-An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the "sources" are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem [@Yang2015]. The convex hull-based method does not require the independence assumption, nor the uncorrelation assumption which can be interesing in the setup of closely realted cell types. @Wang2016 apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher [@Newberg2018] provides an [user-friendly R package](https://github.com/GeneralElectric/CellDistinguisher). However, authors do not provide any method for estimation of number of sources. Additionaly, quantitative weights are provided only for signature genes that can vary for different sources.
+An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the "sources" are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem [@Yang2015]. The convex hull-based method does not require the independence assumption, nor the uncorrelation assumption which can be interesing in the setup of closely realted cell types. @Wang2016 apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher [@Newberg2018] provides an [user-friendly R package](https://github.com/GeneralElectric/CellDistinguisher). However, authors do not provide any method for estimation of number of sources. Additionaly, quantitative weights are provided only for signature genes which number can vary for different sources. They do not apply their algorithm to complex mixtures as tumor transcriptome.
 
 However, combining convex hull methods and `deconICA`can possibily lead to a meanigfull interpretation.
 
@@ -219,7 +219,7 @@ pheatmap::pheatmap(mix1$basis_matrix)
 
 ![](DeconICA_introduction_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
-Then we apply ICA (matlab version with stabilisation see vignette:###) and we decompose to 11 components.
+Then we apply ICA (matlab version with stabilisation see [vignette: Running fastICA with icasso stabilisation](Icasso.html)) and we decompose to 11 components.
 If you don't have file you can find in `data-vignettes` the file `mix1_ica.RData`.
 
 ```r
@@ -1193,7 +1193,7 @@ The main differences between `run_fastica` and `fastica` are:
 * if column names are provided with the matrix, duplicated names are removed and entries with higher variance are kept
 * it transforms data into log2 if data are in row counts 
 * it runs a PCA before ICA to denoise the matrix
-* it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in *vignette: running fastICA with icasso stabilisation*)
+* it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in [vignette: Running fastICA with icasso stabilisation](Icasso.html))
 * it returns in a `list` 
   + input `data.frame` without duplicated entries and before log transformation: `log.counts`
   + `names` row names vector
@@ -1469,7 +1469,7 @@ Here the correspondiing pairs do not follow a speciic order. The six of componen
 
 In order to fully explore a dataset with identification and quantification of immune-related signals we suggest to over decompose the data matrix. 
 
-We recommand to use for this purpose MATLAB implementation of the algorithm (see vignette: MATLAB..)
+We recommand to use for this purpose MATLAB implementation of the algorithm (see [vignette: Running fastICA with icasso stabilisation](Icasso.html))
 
 One can run it like this on BEK complete data (WARNING: requires MATLAB and take a few minutes): 
 
@@ -2734,9 +2734,9 @@ stacked_proportions_plot(MCP.counter.scores[c(-10,-9),])
 
 ![](DeconICA_introduction_files/figure-html/unnamed-chunk-129-1.png)<!-- -->
 
-## Simulate Data 
+<!-- ## Simulate Data  -->
 
-TBA
+<!-- TBA -->
 <!-- ## Vignette Info -->
 
 <!-- Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette. -->
@@ -2778,3 +2778,4 @@ TBA
 
 <!-- > "He who gives up [code] safety for [code] speed deserves neither." -->
 <!-- ([via](https://twitter.com/hadleywickham/status/504368538874703872)) -->
+## References

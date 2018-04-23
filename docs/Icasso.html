@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Urszula Czerwinska" />
+
+<meta name="date" content="2018-04-23" />
+
+<title>Running fastICA with icasso stabilisation</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link rel="stylesheet" href="Icasso_files/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<section class="page-header">
+<h1 class="title toc-ignore project-name">Running fastICA with icasso stabilisation</h1>
+<h4 class="author project-author">Urszula Czerwinska</h4>
+<h4 class="date project-date">2018-04-23</h4>
+</section>
+
+
+<div id="TOC" class="toc">
+<ul>
+<li><a href="#introduction-fastica-with-icasso-stabilisation">Introduction fastICA with icasso stabilisation</a><ul>
+<li><a href="#what-is-fastica">What is fastICA?</a></li>
+<li><a href="#what-is-icasso-stabilisation">What is icasso stabilisation</a></li>
+<li><a href="#mstd-measure">MSTD measure</a></li>
+</ul></li>
+<li><a href="#i-have-matlab-on-my-computer">I have Matlab on my computer</a><ul>
+<li><a href="#running-fastica-with-icasso-stabilisation-from-deconica">Running fastICA with icasso stabilisation from <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a></a></li>
+<li><a href="#running-fastica-with-icasso-stabilisation-directly-in-matlab">Running fastICA with icasso stabilisation directly in MATLAB</a></li>
+<li><a href="#running-fastica-with-icasso-stabilisation-in-biodica">Running fastICA with icasso stabilisation in BIODICA</a></li>
+<li><a href="#what-is-biodica">What is <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a></a></li>
+</ul></li>
+<li><a href="#i-dont-have-matlab-on-my-computer">I don’t have Matlab on my computer</a><ul>
+<li><a href="#running-fastica-with-icasso-stabilisation-in-biodica-docker-image">Running fastICA with icasso stabilisation in <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> docker image</a></li>
+</ul></li>
+</ul>
+</div>
+
+<section class="main-content">
+<div id="introduction-fastica-with-icasso-stabilisation" class="section level2">
+<h2>Introduction fastICA with icasso stabilisation</h2>
+<div id="what-is-fastica" class="section level3">
+<h3>What is fastICA?</h3>
+<p>Independent Components Analysis (ICA) is a Blind Source Separation (BSS) technique that aims to sparate sources maximising non-gaussianity (or minimising mutual information) of sources and therfore defining independent (or the most idependent possible) components.</p>
+<p>There exist many different implementations of ICA algorithm: Second Order Blind Identification (SOBI), Hyvarinen’s fixed-point algorithm (FastICA), logistic Infomax (Infomax) and Joint Approximation Diagonalization of Eigenmatrices (JADE).</p>
+<p>FastICA <span class="citation">(Hyvärinen and Oja 2000)</span> is a popular and fast implementation available in many programming languages.</p>
+<ol style="list-style-type: decimal">
+<li>Prewhitenning
+<ol style="list-style-type: lower-alpha">
+<li>Data centering <span class="math display">\[ x_{ij} \leftarrow x_{ij} - {\frac {1}{M}}\sum_{j^{\prime }}x_{ij^{\prime }} \]</span> <span class="math inline">\(x_{ij}\)</span>: data point</li>
+<li>Whitenning <span class="math display">\[ \mathbf {X} \leftarrow \mathbf {E} \mathbf {D} ^{-1/2}\mathbf {E} ^{T}\mathbf {X} \]</span> Where  - centered data,  is the matrix of eigenvectors,  is the diagonal matrix of eigenvalues</li>
+</ol></li>
+<li>Single component extraction
+<ol style="list-style-type: lower-alpha">
+<li>Initialize <span class="math inline">\(w_{i}\)</span> (in random)</li>
+<li><span class="math inline">\(\mathbf {w}_{i} ^{+}\leftarrow E\left\{\mathbf {X} g(\mathbf {w}_{i} ^{T}\mathbf {X} )^{T}\right\}\mathbf{w}_{i} -E\left\{g&#39;(\mathbf {w}_{i} ^{T}\mathbf {X} )\right\}\)</span></li>
+<li><span class="math inline">\(\mathbf{w}_{i} \leftarrow \frac{\mathbf{w}_{i}^+}{\|\mathbf{w}_{i}^+\|}\)</span></li>
+<li>For <span class="math inline">\(i = 1\)</span>, go to step g. Else, continue with step e.</li>
+<li><span class="math inline">\(\mathbf {w}_{i}^{+} \leftarrow {w}_{i} - \sum_{j=1}^{j-1} {w}_{i}^T{w}_{j}{w}_{j}\)</span></li>
+<li><span class="math inline">\(\mathbf{w}_{i} \leftarrow \frac{\mathbf{w}_{i}^+}{\|\mathbf{w}_{i}^+\|}\)</span></li>
+<li>If not converged, go back to step b. Else go back to step a. with <span class="math inline">\(i = i + 1\)</span> until all components are extracted.</li>
+</ol></li>
+</ol>
+<p>However, the results are not deterministic, as the <span class="math inline">\(w_{i}\)</span> initial vector of weights is generated at random in the iterations of fastICA. If ICA is run multiple times, one can measure <strong>stability</strong> of a component. Stability of an independent component, in terms of varying the initial starts of the ICA algorithm, is a measure of internal compactness of a cluster of matched independent components produced in multiple ICA runs for the same dataset and with the same parameter set but with random initialization <span class="citation">(Kairov et al. 2017)</span>.</p>
+</div>
+<div id="what-is-icasso-stabilisation" class="section level3">
+<h3>What is icasso stabilisation</h3>
+<p>From <span class="citation">(Himberg and Hyvärinen 2003)</span>:</p>
+<blockquote>
+<p>We present an explorative visualization method for investigating the relations between estimates from FastICA. The algorithmic and statistical reliability is investigated by running the algorithm many times with different initial values or with differently bootstrapped data sets, respectively. Resulting estimates are compared by visualizing their clustering according to a suitable similarity measure. Reliable estimates correspond to tight clusters, and unreliable ones to points which do not belong to any such cluster</p>
+</blockquote>
+<p>Icasso procedure can be summarised in a few steps:</p>
+<ol style="list-style-type: decimal">
+<li>applying multiple runs of ICA with different initializations</li>
+<li>clustering the resulting components</li>
+<li>defining the final result as cluster centroids</li>
+<li>estimating the compactness of the clusters</li>
+</ol>
+<p>Icasso stabilisation is implemented in MATLAB. Despite our best effort we did not suceed to replicate this procedure in an open source language.</p>
+</div>
+<div id="mstd-measure" class="section level3">
+<h3>MSTD measure</h3>
+<p>In the version of fastica matlab package distributed with <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> that we named <code>fastica++</code>, contains fasICA algorithm with default parameters, icasso stabilisation and MSTD index calculations and plots.</p>
+<p><strong>What is MSTD?</strong></p>
+<p>Most stable transcriptome dimension is a metric introduced in <span class="citation">(Kairov et al. 2017)</span>.</p>
+<blockquote>
+<p>Most Stable Transcriptome Dimension (MSTD) - ranking of independent components based on their stability in multiple ICA computation runs and define a distinguished number of components corresponding to the point of the qualitative change of the stability profile</p>
+</blockquote>
+<p>This measure is not essential for <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> as in the package we follow strategy of <em>overdecomposition</em>. However, it is usefull to know the MSTD that as it is described in <span class="citation">(Kairov et al. 2017)</span> to characterise the data and estimate the numbers of components needed for <em>overdecomposition</em>.</p>
+<p>Thus, we advise to use the matlab imprementation of fastICA <code>fastica++</code> included in <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> in order to enjoy the full functionalities of fastICA, icasso and MSTD.</p>
+</div>
+</div>
+<div id="i-have-matlab-on-my-computer" class="section level2">
+<h2>I have Matlab on my computer</h2>
+<div id="running-fastica-with-icasso-stabilisation-from-deconica" class="section level3">
+<h3>Running fastICA with icasso stabilisation from <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a></h3>
+<p>Running matlab from <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> is very easy. First, if you are not sure if you have matlab, you can run</p>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">matlabr<span class="op">::</span><span class="kw">have_matlab</span>()</a></code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<div id="true" class="section level4">
+<h4><code>TRUE</code></h4>
+<p>If the answer is <code>TRUE</code> then you can run <code>run_fastICA()</code> function with <code>R=FALSE</code> and other parameters by default. Just as explained in the <a href="DeconICA_introduction.Rmd">tutorial</a>.</p>
+</div>
+<div id="false" class="section level4">
+<h4><code>FALSE</code></h4>
+<p>If the answer is <code>FALSE</code> but you are sure you have matlab installed, please find the path of your matlab executive. To find the path type <code>matlabroot</code> in your matlab session.</p>
+<p>Then while running <code>run_fastica</code>, you simply provide the path in <code>matlbpth</code>parameter as in the example</p>
+<p>My matlab defined in response to <code>matlabroot</code>: <code>/Applications/MATLAB_R2016a.app</code>.</p>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#it is an example </span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(deconica)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">S &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">10000</span>), <span class="dv">500</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">1000</span>), <span class="dv">500</span>, <span class="dt">nrow =</span> <span class="dv">5</span>, <span class="dt">byrow =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">X &lt;-<span class="st"> </span><span class="kw">data.frame</span>(S <span class="op">%*%</span><span class="st"> </span>A)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">res &lt;-</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw">run_fastica</span>(</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="dt">X =</span> X,</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="dt">row.center =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="dt">n.comp =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">    <span class="dt">overdecompose =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="dt">R =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    <span class="dt">matlbpth =</span> <span class="st">&quot;/Applications/MATLAB_R2016a.app/bin&quot;</span> <span class="co">#place your path + /bin here</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">  )</a></code></pre>
+</div>
+</div>
+<div id="running-fastica-with-icasso-stabilisation-directly-in-matlab" class="section level3">
+<h3>Running fastICA with icasso stabilisation directly in MATLAB</h3>
+<p>If you want to play with parameters of fastICA or you just prefer to use MATLAB directly, you can use a banch of functions of <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> to assure the smooth import of your results.</p>
+<p>On an example of simulated matrix with 500 samples and 500 genes.</p>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">S &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">10000</span>), <span class="dv">500</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">1000</span>), <span class="dv">500</span>, <span class="dt">nrow =</span> <span class="dv">5</span>, <span class="dt">byrow =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">X &lt;-<span class="st"> </span><span class="kw">data.frame</span>(S <span class="op">%*%</span><span class="st"> </span>A)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">dim</span>(X)</a></code></pre>
+<pre><code>## [1] 500 500</code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">colnames</span>(X) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;S&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(X))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">row.names</span>(X)&lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;gene_&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(X))</a></code></pre>
+<p>Yor data need to be centered and duplicated row names should be removed</p>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">X.pre &lt;-</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">prepare_data_for_ica</span>(X, <span class="dt">names =</span> <span class="kw">row.names</span>(X), <span class="dt">samples =</span> <span class="kw">colnames</span>(X))</a></code></pre>
+<p>You can export your data into files saved on your disk.</p>
+<p>You can add attribute name if you want to use a different name that the variable name (here ‘X.pre$df.scaled’)</p>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"> res.exp &lt;-<span class="st"> </span><span class="kw">export_for_ICA</span>(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">      <span class="dt">df.scaled.t =</span> X.pre<span class="op">$</span>df.scaled,</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">      <span class="dt">names =</span> X.pre<span class="op">$</span>names,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">      <span class="dt">samples =</span> X.pre<span class="op">$</span>samples,</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">      <span class="dt">n =</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">    )</a></code></pre>
+<p>Then you can run in Matlab</p>
+<p><code>cd 'path to fastica++'</code></p>
+<p><code>doICA(folder,fn,ncomp)</code></p>
+<p>where</p>
+<ul>
+<li>folder is the path to the folder containing numerical <strong>only</strong> matrix</li>
+<li>fn is the file name containg the matrix</li>
+<li>n - number of components</li>
+</ul>
+<p>here <code>cd './deconica/fastica++'</code></p>
+<p><code>doICA('/Users/xxxx/Documents/','X.pre$df.scaled_5_numerical.txt',5)</code></p>
+<p>Then, if you followed the steps you can easily import the results.</p>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"> res.imp &lt;-</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">      </span><span class="kw">import_ICA_res</span>(<span class="dt">name =</span> <span class="st">&quot;X.pre$df.scaled&quot;</span>,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">                   <span class="dt">ncomp =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">                   <span class="dt">path_global_1 =</span> <span class="st">&quot;/Users/xxxx/Documents/&quot;</span>)</a></code></pre>
+<p><code>res.imp</code> object has then the fastICA results. You can add additional elements as the initial counts as to any R list object</p>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">res.imp<span class="op">$</span>counts &lt;-<span class="st"> </span>X</a></code></pre>
+</div>
+<div id="running-fastica-with-icasso-stabilisation-in-biodica" class="section level3">
+<h3>Running fastICA with icasso stabilisation in BIODICA</h3>
+</div>
+<div id="what-is-biodica" class="section level3">
+<h3>What is <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a></h3>
+<p><a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is a computational pipeline implemented in Java language for</p>
+<ol style="list-style-type: decimal">
+<li>automating deconvolution of large omics datasets with optimization of deconvolution parameters,</li>
+<li>helping in interpretation of the results of deconvolution application by automated annotation of the compoentns using the best practices,</li>
+<li>comparing the results of deconvolution of independent datasets for distinguishing reproducible signals, universal and specific for a particular disease/data type or subtype.</li>
+</ol>
+<p><a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> framework focus is much larger than immune cells. It is quite complete user-friendly software whose applications and functions go beyond scope of this work (see follwing figure).</p>
+<div class="figure" style="text-align: center">
+<img src="figures-ext/BIODICA.png" alt="General architecture of the BIODICA data analysis pipeline. Boxes of different colors separates different functional modules of the system. Described functionality corresponds to the BIODICA version 1.0, source: https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf" width="622.6667" height="525.5" />
+<p class="caption">
+General architecture of the BIODICA data analysis pipeline. Boxes of different colors separates different functional modules of the system. Described functionality corresponds to the BIODICA version 1.0, source: <a href="https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf" class="uri">https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf</a>
+</p>
+</div>
+<p>The full <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> tutorial can be found <a href="https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf">here</a>.</p>
+<p><a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is essentially usefull for genral characterisation of signal in transcriptomes.</p>
+<p>Here we will focus on basic functions as running fastICA.</p>
+<p><em>Requirements:</em></p>
+<ul>
+<li><em>Installed Java ver 1.6 or higher</em></li>
+<li><em>At least 8Gb of operating memory</em></li>
+</ul>
+<p>The list of required options (paths for configuration of the BIODICA data repository):</p>
+<p>MATLABICAFolder = `[path_to_repository]++</p>
+<p>DefaultWorkFolder = <code>[path_to_work_folder]</code></p>
+<p>GeneSetFolder = <code>[path_to_repository]\knowledge\genesets</code></p>
+<p>HTMLSourceFolder = <code>[path_to_repository]\bin\HTML</code></p>
+<p>In order to run an fastICA decomposition, one can use the GUI interface (see the figure below).</p>
+<p>It is also possible to run it from command line.</p>
+<p>This line will decompose <code>OVCA.txt</code> dataset into 20 components</p>
+<pre class="console"><code>java -jar BODICA.jar -config C:\Datas\BIODICA\config 
+-outputfolder C:\Datas\BIODICA\work\ 
+-datatable C:\Datas\BIODICA\data\OVCA_TCGA\transcriptome\OVCA.txt -doicamatlab 20</code></pre>
+<p>The input to <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is a dataset with genes in line and samples in columns with sample names and gene names, see <a href="https://raw.githubusercontent.com/LabBandSB/BIODICA/master/data/OVCA_TCGA/transcriptome/OVCA.txt">sample dataset</a>. However if data is not in log, you need to put in log first. You should also eliminate the duplicated genes (not compulsory but advised for further interpretation). The data will be row centered by default by <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a>.</p>
+</div>
+</div>
+<div id="i-dont-have-matlab-on-my-computer" class="section level2">
+<h2>I don’t have Matlab on my computer</h2>
+<div id="running-fastica-with-icasso-stabilisation-in-biodica-docker-image" class="section level3">
+<h3>Running fastICA with icasso stabilisation in <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> docker image</h3>
+<ol style="list-style-type: decimal">
+<li>Install <a href="https://www.docker.com/">Docker</a> on your machine</li>
+<li>Pull the biodica docker image</li>
+</ol>
+<pre class="console"><code>docker pull auranic/biodica</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>set <code>UseDocker = true</code> in the <code>config</code> file (in your cloned repo).</li>
+</ol>
+<p>This procedure is also described on the <a href="https://github.com/LabBandSB/BIODICA/wiki/0.-Installing-and-configuring-BIODICA">BIODICA wiki</a></p>
+<hr />
+<p><strong>CONTACTS</strong></p>
+<p>All quires about <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> state and development should be sent to</p>
+<p>Andrei Zinovyev (<a href="http://www.ihes.fr/~zinovyev" class="uri">http://www.ihes.fr/~zinovyev</a>)</p>
+<p>Ulykbek Kairov (<a href="https://www.researchgate.net/profile/Ulykbek_Kairov" class="uri">https://www.researchgate.net/profile/Ulykbek_Kairov</a>)</p>
+<hr />
+<p><strong>BIODICA software</strong></p>
+<p>BIODICA - computational pipeline for <strong>I</strong>ndependent <strong>C</strong>omponent <strong>A</strong>nalysis of <strong>BI</strong>g <strong>O</strong>mics <strong>D</strong>ata. It is a collaboration project between Lab of Bioinformatics and Systems Biology (Center for Life Sciences, Nazarbayev University, Kazakhstan) and Computational Systems Biology of Cancer Lab (Institute Curie, France). Principal Investigators and leading researchers of BIODICA Project: Andrei Zinovyev and Ulykbek Kairov.</p>
+<div id="refs" class="references">
+<div id="ref-Himberg2003">
+<p>Himberg, Johan, and Aapo Hyvärinen. 2003. “ICASSO: Software for investigating the reliability of ICA estimates by clustering and visualization.” In <em>Neural Networks for Signal Processing - Proceedings of the Ieee Workshop</em>, 2003-Janua:259–68. doi:<a href="https://doi.org/10.1109/NNSP.2003.1318025">10.1109/NNSP.2003.1318025</a>.</p>
+</div>
+<div id="ref-Hyvarinen2000">
+<p>Hyvärinen, Aapo, and Erkki Oja. 2000. “Independent Component Analysis: Algorithms and Applications.” <em>Neural Networks</em> 13 (45): 411–30. doi:<a href="https://doi.org/10.1016/S0893-6080(00)00026-5">10.1016/S0893-6080(00)00026-5</a>.</p>
+</div>
+<div id="ref-Kairov2017">
+<p>Kairov, Ulykbek, Laura Cantini, Alessandro Greco, Askhat Molkenov, Urszula Czerwinska, Emmanuel Barillot, and Andrei Zinovyev. 2017. “Determining the optimal number of independent components for reproducible transcriptomic data analysis.” <em>BMC Genomics</em> 18 (1). doi:<a href="https://doi.org/10.1186/s12864-017-4112-9">10.1186/s12864-017-4112-9</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

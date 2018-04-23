@@ -351,7 +351,7 @@ export_for_ICA <-
 #'
 #' data(Example_ds)
 #' prepare_data_for_ica(Example_ds[, -1], names = Example_ds[, 1])
-prepare_data_for_ica <- function(df, names, samples = NULL) {
+prepare_data_for_ica <- function(df, names, samples = NULL, isLog = TRUE) {
   X <- data.frame(Genes = names, df)
   if (any(duplicated(X[, 1]))) {
     X <- .remove_duplicates(X)
@@ -368,6 +368,8 @@ prepare_data_for_ica <- function(df, names, samples = NULL) {
   } else {
     samples <- samples
   }
+  if(!isLog)
+    X <- log2(X+1)
   # center rows if needed
   X <- .center_rowmeans(X)
   if (all.equal(round(mean(as.matrix(X[1, ])), 2), 0) != TRUE)
@@ -689,7 +691,8 @@ get_matlab_2 = function(
     ####################################
     # Trying defaults
     ####################################
-    if (is.null(mpath)) {
+
+
       if (try_defaults) {
         this.year = as.numeric(format(Sys.Date(), "%Y"))
         years = seq(this.year + 1, this.year - 5, by = -1)
