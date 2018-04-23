@@ -645,7 +645,7 @@ X <- data.frame(S %*% A)
 res <- run_fastica(X = X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 str(res)
 ```
-`run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome [see section ####]. Other parameters were selected as default. 
+`run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome (see section [Demonstration of DeconICA package]()). Other parameters were selected as default. 
 
 Full description of the `run_fastica` parameters can be found in help `?run_fastica`. 
 
@@ -654,7 +654,7 @@ The main differences between `run_fastica` and `fastica` are:
 * if column names are provided with the matrix, duplicated names are removed and entries with higher variance are kept
 * it transforms data into log2 if data are in row counts 
 * it runs a PCA before ICA to denoise the matrix
-* it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in *vignette: running fastICA with icasso stabilisation*)
+* it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in *vignette: Running fastICA with icasso stabilisation*)
 * it returns in a `list` 
   + input `data.frame` without duplicated entries and before log transformation: `log.counts`
   + `names` row names vector

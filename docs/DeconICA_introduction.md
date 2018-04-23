@@ -63,7 +63,7 @@ Thefore, obtaining informative cell-type signature of immune cells infiltrating 
 Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA. 
 
 <div class="figure" style="text-align: center">
-<img src="./figures-ext/methodsBSS.png" alt="**Graphical representation of dimension reduction &amp; BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]" width="650.6667px" height="178.3333px" />
+<img src="./figures-ext/methodsBSS.png" alt="**Graphical representation of dimension reduction &amp; BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]" width="976px" height="267.5px" />
 <p class="caption">**Graphical representation of dimension reduction & BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]</p>
 </div>
 
@@ -86,7 +86,7 @@ of mixed signals $x(t)$, through the determination of an 'unmixing' matrix  to $
 This algorithm uses higher-order moments for matrix approximation, considering all Gaussian
 signals as noise.
 
-Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running matlab implementation of ICA](). 
+Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running fastICA with icasso stabilisation](). 
 
 For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors. 
 
@@ -1184,7 +1184,7 @@ str(res)
 #>   ..$ X1: num [1:5000] 0.8349 0.1645 0.885 -0.0892 -0.8865 ...
 #>   ..$ X2: num [1:5000] 1.425 0.262 1.272 3.462 2.914 ...
 ```
-`run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome [see section ####]. Other parameters were selected as default. 
+`run_fastica` runs `fastica` from `fastica` package. In this trival example we create sources matrix `S`and mixing matrix `A` that we multuply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome [see section [Demonstration of DeconICA package](#cases)]. Other parameters were selected as default. 
 
 Full description of the `run_fastica` parameters can be found in help `?run_fastica`. 
 
