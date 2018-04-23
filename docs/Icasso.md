@@ -265,7 +265,7 @@ This procedure is also described on the [BIODICA wiki](https://github.com/LabBan
 *** 
 **CONTACTS**
 
-All quires about [BIODICA](https://github.com/LabBandSB/BIODICA) state and development should be sent to
+All enquires about [BIODICA](https://github.com/LabBandSB/BIODICA) state and development should be sent to
 
 Andrei Zinovyev (http://www.ihes.fr/~zinovyev)
 
