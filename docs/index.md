@@ -29,8 +29,9 @@ It should be available shortly on [CRAN](https://cran.r-project.org/web/packages
 vignette(topic ="DeconICA_introduction", package="deconica")
 ```
    or at 
-   * vignette 1 : [Introduction to deconICA](DeconICA_introduction.html) 
-   * vignette 2 : [Running fastICA with icasso stabilisation](Icasso.html) 
+  
+   + vignette 1 : [Introduction to deconICA](DeconICA_introduction.html) 
+   + vignette 2 : [Running fastICA with icasso stabilisation](Icasso.html) 
 
 
 * list of functions
