@@ -69,6 +69,10 @@ Thefore, obtaining informative cell-type signature of immune cells infiltrating 
 
 Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA. 
 
+```{r echo = FALSE, fig.align='center', fig.cap='**Graphical representation of dimension reduction & BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]', out.width='650.6667px', out.height='178.3333px'}
+knitr::include_graphics("./figures-ext/methodsBSS.png")
+```
+
 ### Independent Components Analysis
 
 Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction [@Hyvarinen2000]. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions [@Hyvarinen2000]. There is no contraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.

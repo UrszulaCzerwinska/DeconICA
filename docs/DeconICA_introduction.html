@@ -12,7 +12,7 @@
 
 <meta name="author" content="Urszula Czerwinska" />
 
-<meta name="date" content="2018-04-22" />
+<meta name="date" content="2018-04-23" />
 
 <title>Introduction to deconICA</title>
 
@@ -89,7 +89,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Introduction to deconICA</h1>
 <h4 class="author project-author">Urszula Czerwinska</h4>
-<h4 class="date project-date">2018-04-22</h4>
+<h4 class="date project-date">2018-04-23</h4>
 </section>
 
 
@@ -143,6 +143,12 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <p>In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT <span class="citation">(Newman et al. 2015)</span>, MCP counter <span class="citation">(Becht et al. 2016, <span class="citation">Becht and de Reynies (2016)</span>)</span>, TIMER <span class="citation">(Li et al. 2016)</span> etc. are based on optimised blood signatues. With an evidence brought by single cell data, these signatures are not always characterising immune cells infiltrating tumors <span class="citation">(Schelker et al. 2017)</span>. Some methods, like EPIC <span class="citation">(Racle et al. 2017)</span>, use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incoparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies.</p>
 <p>Thefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attept to approach with <code>deconICA</code> pipeline.</p>
 <p>Here is a short overview of BSS or related algorithms that one can potentially use as an input to <code>deconICA</code>. At its actual state <code>deconICA</code> facilitates starting pipeline with ICA.</p>
+<div class="figure" style="text-align: center">
+<img src="figures-ext/methodsBSS.png" alt="**Graphical representation of dimension reduction &amp; BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]" width="650.6667px" height="178.3333px" />
+<p class="caption">
+<strong>Graphical representation of dimension reduction &amp; BSS methods.</strong> PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY <span class="citation">(Wang et al. 2016)</span>
+</p>
+</div>
 <div id="independent-components-analysis" class="section level3">
 <h3>Independent Components Analysis</h3>
 <p>Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction <span class="citation">(Hyvärinen and Oja 2000)</span>. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions <span class="citation">(Hyvärinen and Oja 2000)</span>. There is no contraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.</p>
@@ -242,9 +248,9 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb5-2" data-line-number="2">mix1&lt;-<span class="kw">simulate_gene_expresssion</span>(<span class="dv">10</span>, <span class="dv">10000</span>, <span class="dv">130</span>,<span class="dv">0</span>, <span class="dt">markers=</span><span class="dv">20</span>)</a></code></pre>
 <p>We can visualise the mixed expression matrix.</p>
 <pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(mix1<span class="op">$</span>expression)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-7-1.png" /><!-- --> We can also visualize the <em>purified gene expression</em> of each cell.</p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-8-1.png" /><!-- --> We can also visualize the <em>purified gene expression</em> of each cell.</p>
 <pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(mix1<span class="op">$</span>basis_matrix)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
 <p>Then we apply ICA (matlab version with stabilisation see vignette:###) and we decompose to 11 components. If you don’t have file you can find in <code>data-vignettes</code> the file <code>mix1_ica.RData</code>.</p>
 <pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">mix1_ica &lt;-<span class="st"> </span><span class="kw">run_fastica</span> (</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">  mix1<span class="op">$</span>expression,</a>
@@ -265,7 +271,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb9-7" data-line-number="7">                       <span class="dt">orient.max =</span> <span class="ot">FALSE</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">mix1_corr.basis_p &lt;-<span class="st"> </span><span class="kw">radar_plot_corr</span>(mix1_corr.basis, <span class="dt">size.el.txt =</span> <span class="dv">10</span>, <span class="dt">point.size =</span> <span class="dv">2</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">mix1_corr.basis_p<span class="op">$</span>p</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-14-1.png" /><!-- --></p>
 <p>We automatically assign a component to a cell type.</p>
 <pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">mix1.assign &lt;-<span class="st"> </span><span class="kw">assign_metagenes</span>(mix1_corr.basis<span class="op">$</span>r, <span class="dt">exclude_name =</span> <span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; no profiles to exlude provided</span></a>
@@ -281,13 +287,13 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">markers =</span> mix1_ica<span class="fl">.10</span></a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">  )</a></code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(mix1_ica.<span class="fl">10.</span>basis, <span class="dt">fontsize_row =</span> <span class="dv">8</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-17-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-18-1.png" /><!-- --></p>
 <p>We compute scores which are by default simple mean value of expression of the top genes in the original gene matrix.</p>
 <pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">scores.mix1.ica &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">get_scores</span>(mix1_ica<span class="op">$</span>log.counts, mix1_ica<span class="fl">.10</span>)</a></code></pre>
 <p>We can see on the correlation plot almost prefect correspondance with the original propotions (<code>mix1$prop</code>)</p>
 <pre class="sourceCode r" id="cb17"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(scores.mix1.ica,<span class="kw">t</span>(mix1<span class="op">$</span>prop),  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-21-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-22-1.png" /><!-- --></p>
 <p>One important feature of the ICA is that even if we do not know the exact number of components, when we overestimate the number of components, the signals are not altered. Our team proposed a method called MSTD that was developped for cancer transcriptomes to estimate optimal number of components <span class="citation">(Kairov et al. 2017)</span>. Here we just slightly overestimate the number of components to 20.</p>
 <p>Again you can load the decompostion <code>mix1_ica.20.RData</code> from <code>data-vignettes</code>repository of the package</p>
 <pre class="sourceCode r" id="cb18"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">mix1_ica<span class="fl">.20</span> &lt;-<span class="st"> </span><span class="kw">run_fastica</span> (</a>
@@ -311,7 +317,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb19-10" data-line-number="10">                <span class="dt">size.el.txt =</span> <span class="dv">10</span>,</a>
 <a class="sourceLine" id="cb19-11" data-line-number="11">                <span class="dt">point.size =</span> <span class="dv">2</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb20"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">mix1_corr.basis<span class="fl">.20</span>_p<span class="op">$</span>p</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-25-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-26-1.png" /><!-- --></p>
 <pre class="sourceCode r" id="cb21"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">mix1.assign<span class="fl">.20</span> &lt;-<span class="st"> </span><span class="kw">assign_metagenes</span>(mix1_corr.basis<span class="fl">.20</span><span class="op">$</span>r, <span class="dt">exclude_name =</span> <span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; no profiles to exlude provided</span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; DONE</span></a>
@@ -320,7 +326,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb21-6" data-line-number="6">scores.mix1.ica<span class="fl">.20</span> &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb21-7" data-line-number="7"><span class="st">  </span><span class="kw">get_scores</span>(mix1_ica<span class="fl">.20</span><span class="op">$</span>log.counts, mix1_ica<span class="fl">.20</span>_<span class="dv">10</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb22"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(scores.mix1.ica<span class="fl">.20</span>,<span class="kw">t</span>(mix1<span class="op">$</span>prop),  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-29-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-30-1.png" /><!-- --></p>
 <p>And we observe that the estimated proportions are correctly estimated.</p>
 </div>
 <div id="in-vitro-mixtures-of-immune-cells" class="section level3">
@@ -1462,12 +1468,12 @@ GSM1570054
 <a class="sourceLine" id="cb29-2" data-line-number="2">GSE64385.ica_scores &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span><span class="kw">get_scores</span>(GSE64385_ica<span class="op">$</span>log.counts, GSE64385_ica_markers_<span class="dv">10</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb30"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(GSE64385.ica_scores[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],cell_prop.clean.scaled,  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-41-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
 <p>And even better accuracy can be obtained if we compute scores on <em>un-logged</em> data, actuall counts.</p>
 <pre class="sourceCode r" id="cb31"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">GSE64385.ica_scores_unlog &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">get_scores</span>((<span class="dv">2</span><span class="op">^</span>GSE64385_ica<span class="op">$</span>log.counts)<span class="op">-</span><span class="dv">1</span>, GSE64385_ica_markers_<span class="dv">10</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb32"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(GSE64385.ica_scores_unlog[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],cell_prop.clean.scaled[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-45-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-46-1.png" /><!-- --></p>
 </div>
 <div id="blood-data-paired-with-facs-estimated-proportions" class="section level3">
 <h3>Blood data paired with FACS estimated proportions</h3>
@@ -1512,7 +1518,7 @@ GSM1570054
 <a class="sourceLine" id="cb38-7" data-line-number="7">                  <span class="dt">size.el.txt =</span> <span class="dv">22</span>,</a>
 <a class="sourceLine" id="cb38-8" data-line-number="8">                  <span class="dt">point.size =</span> <span class="dv">7</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb39"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">GE_SDY420_ica_<span class="fl">39.</span>corr.LM22.p<span class="op">$</span>p</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-56-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-57-1.png" /><!-- --></p>
 <pre class="sourceCode r" id="cb40"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">GE_SDY420_ica_<span class="fl">39.</span>LM22.reciprocal.corr &lt;-</a>
 <a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">  </span><span class="kw">assign_metagenes</span>(GE_SDY420_ica_<span class="fl">39.</span>corr.LM22<span class="op">$</span>r, <span class="dt">exclude_name =</span> <span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb40-3" data-line-number="3"><span class="co">#&gt; no profiles to exlude provided</span></a>
@@ -1874,7 +1880,7 @@ GSM1570054
 <a class="sourceLine" id="cb57-22" data-line-number="22"><span class="co">#&gt; IC6  0.005530295  0.101156377      -0.017695373</span></a></code></pre>
 <p>These correlation matrix can be visualized in many ways. We propose a <em>radar plot</em> to evaluate quickly if there is a good match between metagenes and components. In this representation, we focus on positive correlations that have red color and placed away from the center of the circle (radar). We can see which component is attributed to the highest correlation for each metagene.</p>
 <pre class="sourceCode r" id="cb58"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">radar_plot_corr</span>(corr, <span class="dt">size.el.txt =</span> <span class="dv">10</span>, <span class="dt">point.size =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-78-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-79-1.png" /><!-- --></p>
 <p>The function <code>radar_plot_corr()</code> returns as well the matrix in long format suitable for <code>ggplot2</code> plots in case you want to use a different type of visualization.</p>
 <pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">head</span>(p<span class="op">$</span>df)</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2"><span class="co">#&gt;   component   correlation           metagene</span></a>
@@ -1887,11 +1893,11 @@ GSM1570054
 <p>In order to <em>zoom in</em> into a correlation with a specific metagene, one can use a function <code>lolypop_plot_corr()</code></p>
 <p>Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit unbigous.</p>
 <pre class="sourceCode r" id="cb60"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr<span class="op">$</span>r,<span class="st">&quot;M3_SMOOTH_MUSCLE&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-82-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-83-1.png" /><!-- --></p>
 <p>We can observe that the highest correlation is with IC4 0.44 but IC1: 0.28 is close as well. These two components may represent two diffrent types of functions or cells reated to muscles.</p>
 <p>However, if we look at IMMUNE metagene, we can select one strongly correlated component: IC9, Pearson correlation coefficient equal to 0.73.</p>
 <pre class="sourceCode r" id="cb61"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr<span class="op">$</span>r,<span class="st">&quot;M8_IMMUNE&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-85-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-86-1.png" /><!-- --></p>
 <p>In case we have many profiles, an outomatic extraction of corresponding pairs metagene - component is handy.</p>
 <p>A natural way is consider the component which Pearson correlation coefficient is highest as the one <em>corresponding</em> to a metagene. You can use <code>get_max_correlations()</code> to retreive this information from the correlation matrix.</p>
 <pre class="sourceCode r" id="cb62"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co"># retreive max correlations</span></a>
@@ -2177,13 +2183,13 @@ IC9
 <a class="sourceLine" id="cb66-10" data-line-number="10">                            )</a></code></pre>
 <p>We can illustrate correlations with reference metagenes…</p>
 <pre class="sourceCode r" id="cb67"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">radar_plot_corr</span>(corr_Biton, <span class="dt">size.el.txt =</span> <span class="dv">10</span>, <span class="dt">point.size =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-93-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-94-1.png" /><!-- --></p>
 <p>… and with LM22 immune cell type profiles.</p>
 <pre class="sourceCode r" id="cb68"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">radar_plot_corr</span>(corr_LM22, <span class="dt">size.el.txt =</span> <span class="dv">10</span>, <span class="dt">point.size =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-96-1.png" width="130%" /></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-97-1.png" width="130%" /></p>
 <p>And zoom in the <em>M8_IMMUNE</em> metagene.</p>
 <pre class="sourceCode r" id="cb69"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr_Biton<span class="op">$</span>r,<span class="st">&quot;M8_IMMUNE&quot;</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-99-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-100-1.png" /><!-- --></p>
 <p>As we have several components corresponding to the M8_IMMUNE and a few matches with immune profiles. One can use enrichment test to confirm this results.</p>
 <p>First we run reciprocal assignement so that we can exclude from immune signals the confounders as, for example, cell cycle.</p>
 <pre class="sourceCode r" id="cb70"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"> reciprocal.corr.Biton &lt;-</a>
@@ -4298,7 +4304,7 @@ IC56
 <a class="sourceLine" id="cb92-5" data-line-number="5">    <span class="dt">markers =</span> markers_<span class="dv">10</span></a>
 <a class="sourceLine" id="cb92-6" data-line-number="6">  )</a>
 <a class="sourceLine" id="cb92-7" data-line-number="7">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(basis_<span class="dv">10</span>, <span class="dt">fontsize_row =</span> <span class="dv">8</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-119-1.png" /><!-- --> We can observe how it looks for <code>n = 30</code>(30 specific genes for each cell type - component)</p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-120-1.png" /><!-- --> We can observe how it looks for <code>n = 30</code>(30 specific genes for each cell type - component)</p>
 <pre class="sourceCode r" id="cb93"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">markers_<span class="dv">30</span> &lt;-</a>
 <a class="sourceLine" id="cb93-2" data-line-number="2"><span class="st">  </span><span class="kw">generate_markers</span>(</a>
 <a class="sourceLine" id="cb93-3" data-line-number="3">    <span class="dt">df =</span> BEK_ica_overdecompose,</a>
@@ -4313,7 +4319,7 @@ IC56
 <a class="sourceLine" id="cb94-5" data-line-number="5">    <span class="dt">markers =</span> markers_<span class="dv">30</span></a>
 <a class="sourceLine" id="cb94-6" data-line-number="6">  )</a>
 <a class="sourceLine" id="cb94-7" data-line-number="7">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(basis_<span class="dv">30</span>, <span class="dt">fontsize_row =</span> <span class="dv">6</span>)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-121-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-122-1.png" /><!-- --></p>
 <p>And finally to obtain the aboundance scores, a function <code>get_scores()</code>can be used.</p>
 <p>If you want to use only gene.list</p>
 <pre class="sourceCode r" id="cb95"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">get_scores</span> (BEK_ica_overdecompose<span class="op">$</span>counts, markers_<span class="dv">10</span>, <span class="dt">summary =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
@@ -4345,16 +4351,16 @@ IC56
 <pre class="sourceCode r" id="cb98"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">colnames</span>(weighted.scores) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B-cell&quot;</span>, <span class="st">&quot;Stroma&quot;</span>, <span class="st">&quot;T-cells&quot;</span>, <span class="st">&quot;Myeloid&quot;</span>, <span class="st">&quot;NK&quot;</span>)</a></code></pre>
 <p>Here we present results in a form of a stacked baplot where scores sum up to 1. The scores used for plot should not be used as final scores, there are just more convinient for visualization putposes.</p>
 <pre class="sourceCode r" id="cb99"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">stacked_proportions_plot</span>(<span class="kw">t</span>(weighted.scores))</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-126-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-127-1.png" /><!-- --></p>
 <pre class="sourceCode r" id="cb100"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">library</span>(MCPcounter)</a>
 <a class="sourceLine" id="cb100-2" data-line-number="2"><span class="co">#&gt; Loading required package: curl</span></a>
 <a class="sourceLine" id="cb100-3" data-line-number="3"><span class="co">#&gt; Warning: package &#39;curl&#39; was built under R version 3.4.3</span></a>
 <a class="sourceLine" id="cb100-4" data-line-number="4">MCP.counter.scores &lt;-<span class="st"> </span><span class="kw">MCPcounter.estimate</span>(BEK_ica_overdecompose<span class="op">$</span>counts,<span class="dt">featuresType=</span><span class="st">&quot;HUGO_symbols&quot;</span>)</a>
 <a class="sourceLine" id="cb100-5" data-line-number="5"><span class="kw">stacked_proportions_plot</span>(MCP.counter.scores)</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-127-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-128-1.png" /><!-- --></p>
 <pre class="sourceCode r" id="cb101"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="co">#without enothelial cells and Fibroblasts</span></a>
 <a class="sourceLine" id="cb101-2" data-line-number="2"><span class="kw">stacked_proportions_plot</span>(MCP.counter.scores[<span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="op">-</span><span class="dv">9</span>),])</a></code></pre>
-<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-128-1.png" /><!-- --></p>
+<p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-129-1.png" /><!-- --></p>
 </div>
 </div>
 </div>

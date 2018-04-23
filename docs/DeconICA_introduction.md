@@ -1,7 +1,7 @@
 ---
 title: "Introduction to deconICA"
 author: "Urszula Czerwinska"
-date: "2018-04-22"
+date: "2018-04-23"
 output:
   prettydoc::html_pretty:
     highlight: vignette
@@ -61,6 +61,11 @@ In the case of cell type separation from mix of tumor bulk, supervised technique
 Thefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attept to approach with `deconICA` pipeline.
 
 Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA. 
+
+<div class="figure" style="text-align: center">
+<img src="./figures-ext/methodsBSS.png" alt="**Graphical representation of dimension reduction &amp; BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]" width="650.6667px" height="178.3333px" />
+<p class="caption">**Graphical representation of dimension reduction & BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]</p>
+</div>
 
 ### Independent Components Analysis
 
@@ -205,14 +210,14 @@ We can visualise the mixed expression matrix.
 pheatmap::pheatmap(mix1$expression)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 We can also visualize the *purified gene expression* of each cell.
 
 ```r
 pheatmap::pheatmap(mix1$basis_matrix)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Then we apply ICA (matlab version with stabilisation see vignette:###) and we decompose to 11 components.
 If you don't have file you can find in `data-vignettes` the file `mix1_ica.RData`.
@@ -252,7 +257,7 @@ mix1_corr.basis_p <- radar_plot_corr(mix1_corr.basis, size.el.txt = 10, point.si
 mix1_corr.basis_p$p
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 We automatically assign a component to a cell type.
 
@@ -282,7 +287,7 @@ mix1_ica.10.basis <-
 pheatmap::pheatmap(mix1_ica.10.basis, fontsize_row = 8)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 We compute scores which are by default simple mean value of expression of the top genes in the original gene matrix.
 
@@ -299,7 +304,7 @@ scores_corr_plot(scores.mix1.ica,t(mix1$prop),  method="number",  tl.col = "blac
 
 
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 One important feature of the ICA is that even if we do not know the exact number of components, when we overestimate the number of components, the signals are not altered. Our team proposed a method called MSTD that was developped for cancer transcriptomes to estimate optimal number of components [@Kairov2017]. Here we just slightly overestimate the number of components to 20.
 
@@ -337,7 +342,7 @@ mix1_corr.basis.20_p <- radar_plot_corr(mix1_corr.basis.20,
 mix1_corr.basis.20_p$p
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 ```r
 mix1.assign.20 <- assign_metagenes(mix1_corr.basis.20$r, exclude_name = NULL)
@@ -355,7 +360,7 @@ scores_corr_plot(scores.mix1.ica.20,t(mix1$prop),  method="number",  tl.col = "b
 
 
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 And we observe that the estimated proportions are correctly estimated.
 
@@ -883,7 +888,7 @@ GSE64385.ica_scores <-
 scores_corr_plot(GSE64385.ica_scores[,1:5],cell_prop.clean.scaled,  method="number",  tl.col = "black")
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 And even better accuracy can be obtained if we compute scores on *un-logged* data, actuall counts. 
 
@@ -897,7 +902,7 @@ GSE64385.ica_scores_unlog <-
 scores_corr_plot(GSE64385.ica_scores_unlog[,1:5],cell_prop.clean.scaled[1:5],  method="number",  tl.col = "black")
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 ### Blood data paired with FACS estimated proportions
 
@@ -979,7 +984,7 @@ GE_SDY420_ica_39.corr.LM22.p <-
 GE_SDY420_ica_39.corr.LM22.p$p
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
 
 ```r
 GE_SDY420_ica_39.LM22.reciprocal.corr <-
@@ -1279,7 +1284,7 @@ These correlation matrix can be visualized in many ways. We propose a *radar plo
 ```r
 p <- radar_plot_corr(corr, size.el.txt = 10, point.size = 2)
 ```
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
 
 The function  `radar_plot_corr()` returns as well the matrix in long format suitable for `ggplot2` plots in case you want to use a different type of visualization.
 
@@ -1302,7 +1307,7 @@ Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit unbigo
 lolypop_plot_corr(corr$r,"M3_SMOOTH_MUSCLE")
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
 
 We can observe that the highest correlation is with IC4 0.44 but  IC1: 0.28 is close as well. These two components may represent two diffrent types of functions or cells reated to muscles.
 
@@ -1312,7 +1317,7 @@ However, if we look at IMMUNE metagene, we can select one strongly correlated co
 lolypop_plot_corr(corr$r,"M8_IMMUNE")
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-85-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-86-1.png)<!-- -->
 
 In case we have many profiles, an outomatic extraction of corresponding pairs metagene - component is handy. 
 
@@ -1508,7 +1513,7 @@ We can illustrate correlations with reference metagenes...
 radar_plot_corr(corr_Biton, size.el.txt = 10, point.size = 2)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-93-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-94-1.png)<!-- -->
 
 ... and with LM22 immune cell type profiles.
 
@@ -1516,7 +1521,7 @@ radar_plot_corr(corr_Biton, size.el.txt = 10, point.size = 2)
 radar_plot_corr(corr_LM22, size.el.txt = 10, point.size = 2)
 ```
 
-<img src="DeconICA_introduction_files/figure-html/unnamed-chunk-96-1.png" width="130%" />
+<img src="DeconICA_introduction_files/figure-html/unnamed-chunk-97-1.png" width="130%" />
 
 And zoom in the *M8_IMMUNE* metagene.
 
@@ -1524,7 +1529,7 @@ And zoom in the *M8_IMMUNE* metagene.
 lolypop_plot_corr(corr_Biton$r,"M8_IMMUNE")
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
 
 As we have several components corresponding to the M8_IMMUNE and a few matches with immune profiles. One can use enrichment test to confirm this results.
 
@@ -2630,7 +2635,7 @@ basis_10 <-
 pheatmap::pheatmap(basis_10, fontsize_row = 8)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-119-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-120-1.png)<!-- -->
 We can observe how it looks for `n = 30`(30 specific genes for each cell type - component)
 
 
@@ -2655,7 +2660,7 @@ basis_30 <-
 pheatmap::pheatmap(basis_30, fontsize_row = 6)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-121-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-122-1.png)<!-- -->
 
 And finally to obtain the aboundance scores, a function `get_scores()`can be used.
 
@@ -2710,7 +2715,7 @@ Here we present results in a form of a stacked baplot where scores sum up to 1. 
 stacked_proportions_plot(t(weighted.scores))
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-126-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
 
 ```r
 library(MCPcounter)
@@ -2720,14 +2725,14 @@ MCP.counter.scores <- MCPcounter.estimate(BEK_ica_overdecompose$counts,featuresT
 stacked_proportions_plot(MCP.counter.scores)
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-128-1.png)<!-- -->
 
 ```r
 #without enothelial cells and Fibroblasts
 stacked_proportions_plot(MCP.counter.scores[c(-10,-9),])
 ```
 
-![](DeconICA_introduction_files/figure-html/unnamed-chunk-128-1.png)<!-- -->
+![](DeconICA_introduction_files/figure-html/unnamed-chunk-129-1.png)<!-- -->
 
 ## Simulate Data 
 
