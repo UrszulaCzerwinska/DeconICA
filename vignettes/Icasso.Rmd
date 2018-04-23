@@ -220,6 +220,10 @@ HTMLSourceFolder = `[path_to_repository]\bin\HTML`
 
 In order to run an fastICA decomposition, one can use the GUI interface (see the figure below).
 
+```{r echo = FALSE, fig.align='center', out.height=562.5, out.width=499.5 ,fig.cap = 'Welcome screen of BIODICA with choice od funcitions and interface of fastICA data and parameters input'}
+knitr::include_graphics("./figures-ext/BIODICAsc.png")
+```
+
 It is also possible to run it from command line.
 
 This line will decompose `OVCA.txt` dataset into 20 components

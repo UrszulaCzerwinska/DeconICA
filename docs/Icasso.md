@@ -237,6 +237,11 @@ HTMLSourceFolder = `[path_to_repository]\bin\HTML`
 
 In order to run an fastICA decomposition, one can use the GUI interface (see the figure below).
 
+<div class="figure" style="text-align: center">
+<img src="./figures-ext/BIODICAsc.png" alt="Welcome screen of BIODICA with choice od funcitions and interface of fastICA data and parameters input" width="499.5" height="562.5" />
+<p class="caption">Welcome screen of BIODICA with choice od funcitions and interface of fastICA data and parameters input</p>
+</div>
+
 It is also possible to run it from command line.
 
 This line will decompose `OVCA.txt` dataset into 20 components
