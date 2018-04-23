@@ -199,7 +199,7 @@ res.imp$counts <- X
 
 ### Running fastICA with icasso stabilisation in BIODICA
 
-### What is [BIODICA](https://github.com/LabBandSB/BIODICA) 
+#### What is [BIODICA](https://github.com/LabBandSB/BIODICA) 
 
 [BIODICA](https://github.com/LabBandSB/BIODICA) is a computational pipeline implemented in Java language for
 
@@ -217,6 +217,8 @@ res.imp$counts <- X
 The full [BIODICA](https://github.com/LabBandSB/BIODICA) tutorial can be found [here](https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf).
 
 [BIODICA](https://github.com/LabBandSB/BIODICA) is essentially usefull for genral characterisation of signal in transcriptomes. 
+
+#### Using BIODICA
 
 Here we will focus on basic functions as running fastICA. 
 

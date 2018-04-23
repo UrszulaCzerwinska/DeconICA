@@ -104,7 +104,6 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <li><a href="#running-fastica-with-icasso-stabilisation-from-deconica">Running fastICA with icasso stabilisation from <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a></a></li>
 <li><a href="#running-fastica-with-icasso-stabilisation-directly-in-matlab">Running fastICA with icasso stabilisation directly in MATLAB</a></li>
 <li><a href="#running-fastica-with-icasso-stabilisation-in-biodica">Running fastICA with icasso stabilisation in BIODICA</a></li>
-<li><a href="#what-is-biodica">What is <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a></a></li>
 </ul></li>
 <li><a href="#i-dont-have-matlab-on-my-computer">I don’t have Matlab on my computer</a><ul>
 <li><a href="#running-fastica-with-icasso-stabilisation-in-biodica-docker-image">Running fastICA with icasso stabilisation in <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> docker image</a></li>
@@ -242,9 +241,8 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 </div>
 <div id="running-fastica-with-icasso-stabilisation-in-biodica" class="section level3">
 <h3>Running fastICA with icasso stabilisation in BIODICA</h3>
-</div>
-<div id="what-is-biodica" class="section level3">
-<h3>What is <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a></h3>
+<div id="what-is-biodica" class="section level4">
+<h4>What is <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a></h4>
 <p><a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is a computational pipeline implemented in Java language for</p>
 <ol style="list-style-type: decimal">
 <li>automating deconvolution of large omics datasets with optimization of deconvolution parameters,</li>
@@ -260,6 +258,9 @@ General architecture of the BIODICA data analysis pipeline. Boxes of different c
 </div>
 <p>The full <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> tutorial can be found <a href="https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf">here</a>.</p>
 <p><a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is essentially usefull for genral characterisation of signal in transcriptomes.</p>
+</div>
+<div id="using-biodica" class="section level4">
+<h4>Using BIODICA</h4>
 <p>Here we will focus on basic functions as running fastICA.</p>
 <p><em>Requirements:</em></p>
 <ul>
@@ -284,6 +285,7 @@ Welcome screen of BIODICA with choice od funcitions and interface of fastICA dat
 -outputfolder C:\Datas\BIODICA\work\ 
 -datatable C:\Datas\BIODICA\data\OVCA_TCGA\transcriptome\OVCA.txt -doicamatlab 20</code></pre>
 <p>The input to <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a> is a dataset with genes in line and samples in columns with sample names and gene names, see <a href="https://raw.githubusercontent.com/LabBandSB/BIODICA/master/data/OVCA_TCGA/transcriptome/OVCA.txt">sample dataset</a>. However if data is not in log, you need to put in log first. You should also eliminate the duplicated genes (not compulsory but advised for further interpretation). The data will be row centered by default by <a href="https://github.com/LabBandSB/BIODICA">BIODICA</a>.</p>
+</div>
 </div>
 </div>
 <div id="i-dont-have-matlab-on-my-computer" class="section level2">
