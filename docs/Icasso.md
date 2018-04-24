@@ -1,7 +1,7 @@
 ---
 title: "Running fastICA with icasso stabilisation"
 author: "Urszula Czerwinska"
-date: "2018-04-23"
+date: "2018-04-24"
 output:
   prettydoc::html_pretty:
     highlight: vignette
@@ -227,17 +227,14 @@ Here we will focus on basic functions as running fastICA.
 * *Installed Java ver 1.6 or higher*
 * *At least 8Gb of operating memory* 
 
-The list of required options (paths for configuration of the BIODICA data repository):
-
-MATLABICAFolder = `[path_to_repository]\bin\fastica++
-
-DefaultWorkFolder = `[path_to_work_folder]`
-
-GeneSetFolder = `[path_to_repository]\knowledge\genesets`
-
-HTMLSourceFolder = `[path_to_repository]\bin\HTML`
-
 In order to run an fastICA decomposition, one can use the GUI interface (see the figure below).
+
+You can launch it by typing (or clicking on the file)
+
+
+```console
+java -jar BIODICA_GUI.jar
+```
 
 <div class="figure" style="text-align: center">
 <img src="./figures-ext/BIODICAsc.png" alt="Welcome screen of BIODICA with choice od funcitions and interface of fastICA data and parameters input" width="499.5" height="562.5" />
