@@ -339,7 +339,7 @@ scores_corr_plot <- function(x, y, ...) {
 #' @param dat scores data.frame with cell types in lines and samples in columns
 #'
 #' @return
-#' a stzcked bar plot based on ggplot2
+#' a stacked bar plot based on ggplot2
 #' @export
 #'
 #' @examples

@@ -30,7 +30,7 @@
 #'Example of a cancer dataset
 #'
 #'A a sample 60 randomly selected samples from transcriptome of inflammatory
-#'breast cance (IBC). Data were centred and in tranformed in log2 before sampling
+#'breast cancer (IBC). Data were centred and in transformed in log2 before sampling
 #'
 #'Bekhouche I, Finetti P, Adelaïde J, Ferrari A et al. High-resolution
 #'comparative genomic hybridization of inflammatory breast cancer and
@@ -64,7 +64,7 @@
 #'Decomposition of a transcriptome data
 #'
 #'A dataset overdecomposed (into 100 components). Data were downloaded from GEO,
-#'then \code{\link{run_fastica}} using MATLAB algorithm with stabilisation as
+#'then \code{\link{run_fastica}} using MATLAB algorithm with stabilization as
 #'applied.
 #'
 #'Source:
@@ -73,7 +73,7 @@
 #'identification of candidate genes. PLoS One 2011 Feb 9;6(2):e16950. PMID:
 #'21339811
 #'
-#'@format a list containg \describe{
+#'@format a list contaning \describe{
 #'  \item{A}{A ICA matrix (sample scores)}
 #'  \item{S}{S ICA matrix (gene scores)}
 #'  \item{names}{gene names}

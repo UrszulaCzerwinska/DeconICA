@@ -229,9 +229,9 @@ run_fastica <-
 
 
 
-#' Repriduce process of run_fastica
+#' Reproduce process of run_fastica
 #'
-#' Applies preprocessig of \code{\link{run_fastica}} but instead of running ICA
+#' Applies preprocessing of \code{\link{run_fastica}} but instead of running ICA
 #' it imports matlab output files. It is handy if you run the matlab idenpendly
 #' or if you lost R session data
 #'

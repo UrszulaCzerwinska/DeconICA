@@ -720,7 +720,6 @@ get_matlab_2 = function(
     stopifnot(file.exists(mpath))
     mpath = shQuote(mpath)
     matcmd <- file.path(mpath, matcmd)
-  }
   } else {
     mpath = mpath
     stopifnot(!is.null(mpath))

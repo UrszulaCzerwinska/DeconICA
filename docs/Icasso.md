@@ -1,7 +1,7 @@
 ---
 title: "Running fastICA with icasso stabilisation"
 author: "Urszula Czerwinska"
-date: "2018-04-24"
+date: "2018-04-25"
 output:
   prettydoc::html_pretty:
     highlight: vignette
@@ -11,7 +11,7 @@ output:
     self_contained: no
 editor_options:
   chunk_output_type: inline
-subtitile: Setup your Matlab environmnet
+subtitle: Setup your Matlab environment
 bibliography: vignette1.bib
 ---
 
@@ -21,7 +21,7 @@ bibliography: vignette1.bib
 
 ### What is fastICA?
 
-Independent Components Analysis (ICA) is a Blind Source Separation (BSS) technique that aims to sparate sources maximising non-gaussianity (or minimising mutual information) of sources and therfore defining independent (or the most idependent possible) components. 
+Independent Components Analysis (ICA) is a Blind Source Separation (BSS) technique that aims to separate sources maximizing non-gaussianity (or minimising mutual information) of sources and therefore defining independent (or the most independent possible) components. 
 
 There exist many different implementations of ICA algorithm: Second Order Blind Identification (SOBI), Hyvarinen’s fixed-point algorithm (FastICA), logistic Infomax (Infomax) and Joint Approximation Diagonalization of Eigenmatrices (JADE). 
 
@@ -54,14 +54,14 @@ From [@Himberg2003]:
 > We present an explorative visualization method for investigating the relations between estimates from FastICA. The algorithmic and statistical reliability is investigated by running the algorithm many times with different initial
 values or with differently bootstrapped data sets, respectively. Resulting estimates are compared by visualizing their clustering according to a suitable similarity measure. Reliable estimates correspond to tight clusters, and unreliable ones to points which do not belong to any such cluster 
 
-Icasso procedure can be summarised in a few steps: 
+Icasso procedure can be summarized in a few steps: 
 
 1. applying multiple runs of ICA with different initializations
 2. clustering the resulting components
 3. defining the final result as cluster centroids
 4. estimating the compactness of the clusters
 
-Icasso stabilisation is implemented in MATLAB. Despite our best effort we did not suceed to replicate this procedure in an open source language.
+Icasso stabilisation is implemented in MATLAB. Despite our best effort we did not succeed to replicate this procedure in an open source language.
 
 ### MSTD measure
 
@@ -73,9 +73,9 @@ Most stable transcriptome dimension is a metric introduced in [@Kairov2017].
 
 >  Most Stable Transcriptome Dimension (MSTD) - ranking of independent components based on their stability in multiple ICA computation runs and define a distinguished number of components corresponding to the point of the qualitative change of the stability profile
 
-This measure is not essential for [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) as in the package we follow strategy of *overdecomposition*. However, it is usefull to know the MSTD that as it is described in [@Kairov2017] to characterise the data and estimate the numbers of components needed for *overdecomposition*.
+This measure is not essential for [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) as in the package we follow strategy of *overdecomposition*. However, it is useful to know the MSTD that as it is described in [@Kairov2017] to characterize the data and estimate the numbers of components needed for *overdecomposition*.
 
-Thus, we advise to use the matlab imprementation of fastICA `fastica++` included in [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) in order to enjoy the full functionalities of fastICA, icasso and MSTD. 
+Thus, we advise to use the matlab implementation of fastICA `fastica++` included in [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) in order to enjoy the full functionalities of fastICA, icasso and MSTD. 
 
 ## I have Matlab on my computer
 
@@ -122,7 +122,7 @@ res <-
 
 ### Running fastICA with icasso stabilisation directly in MATLAB
 
-If you want to play with parameters of fastICA or you just prefer to use MATLAB directly, you can use a banch of functions of [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) to assure the smooth import of your results.
+If you want to play with parameters of fastICA or you just prefer to use MATLAB directly, you can use a bunch of functions of [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) to assure the smooth import of your results.
 
 On an example of simulated matrix with 500 samples and 500 genes.
 
@@ -204,10 +204,10 @@ res.imp$counts <- X
 [BIODICA](https://github.com/LabBandSB/BIODICA) is a computational pipeline implemented in Java language for
 
 1. automating deconvolution of large omics datasets with optimization of deconvolution parameters,
-2. helping in interpretation of the results of deconvolution application by automated annotation of the compoentns using the best practices,
+2. helping in interpretation of the results of deconvolution application by automated annotation of the components using the best practices,
 3. comparing the results of deconvolution of independent datasets for distinguishing reproducible signals, universal and specific for a particular disease/data type or subtype.
 
-[BIODICA](https://github.com/LabBandSB/BIODICA) framework focus is much larger than immune cells. It is quite complete user-friendly software whose applications and functions go beyond scope of this work (see follwing figure). 
+[BIODICA](https://github.com/LabBandSB/BIODICA) framework focus is much larger than immune cells. It is quite complete user-friendly software whose applications and functions go beyond scope of this work (see following figure). 
 
 <div class="figure" style="text-align: center">
 <img src="./figures-ext/BIODICA.png" alt="General architecture of the BIODICA data analysis pipeline. Boxes of different colors separates different functional modules of the system. Described functionality corresponds to the BIODICA version 1.0, source: https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf" width="622.6667" height="525.5" />
@@ -216,7 +216,7 @@ res.imp$counts <- X
 
 The full [BIODICA](https://github.com/LabBandSB/BIODICA) tutorial can be found [here](https://github.com/LabBandSB/BIODICA/blob/master/doc/ICA_pipeline_general_description_v0.9.pdf).
 
-[BIODICA](https://github.com/LabBandSB/BIODICA) is essentially usefull for genral characterisation of signal in transcriptomes. 
+[BIODICA](https://github.com/LabBandSB/BIODICA) is essentially useful for general characterization of signal in transcriptomes. 
 
 #### Using BIODICA
 
@@ -280,4 +280,4 @@ Ulykbek Kairov (https://www.researchgate.net/profile/Ulykbek_Kairov)
 
 BIODICA - computational pipeline for **I**ndependent **C**omponent **A**nalysis of **BI**g **O**mics **D**ata. It is a collaboration project between Lab of Bioinformatics and Systems Biology (Center for Life Sciences, Nazarbayev University, Kazakhstan) and Computational Systems Biology of Cancer Lab (Institute Curie, France). Principal Investigators and leading researchers of BIODICA Project: Andrei Zinovyev and Ulykbek Kairov.
 
-## Refrences 
+## References 

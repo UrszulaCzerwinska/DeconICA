@@ -4,7 +4,7 @@
 \name{BEK_ica_overdecompose}
 \alias{BEK_ica_overdecompose}
 \title{Decomposition of a transcriptome data}
-\format{a list containg \describe{
+\format{a list contaning \describe{
  \item{A}{A ICA matrix (sample scores)}
  \item{S}{S ICA matrix (gene scores)}
  \item{names}{gene names}
@@ -20,7 +20,7 @@ BEK_ica_overdecompose
 }
 \description{
 A dataset overdecomposed (into 100 components). Data were downloaded from GEO,
-then \code{\link{run_fastica}} using MATLAB algorithm with stabilisation as
+then \code{\link{run_fastica}} using MATLAB algorithm with stabilization as
 applied.
 }
 \details{

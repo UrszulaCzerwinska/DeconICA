@@ -12,7 +12,7 @@
 
 <meta name="author" content="Urszula Czerwinska" />
 
-<meta name="date" content="2018-04-23" />
+<meta name="date" content="2018-04-25" />
 
 <title>Introduction to deconICA</title>
 
@@ -88,8 +88,9 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Introduction to deconICA</h1>
+<h3 class="subtitle project-tagline">Deconvolution of transcriptome through Immune Component Analysis</h3>
 <h4 class="author project-author">Urszula Czerwinska</h4>
-<h4 class="date project-date">2018-04-23</h4>
+<h4 class="date project-date">2018-04-25</h4>
 </section>
 
 
@@ -122,9 +123,9 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <section class="main-content">
 <p>This is an introduction to the <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> R package.</p>
 <p><strong>DeconICA</strong> stands for <strong>Deconvolution of transcriptome through Immune Component Analysis</strong>.</p>
-<p>The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great exaple of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy.</p>
+<p>The aim of the project is to adapt blind source separation techniques to extract immune-related signals from mixed biological samples. A great example of mixed biological sample is transcriptome measured in heterogenous tissue such as blood or tumor biopsy.</p>
 <p>In this vignette we present short introduction to the blind source spearation techniques, the biological foundation of the problem and finally we walk you through examples on how to use <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a> R package.</p>
-<p>If you are intrested only in practical examples of <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a>, skip directly to <a href="#Tut">Tutorial</a> section.</p>
+<p>If you are interested only in practical examples of <a href="https://github.com/UrszulaCzerwinska/DeconICA"><code>deconICA</code></a>, skip directly to <a href="#Tut">Tutorial</a> section.</p>
 <p>You can access this documentation on the <a href="https://urszulaczerwinska.github.io/DeconICA/">DeconICA website</a>.</p>
 <div id="background" class="section level1">
 <h1>Background</h1>
@@ -137,11 +138,11 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <h2>Application of BSS to biological data</h2>
 <p>Through decomposition of the transcriptome matrix into components (aka factors or sources) we hope to recover underlying biological functions and cell types.</p>
 <p>In tumor biopsies is it expected to find a part of Tumor Microenvironment (TME). TME includes tumor cells, fibroblasts, and a diversity of immune cells. Most studies have focused on individual cell types in model tumor systems, and/or on individual molecules mediating a crosstalk between two cells. Unraveling the complexity, organization, and mutual interactions of TME cellular components represents a major challenge.</p>
-<p>Several methods have been proposed to estimate the mixing proportions of sources in biological mixtures, such as: least squares regression <span class="citation">(Abbas et al. 2009)</span> and more recently, non-negative least squares regression [Qiao2012], quadratic programming [Gong2011] and supported vector regression <span class="citation">(Newman et al. 2015)</span>. Even though <span class="citation">(Vallania et al. 2017)</span> shows that the used algorithm do not impact substantially the results. According to <span class="citation">Vallania et al. (2017)</span>, what matters are the gene signatures used as an input of overmentioned methods.</p>
-<p><strong>BSS methods do not use pre-defined cell-type signatures</strong>. The transcriptomic matrix is decomposed into a certain number of sources and then the sources are interpreted with available knowledge (gnee signatures, cell profiles).</p>
-<p>The main argument of using BSS over supervised decomposition techniques is that the obtained result is <strong>unbiased</strong> by <em>a priori</em> biological hypothesis (however thre are alwyas statistical hypothesis about the nature of data) or knowledge. In addition BSS tachniques allow <strong>discovery</strong> of new biological signatures that can extend our available knowledge.</p>
-<p>In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT <span class="citation">(Newman et al. 2015)</span>, MCP counter <span class="citation">(Becht et al. 2016, <span class="citation">Becht and de Reynies (2016)</span>)</span>, TIMER <span class="citation">(Li et al. 2016)</span> etc. are based on optimised blood signatues. With an evidence brought by single cell data, these signatures are not always characterising immune cells infiltrating tumors <span class="citation">(Schelker et al. 2017)</span>. Some methods, like EPIC <span class="citation">(Racle et al. 2017)</span>, use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incoparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies.</p>
-<p>Thefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attept to approach with <code>deconICA</code> pipeline.</p>
+<p>Several methods have been proposed to estimate the mixing proportions of sources in biological mixtures, such as: least squares regression <span class="citation">(Abbas et al. 2009)</span> and more recently, non-negative least squares regression [Qiao2012], quadratic programming [Gong2011] and supported vector regression <span class="citation">(Newman et al. 2015)</span>. Even though <span class="citation">(Vallania et al. 2017)</span> shows that the used algorithm do not impact substantially the results. According to <span class="citation">Vallania et al. (2017)</span>, what matters are the gene signatures used as an input of aforementioned methods.</p>
+<p><strong>BSS methods do not use pre-defined cell-type signatures</strong>. The transcriptomic matrix is decomposed into a certain number of sources and then the sources are interpreted with available knowledge (gene signatures, cell profiles).</p>
+<p>The main argument of using BSS over supervised decomposition techniques is that the obtained result is <strong>unbiased</strong> by <em>a priori</em> biological hypothesis (however there are always statistical hypothesis about the nature of data) or knowledge. In addition BSS techniques allow <strong>discovery</strong> of new biological signatures that can extend our available knowledge.</p>
+<p>In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT <span class="citation">(Newman et al. 2015)</span>, MCP counter <span class="citation">(Becht et al. 2016, <span class="citation">Becht and de Reynies (2016)</span>)</span>, TIMER <span class="citation">(Li et al. 2016)</span> etc. are based on optimized blood signatures. With an evidence brought by single cell data, these signatures are not always characterizing immune cells infiltrating tumors <span class="citation">(Schelker et al. 2017)</span>. Some methods, like EPIC <span class="citation">(Racle et al. 2017)</span>, use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incomparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies.</p>
+<p>Therefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attempt to approach with <code>deconICA</code> pipeline.</p>
 <p>Here is a short overview of BSS or related algorithms that one can potentially use as an input to <code>deconICA</code>. At its actual state <code>deconICA</code> facilitates starting pipeline with ICA.</p>
 <div class="figure" style="text-align: center">
 <img src="figures-ext/methodsBSS.png" alt="**Graphical representation of dimension reduction &amp; BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]" width="976px" height="267.5px" />
@@ -151,20 +152,20 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 </div>
 <div id="independent-components-analysis" class="section level3">
 <h3>Independent Components Analysis</h3>
-<p>Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction <span class="citation">(Hyvärinen and Oja 2000)</span>. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions <span class="citation">(Hyvärinen and Oja 2000)</span>. There is no contraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.</p>
+<p>Independent Component Analysis (ICA) is a matrix factorization method for data dimension reduction <span class="citation">(Hyvärinen and Oja 2000)</span>. ICA defines a new coordinate system in the multi-dimensional space such that the distributions of the data point projections on the new axes become as mutually independent as possible. To achieve this, the standard approach is maximizing the non-gaussianity of the data point projection distributions <span class="citation">(Hyvärinen and Oja 2000)</span>. There is no constraint imposed on the non-negativity (in contrary to NMF) or orthogonality (in contrast to PCA). In our analysis, the negative projections are interpreted in terms of absolute values and only one side of a component is taken into account.</p>
 <p>A mathematical way to formalize ICA is the set of equations:</p>
 <p>the set of individual source signals <span class="math inline">\(s(t) = (s_{1}(t), ..., s_{n}(t))^T\)</span> is mixed using a matrix <span class="math inline">\(A = [a_{ij}] \in \mathbb{R}^{m \times n}\)</span> to produce a set of mixed signals, <span class="math inline">\(x(t) = (x_{1}(t), ..., x_{m}(t))^T\)</span>, as follows:</p>
 <p><span class="math display">\[x(t) = A \times s(t)\]</span></p>
 <p>The above equation is effectively ‘inverted’ as follows. Blind source separation separates the set of mixed signals <span class="math inline">\(x(t)\)</span>, through the determination of an ‘unmixing’ matrix to <span class="math inline">\(B = [b_{ij}] \in \mathbb{R}^{m \times n}\)</span> ‘recover’ an approximation of the original signals, <span class="math inline">\(y(t) = (y_{1}(t), ..., y_{n}(t))^T\)</span>.</p>
 <p><span class="math display">\[y(t) = B \times x(t)\]</span></p>
 <p>This algorithm uses higher-order moments for matrix approximation, considering all Gaussian signals as noise.</p>
-<p>Most efficient application of ICA is fastICA <span class="citation">(Hyvärinen and Oja 2000)</span>. However, the speed comes with a price, the results of the algoritms are not exact. This is why we recommend use of ICA with stabilization (ICASSO <span class="citation">(Himberg and Hyvärinen 2003)</span>) for reproducible results. More about this is the vignette <a href="Icasso.html">Running fastICA with icasso stabilisation</a>.</p>
+<p>Most efficient application of ICA is fastICA <span class="citation">(Hyvärinen and Oja 2000)</span>. However, the speed comes with a price, the results of the algorithms are not exact. This is why we recommend use of ICA with stabilization (ICASSO <span class="citation">(Himberg and Hyvärinen 2003)</span>) for reproducible results. More about this is the vignette <a href="Icasso.html">Running fastICA with icasso stabilisation</a>.</p>
 <p>For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors.</p>
 <p>Here is a small list of ICA application to biological data:</p>
 <ul>
 <li>Independent component analysis uncovers the landscape of the bladder tumor transcriptome and reveals insights into luminal and basal subtypes <span class="citation">(Biton et al. 2014)</span></li>
 <li>Elucidating the altered transcriptional programs in breast cancer using independent component analysis <span class="citation">(Teschendorff et al. 2007)</span></li>
-<li>Principal Manifolds for Data Visualisation and Dimension Reduction <span class="citation">(Gorban, A.N., Kégl, B., Wunsch, D.C., Zinovyev 2008)</span></li>
+<li>Principal Manifolds for Data Visualization and Dimension Reduction <span class="citation">(Gorban, A.N., Kégl, B., Wunsch, D.C., Zinovyev 2008)</span></li>
 <li>Independent component analysis of microarray data in the study of endometrial cancer <span class="citation">(Saidi et al. 2004)</span></li>
 <li>Blind source separation methods for deconvolution of complex signals in cancer biology <span class="citation">(Zinovyev et al. 2013)</span></li>
 <li>Determining the optimal number of independent components for reproducible transcriptomic data analysis <span class="citation">(Kairov et al. 2017)</span></li>
@@ -182,7 +183,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <p><span class="citation">Gaujoux and Seoighe (2012)</span> proposed a framework of semi-supervised NMF for solving cell and tissue mixtures in his R package <em>CellMix</em> <span class="citation">(Gaujoux and Seoighe 2013)</span>. His work deconvolution was of great inspiration for us and food for thoughts on the advantages and limits of BBS applied for cell type deconvolution.</p>
 <p>Renaud Gaujoux is also an author of NMF R package <span class="citation">(Gaujoux and Seoighe 2010; Gaujoux and Seoighe 2015b; Gaujoux and Seoighe 2015a)</span>.</p>
 <p>Work of Cantini et al. (<span class="citation">(<span class="citeproc-not-found" data-reference-id="Cantini2018"><strong>???</strong></span>)</span>) showed that ICA produces more reproducible results than NMF when applied to tumor transcriptomes.</p>
-<p>However, we can always imagine the cases where NMF factorisation will be judged more adequate than ICA. Our pipeline is adaptable to interpretation of NMF factors without a need for major adjustments. We will be seen extend vignettes to show application of deconICA for interpreatation of NMF components.</p>
+<p>However, we can always imagine the cases where NMF factorisation will be judged more adequate than ICA. Our pipeline is adaptable to interpretation of NMF factors without a need for major adjustments. We will be seen extend vignettes to show application of deconICA for interpretation of NMF components.</p>
 <p>Here is a small list of NMF application to biological data:</p>
 <ul>
 <li>Metagenes and molecular pattern discovery using matrix factorization <span class="citation">(Brunet et al. 2004)</span></li>
@@ -195,8 +196,8 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 </div>
 <div id="convex-hull-methods" class="section level3">
 <h3>Convex hull methods</h3>
-<p>An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the “sources” are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem <span class="citation">(Yang and Michailidis 2015)</span>. The convex hull-based method does not require the independence assumption, nor the uncorrelation assumption which can be interesing in the setup of closely realted cell types. <span class="citation">Wang et al. (2016)</span> apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher <span class="citation">(Newberg et al. 2018)</span> provides an <a href="https://github.com/GeneralElectric/CellDistinguisher">user-friendly R package</a>. However, authors do not provide any method for estimation of number of sources. Additionaly, quantitative weights are provided only for signature genes which number can vary for different sources. They do not apply their algorithm to complex mixtures as tumor transcriptome.</p>
-<p>However, combining convex hull methods and <code>deconICA</code>can possibily lead to a meanigfull interpretation.</p>
+<p>An emerging family of BSS methods are convex geometry (CG)-based methods. Here, the “sources” are found by searching the facets of the convex hull spanned by the mapped observations solving a classical convex optimization problem <span class="citation">(Yang and Michailidis 2015)</span>. The convex hull-based method does not require the independence assumption, nor the non-correlation assumption which can be interesting in the setup of closely related cell types. <span class="citation">Wang et al. (2016)</span> apply their method of convex analysis of mixtures (CAM) to tissue and cell mixtures claiming to provide new signatures. So far the published R-Java package does not allow to extract those signtures and it is not scalable to tumor transcriptomes. Another tool CellDistinguisher <span class="citation">(Newberg et al. 2018)</span> provides an <a href="https://github.com/GeneralElectric/CellDistinguisher">user-friendly R package</a>. However, authors do not provide any method for estimation of number of sources. Additionally, quantitative weights are provided only for signature genes which number can vary for different sources. They do not apply their algorithm to complex mixtures as tumor transcriptome.</p>
+<p>However, combining convex hull methods and <code>deconICA</code>can possibly lead to a meaningful interpretation.</p>
 <p>Here is a small list of convex-hull application to biological data:</p>
 <ul>
 <li>Computational de novo discovery of distinguishing genes for biological processes and cell types in complex tissues [Newberg2018]</li>
@@ -210,9 +211,9 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <h3>Attractor metagenes</h3>
 <p>Another way of generating signatures, that can be run in semi-supervised or unsupervised mode is attractor metagenes method proposed by <span class="citation">Cheng, Ou Yang, and Anastassiou (2013)</span>. Authors describe their rationale as follows:</p>
 <blockquote>
-<p>We can first define a consensus metagene from the average expression levels of all genes in the cluster, and rank all the individual genes in terms of their association (defined numerically by some form of correlation) with that metagene. We can then replace the member genes of the cluster with an equal number of the top-ranked genes. Some of the original genes may naturally remain as members of the cluster, but some may be replaced, as this process will ‘‘attract’’ some other genes that are more strongly correlated with the cluster. We can now define a new metagene defined by the average expression levels of the genes in the newly defined cluster, and re-rank all the individual genes in terms of their association with that new metagene; and so on. It is intuitively reasonable to expect that this iterative process will eventually converge to a cluster that contains precisely the genes that are most associated with the metagene of the same cluster, so that any other individual genes will be less strongly associated with the metagene. We can think of this particular cluster defined by the convergence of this iterative process as an ‘‘attractor,’’ i.e., a module of co-expressed genes to which many other gene sets with close but not identical membership will converge using the same computational methodology.</p>
+<p>We can first define a consensus metagene from the average expression levels of all genes in the cluster, and rank all the individual genes in terms of their association (defined numerically by some form of correlation) with that metagene. We can then replace the member genes of the cluster with an equal number of the top-ranked genes. Some of the original genes may naturally remain as members of the cluster, but some may be replaced, as this process will “attract” some other genes that are more strongly correlated with the cluster. We can now define a new metagene defined by the average expression levels of the genes in the newly defined cluster, and re-rank all the individual genes in terms of their association with that new metagene; and so on. It is intuitively reasonable to expect that this iterative process will eventually converge to a cluster that contains precisely the genes that are most associated with the metagene of the same cluster, so that any other individual genes will be less strongly associated with the metagene. We can think of this particular cluster defined by the convergence of this iterative process as an “attractor” i.e., a module of co-expressed genes to which many other gene sets with close but not identical membership will converge using the same computational methodology.</p>
 </blockquote>
-<p>The produced signatures’ weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproductible signatures among different tumor types. Typically with the essential parmeter <span class="math inline">\(\alpha = 5\)</span>, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tunig <span class="math inline">\(\alpha\)</span> obtain more or less signatures that would be possibly interpretable with <code>deconICA</code>.</p>
+<p>The produced signatures’ weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproducible signatures among different tumor types. Typically with the essential parmeter <span class="math inline">\(\alpha = 5\)</span>, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tuninig <span class="math inline">\(\alpha\)</span> obtain more or less signatures that would be possibly interpretable with <code>deconICA</code>.</p>
 <p>Attractor metagenes R code is available on <a href="https://www.synapse.org/#!Synapse:syn1446295">Synapse portal</a>.</p>
 <p>Literature:</p>
 <ul>
@@ -242,11 +243,11 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <h2>Demonstration of DeconICA package</h2>
 <div id="simulated-data" class="section level3">
 <h3>Simulated data</h3>
-<p>We assed first an ability to estimate bundance of cell types in a synthetic cell mixture. Here we use function <code>simulate_gene_expresssion()</code>inspired by <code>CellMix::rmix</code> function. However, compared to <code>rmix</code> function cell profiles distribution follow user defined distribution (uniform in <code>rmix</code>) set here by default to negative binomial which approaches the biological reality.</p>
-<p>First we create the <em>mix1</em> that is a mix of 10 cell types mixed at random proportions. Obatined matrix has 10000 genes and 130 samples. Each celltype has 20 specific markers with 2-fold difference with respect to other genes.</p>
+<p>At first, we asses an ability to estimate abundance of cell types in a synthetic cell mixture. Here we use function <code>simulate_gene_expresssion()</code>inspired by <code>CellMix::rmix</code> function. However, compared to <code>rmix</code> function cell profiles distribution follow user defined distribution (uniform in <code>rmix</code>) set here by default to negative binomial which approaches the biological reality.</p>
+<p>First we create the <em>mix1</em> that is a mix of 10 cell types mixed at random proportions. Obatained matrix has 10000 genes and 130 samples. Each cell type has 20 specific markers with 2-fold difference with respect to other genes.</p>
 <pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">mix1&lt;-<span class="kw">simulate_gene_expresssion</span>(<span class="dv">10</span>, <span class="dv">10000</span>, <span class="dv">130</span>,<span class="dv">0</span>, <span class="dt">markers=</span><span class="dv">20</span>)</a></code></pre>
-<p>We can visualise the mixed expression matrix.</p>
+<p>We can visualize the mixed expression matrix.</p>
 <pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(mix1<span class="op">$</span>expression)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-8-1.png" /><!-- --> We can also visualize the <em>purified gene expression</em> of each cell.</p>
 <pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(mix1<span class="op">$</span>basis_matrix)</a></code></pre>
@@ -261,7 +262,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">n.comp =</span> <span class="dv">11</span>,</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="dt">R =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">)</a></code></pre>
-<p>Subsequently, we compute correlation between components and the orignal cell profiles.</p>
+<p>Subsequently, we compute correlation between components and the original cell profiles.</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">basis.list &lt;-<span class="st"> </span><span class="kw">make_list</span>(mix1<span class="op">$</span>basis_matrix)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">mix1_corr.basis &lt;-</a>
@@ -279,7 +280,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <p>We use top 10 genes as signatures.</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mix1_ica<span class="fl">.10</span> &lt;-</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">generate_markers</span>(mix1_ica, <span class="dv">10</span>,  <span class="dt">sel.comp =</span> <span class="kw">as.character</span>(mix1.assign[, <span class="dv">2</span>]))</a></code></pre>
-<p>It is possible to viusalize <em>the basis marix</em> as a heatmap</p>
+<p>It is possible to visualize <em>the basis matrix</em> as a heatmap</p>
 <pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">mix1_ica.<span class="fl">10.</span>basis &lt;-</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw">generate_basis</span>(</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="dt">df =</span> mix1_ica,</a>
@@ -291,10 +292,10 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 <p>We compute scores which are by default simple mean value of expression of the top genes in the original gene matrix.</p>
 <pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">scores.mix1.ica &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">get_scores</span>(mix1_ica<span class="op">$</span>log.counts, mix1_ica<span class="fl">.10</span>)</a></code></pre>
-<p>We can see on the correlation plot almost prefect correspondance with the original propotions (<code>mix1$prop</code>)</p>
+<p>We can see on the correlation plot almost prefect correspondence with the original proportions (<code>mix1$prop</code>)</p>
 <pre class="sourceCode r" id="cb17"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(scores.mix1.ica,<span class="kw">t</span>(mix1<span class="op">$</span>prop),  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-22-1.png" /><!-- --></p>
-<p>One important feature of the ICA is that even if we do not know the exact number of components, when we overestimate the number of components, the signals are not altered. Our team proposed a method called MSTD that was developped for cancer transcriptomes to estimate optimal number of components <span class="citation">(Kairov et al. 2017)</span>. Here we just slightly overestimate the number of components to 20.</p>
+<p>One important feature of the ICA is that even if we do not know the exact number of components, when we overestimate the number of components, the signals are not altered. Our team proposed a method called MSTD that was developed for cancer transcriptomes to estimate optimal number of components <span class="citation">(Kairov et al. 2017)</span>. Here we just slightly overestimate the number of components to 20.</p>
 <p>Again you can load the decompostion <code>mix1_ica.20.RData</code> from <code>data-vignettes</code>repository of the package</p>
 <pre class="sourceCode r" id="cb18"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">mix1_ica<span class="fl">.20</span> &lt;-<span class="st"> </span><span class="kw">run_fastica</span> (</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">  mix1<span class="op">$</span>expression,</a>
@@ -331,7 +332,7 @@ code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Infor
 </div>
 <div id="in-vitro-mixtures-of-immune-cells" class="section level3">
 <h3><em>in vitro</em> mixtures of immune cells</h3>
-<p>In this demo we use data published in (<span class="citation">(Becht et al. 2016)</span>)[<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE64385" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE64385</a>] <code>GSE54385</code>that you can dowload yourself directly from GEO using follwoing lines of code.</p>
+<p>In this demo we use data published in (<span class="citation">(Becht et al. 2016)</span>)[<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE64385" class="uri">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE64385</a>] <code>GSE54385</code>that you can download yourself directly from GEO using following lines of code.</p>
 <pre class="sourceCode r" id="cb23"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(Biobase)</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">library</span>(GEOquery)</a>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">library</span>(limma)</a>
@@ -1463,13 +1464,13 @@ GSM1570054
 <a class="sourceLine" id="cb28-7" data-line-number="7">  <span class="dt">n.comp =</span> <span class="dv">6</span>,</a>
 <a class="sourceLine" id="cb28-8" data-line-number="8">  <span class="dt">R =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb28-9" data-line-number="9">)</a></code></pre>
-<p>The components are oriented according to <em>long tail</em> even withouth verifying correlations, once we select the top 10 genes of each component we can generat scores.</p>
+<p>The components are oriented according to <em>long tail</em> even without verifying correlations, once we select the top 10 genes of each component we can generate scores.</p>
 <pre class="sourceCode r" id="cb29"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">GSE64385_ica_markers_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">generate_markers</span>(GSE64385_ica, <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2">GSE64385.ica_scores &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span><span class="kw">get_scores</span>(GSE64385_ica<span class="op">$</span>log.counts, GSE64385_ica_markers_<span class="dv">10</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb30"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(GSE64385.ica_scores[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],cell_prop.clean.scaled,  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
-<p>And even better accuracy can be obtained if we compute scores on <em>un-logged</em> data, actuall counts.</p>
+<p>And even better accuracy can be obtained if we compute scores on <em>un-logged</em> data, actual counts.</p>
 <pre class="sourceCode r" id="cb31"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">GSE64385.ica_scores_unlog &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">get_scores</span>((<span class="dv">2</span><span class="op">^</span>GSE64385_ica<span class="op">$</span>log.counts)<span class="op">-</span><span class="dv">1</span>, GSE64385_ica_markers_<span class="dv">10</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb32"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(GSE64385.ica_scores_unlog[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],cell_prop.clean.scaled[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>],  <span class="dt">method=</span><span class="st">&quot;number&quot;</span>,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
@@ -1741,7 +1742,7 @@ GSM1570054
 <a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co">#&gt; SUB137209 1032.434 1021.3100  454.9859 183.05840 4064.6511</span></a>
 <a class="sourceLine" id="cb46-14" data-line-number="14"><span class="co">#&gt; SUB137220 1351.556  436.3534  594.5121  70.55523 1287.1568</span></a>
 <a class="sourceLine" id="cb46-15" data-line-number="15"><span class="co">#&gt; SUB137224 1490.662  415.4843  438.7275 116.07239  732.3497</span></a></code></pre>
-<p>As we have FACS mesured proprtions we can import them.</p>
+<p>As we have FACS measured proportions we can import them.</p>
 <pre class="sourceCode r" id="cb47"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#import facs estimated proportions</span></a>
 <a class="sourceLine" id="cb47-2" data-line-number="2">FACS_SDY420 &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;../data-raw/xCell_ImmPort/FCS_SDY420.txt&quot;</span>, <span class="dt">row.names=</span><span class="dv">1</span>, <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb48"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">dim</span>(FACS_SDY420)</a>
@@ -1758,11 +1759,11 @@ GSM1570054
 <a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co">#&gt; SUB137209  0.0858          0.2006            0.0114       0.2718</span></a>
 <a class="sourceLine" id="cb51-7" data-line-number="7"><span class="co">#&gt; SUB137220  0.0493          0.1600            0.0089       0.2618</span></a>
 <a class="sourceLine" id="cb51-8" data-line-number="8"><span class="co">#&gt; SUB137224  0.0626          0.1663            0.0136       0.3320</span></a></code></pre>
-<p>And we can confront the aboundance scores.</p>
+<p>And we can confront the abundance scores.</p>
 <pre class="sourceCode r" id="cb52"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">scores_corr_plot</span>(GE_SDY420_ica_<span class="dv">39</span>_scores,FACS_SDY420.fil,  <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre>
 <pre class="sourceCode r" id="cb53"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;./figures-ext/CorrBlood.jpeg&quot;</span>)</a></code></pre>
 <p><img src="figures-ext/CorrBlood.jpeg" width="572" /></p>
-<p>The estimation of aboundance gives remarquable accuracy (Pearson correlation coefficient):</p>
+<p>The estimation of abundance gives remarkable accuracy (Pearson correlation coefficient):</p>
 <ul>
 <li>IC38: B-cells: 0.76</li>
 <li>CD4 T-cells: 0.629</li>
@@ -1805,7 +1806,7 @@ GSM1570054
 <a class="sourceLine" id="cb54-25" data-line-number="25"><span class="co">#&gt;  $ log.counts:&#39;data.frame&#39;:  5000 obs. of  2 variables:</span></a>
 <a class="sourceLine" id="cb54-26" data-line-number="26"><span class="co">#&gt;   ..$ X1: num [1:5000] 0.8349 0.1645 0.885 -0.0892 -0.8865 ...</span></a>
 <a class="sourceLine" id="cb54-27" data-line-number="27"><span class="co">#&gt;   ..$ X2: num [1:5000] 1.425 0.262 1.272 3.462 2.914 ...</span></a></code></pre>
-<p><code>run_fastica</code> runs <code>fastica</code> from <code>fastica</code> package. In this trival example we create sources matrix <code>S</code>and mixing matrix <code>A</code> that we multuply to obtain <code>X</code>. Then we decompose <code>X</code> into <code>n.comp = 2</code>, with row centering (substracting mean from each row) <code>row.center = TRUE</code>. We also checked <code>overdecompose = FALSE</code>, <code>overdecompose = TRUE</code> would ignore number of components we defined with <code>ncomp</code>. It finds its use for more advanced analysis applied to transcriptome [see section <a href="#cases">Demonstration of DeconICA package</a>]. Other parameters were selected as default.</p>
+<p><code>run_fastica</code> runs <code>fastica</code> from <code>fastica</code> package. In this trivial example we create sources matrix <code>S</code>and mixing matrix <code>A</code> that we multiply to obtain <code>X</code>. Then we decompose <code>X</code> into <code>n.comp = 2</code>, with row centering (substracting mean from each row) <code>row.center = TRUE</code>. We also checked <code>overdecompose = FALSE</code>, <code>overdecompose = TRUE</code> would ignore number of components we defined with <code>ncomp</code>. It finds its use for more advanced analysis applied to transcriptome [see section <a href="#cases">Demonstration of DeconICA package</a>]. Other parameters were selected as default.</p>
 <p>Full description of the <code>run_fastica</code> parameters can be found in help <code>?run_fastica</code>.</p>
 <p>The main differences between <code>run_fastica</code> and <code>fastica</code> are:</p>
 <ul>
@@ -1823,10 +1824,10 @@ GSM1570054
 </ul></li>
 <li><code>overdecompose</code> parameter that selects number of composed needed to perform overdecomposition of the input matrix</li>
 </ul>
-<p>Therefore, <code>run_fastica()</code> performs ICA decomposition of the matrix and provides additional features usefull for the downstream analysis. The use of more advanced options will be demonstrated later on in this tutorial. It generates <em>components</em> or <em>sources</em> to which we will refer later on in the tutorial.</p>
+<p>Therefore, <code>run_fastica()</code> performs ICA decomposition of the matrix and provides additional features useful for the downstream analysis. The use of more advanced options will be demonstrated later on in this tutorial. It generates <em>components</em> or <em>sources</em> to which we will refer later on in the tutorial.</p>
 <p>The step naturally following <code>run_fastica()</code> is <code>correlate_metagenes()</code>.</p>
-<p>It is common that after an unsuperivsed decomposition, components should have attributed an interpretation or a meaning or a label. We call this process <em>interpret</em> components or <em>identify</em> sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list.</p>
-<p>An efficient way to in intrpret a component is to use correlation with some known profile or as we call it a <em>metagene</em>. If we dispose of a known weighted list of genes that characterize a biological phenomena or a cell type (a metagene), we can then correlate them with obtained components and verify is some of decomposed sources are close to the known cells/functions.</p>
+<p>It is common that after an unsupervised decomposition, components should have attributed an interpretation or a meaning or a label. We call this process <em>interpret</em> components or <em>identify</em> sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list.</p>
+<p>An efficient way to in interpret a component is to use correlation with some known profile or as we call it a <em>metagene</em>. If we dispose of a known weighted list of genes that characterize a biological phenomena or a cell type (a metagene), we can then correlate them with obtained components and verify is some of decomposed sources are close to the known cells/functions.</p>
 <p>In our <code>deconICA</code> pipeline <code>correlate_metagenes()</code> can be used in order to correlate metagenes (gene lists: knowlege-based or data-driven) with the data-driven components.</p>
 <pre class="sourceCode r" id="cb55"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">data</span>(Example_ds)</a>
 <a class="sourceLine" id="cb55-2" data-line-number="2"><span class="co">#decompose the matrix</span></a>
@@ -1848,13 +1849,13 @@ GSM1570054
 <a class="sourceLine" id="cb55-18" data-line-number="18">                          <span class="dt">gene.names =</span> res_run_ica<span class="op">$</span>names, </a>
 <a class="sourceLine" id="cb55-19" data-line-number="19">                          <span class="dt">metagenes =</span> Biton.list</a>
 <a class="sourceLine" id="cb55-20" data-line-number="20">                           )</a></code></pre>
-<p>In this case we use an example of an extract, of 60 samples, from transcriptomic data from breast cancer <span class="citation">(Bekhouche et al. 2011)</span>. At first, dataset is decomposed into an arbitrary number of 10 components. The <code>correlate_metagenes()</code> correlates the obtained <code>S</code> matrix with <em>Biton et al.</em> metagenes <span class="citation">(Biton et al. 2014)</span>. This set of 11 metagens is data-driven and was derived in the article <span class="citation">Biton et al. (2014)</span> from pan-cancer transcriptome as the reproducible signals, common to many cancer types. Some of the signatures as BCLAPATHWAYS or UROTHELIALDIF (urothelialdifferentiation) were shared amond many datasets, but within bladder cancer. They can bees as a sort of negative control.</p>
+<p>In this case we use an example of an extract, of 60 samples, from transcriptomic data from breast cancer <span class="citation">(Bekhouche et al. 2011)</span>. At first, dataset is decomposed into an arbitrary number of 10 components. The <code>correlate_metagenes()</code> correlates the obtained <code>S</code> matrix with <em>Biton et al.</em> metagenes <span class="citation">(Biton et al. 2014)</span>. This set of 11 metagenes is data-driven and was derived in the article <span class="citation">Biton et al. (2014)</span> from pan-cancer transcriptome as the reproducible signals, common to many cancer types. Some of the signatures as BCLAPATHWAYS or UROTHELIALDIF (urothelialdifferentiation) were shared among many datasets, but within bladder cancer. They can bees as a sort of negative control.</p>
 <p>However, any set weighted signatures with reasonable size can be used as metagenes. Later in this tutorial we use immune cell profiles optimized for cell type deconvolution from <span class="citation">(Newman et al. 2015)</span> <code>LM22.list</code>.</p>
 <p>One can controle a minimal number of genes used for correlation with <code>n.genes.intersect</code> it is set to a magic number in statistics (30) by default.</p>
 <pre class="sourceCode r" id="cb56"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">names</span>(corr)</a>
 <a class="sourceLine" id="cb56-2" data-line-number="2"><span class="co">#&gt; [1] &quot;S.or&quot; &quot;n&quot;    &quot;r&quot;    &quot;P&quot;</span></a></code></pre>
 <p>The <code>correlate_metagenes()</code> returns <code>n</code>, <code>r</code>, <code>P</code> matrices which correspond to <a href="https://www.rdocumentation.org/packages/Hmisc/versions/4.1-0/topics/rcorr"><code>Hmisc::rcorr</code></a> function output, number of genes on which correlation is based, correlation coefficient and p-value.</p>
-<p>The <code>S.or</code> stands for <code>S</code> matrix that is <em>oriented</em>. Why the matrix should be oriented? If you used ICA to decompose gene expression then the positive and negative projections do not have meaning by itself. We developed a methodology orienting data in the direction of the <em>long tail</em> of the distribution. Which means highest absolute values of a component weight should be positive. However, if the distribution doesn’t have <em>tails</em> and is close to gaussian, an alternative, can be orienting components through maximal correlation. If we are confident with our metagenes, we can orient the <code>S</code> matrix so that the maximal correlation is always postive. We demontrate the use of <code>orient.max = FALSE</code> and obtained <code>S.or</code>in <a href="#cases">use cases section</a>. One can decide not to orient the <code>S</code> matrix through selecting <code>orient.long = FALSE</code> and <code>orient.max = FALSE</code>.</p>
+<p>The <code>S.or</code> stands for <code>S</code> matrix that is <em>oriented</em>. Why the matrix should be oriented? If you used ICA to decompose gene expression then the positive and negative projections do not have meaning by itself. We developed a methodology orienting data in the direction of the <em>long tail</em> of the distribution. Which means highest absolute values of a component weight should be positive. However, if the distribution doesn’t have <em>tails</em> and is close to gaussian, an alternative, can be orienting components through maximal correlation. If we are confident with our metagenes, we can orient the <code>S</code> matrix so that the maximal correlation is always positive. We demonstrate the use of <code>orient.max = FALSE</code> and obtained <code>S.or</code>in <a href="#cases">use cases section</a>. One can decide not to orient the <code>S</code> matrix through selecting <code>orient.long = FALSE</code> and <code>orient.max = FALSE</code>.</p>
 <p>If we have a look at <code>r</code> matrix, we see, indeed, it contains correlations between components and provided metagenes.</p>
 <pre class="sourceCode r" id="cb57"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">head</span>(corr<span class="op">$</span>r)</a>
 <a class="sourceLine" id="cb57-2" data-line-number="2"><span class="co">#&gt;     M12_MYOFIBROBLASTS M13_BLCAPATHWAYS  M14_STRESS M2_GC_CONTENT</span></a>
@@ -1891,16 +1892,16 @@ GSM1570054
 <a class="sourceLine" id="cb59-7" data-line-number="7"><span class="co">#&gt; 5       IC5 -1.393165e-05 M12_MYOFIBROBLASTS</span></a>
 <a class="sourceLine" id="cb59-8" data-line-number="8"><span class="co">#&gt; 6       IC6  1.442049e-02 M12_MYOFIBROBLASTS</span></a></code></pre>
 <p>In order to <em>zoom in</em> into a correlation with a specific metagene, one can use a function <code>lolypop_plot_corr()</code></p>
-<p>Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit unbigous.</p>
+<p>Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit ambigous.</p>
 <pre class="sourceCode r" id="cb60"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr<span class="op">$</span>r,<span class="st">&quot;M3_SMOOTH_MUSCLE&quot;</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-83-1.png" /><!-- --></p>
-<p>We can observe that the highest correlation is with IC4 0.44 but IC1: 0.28 is close as well. These two components may represent two diffrent types of functions or cells reated to muscles.</p>
+<p>We can observe that the highest correlation is with IC4 0.44 but IC1: 0.28 is close as well. These two components may represent two different types of functions or cells reated to muscles.</p>
 <p>However, if we look at IMMUNE metagene, we can select one strongly correlated component: IC9, Pearson correlation coefficient equal to 0.73.</p>
 <pre class="sourceCode r" id="cb61"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr<span class="op">$</span>r,<span class="st">&quot;M8_IMMUNE&quot;</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-86-1.png" /><!-- --></p>
-<p>In case we have many profiles, an outomatic extraction of corresponding pairs metagene - component is handy.</p>
-<p>A natural way is consider the component which Pearson correlation coefficient is highest as the one <em>corresponding</em> to a metagene. You can use <code>get_max_correlations()</code> to retreive this information from the correlation matrix.</p>
-<pre class="sourceCode r" id="cb62"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co"># retreive max correlations</span></a>
+<p>In case we have many profiles, an automatic extraction of corresponding pairs metagene - component is handy.</p>
+<p>A natural way is consider the component which Pearson correlation coefficient is highest as the one <em>corresponding</em> to a metagene. You can use <code>get_max_correlations()</code> to retrieve this information from the correlation matrix.</p>
+<pre class="sourceCode r" id="cb62"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co"># retrieve max correlations</span></a>
 <a class="sourceLine" id="cb62-2" data-line-number="2"> max.corr &lt;-<span class="st"> </span><span class="kw">get_max_correlations</span>(corr)</a>
 <a class="sourceLine" id="cb62-3" data-line-number="3"><span class="co"># order</span></a>
 <a class="sourceLine" id="cb62-4" data-line-number="4"> max.corr.ordered &lt;-<span class="st"> </span>max.corr[<span class="kw">order</span>(<span class="op">-</span>max.corr<span class="op">$</span>r),]</a>
@@ -2080,9 +2081,9 @@ IC3
 </tr>
 </tbody>
 </table>
-<p><code>get_max_correlations()</code> provides pearson correlation <code>r</code> column and the p-valye <code>p.val</code> to help decide if the maximal correlation can be used as labelling. One can decide on minimal threshold, or p-value to take a decision.</p>
-<p>Another way to assign maetagene to a component can be trough reciprocal correlations. This method was used in our research articles [<span class="citation">Becht et al. (2016)</span>; RBH_paper]. In brief, given correlations between the set of metagenes <span class="math inline">\(M=\{M_{1},...,M_{m}\}\)</span> and <span class="math inline">\(S\)</span> matrix <span class="math inline">\(S=\{IC_{1},...,IC_{N}\}\)</span>, if <span class="math inline">\(S_{i}=argmax_k(corr(M_{j},S_{k}))\)</span> and <span class="math inline">\(A_{j}=argmax_k (corr(S_{i},M_{k}))\)</span>, then <span class="math inline">\(S_{i}\)</span> and <span class="math inline">\(M_{j}\)</span> are reciprocal. This approach is usefull with assumption that there should be one component corresponding to a metagene and one metagene corresponding to a component.</p>
-<pre class="sourceCode r" id="cb63"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># retreive reciprocal correlations</span></a>
+<p><code>get_max_correlations()</code> provides pearson correlation <code>r</code> column and the p-value <code>p.val</code> to help decide if the maximal correlation can be used as labelling. One can decide on minimal threshold, or p-value to take a decision.</p>
+<p>Another way to assign metagene to a component can be trough reciprocal correlations. This method was used in our research articles [<span class="citation">Becht et al. (2016)</span>; RBH_paper]. In brief, given correlations between the set of metagenes <span class="math inline">\(M=\{M_{1},...,M_{m}\}\)</span> and <span class="math inline">\(S\)</span> matrix <span class="math inline">\(S=\{IC_{1},...,IC_{N}\}\)</span>, if <span class="math inline">\(S_{i}=argmax_k(corr(M_{j},S_{k}))\)</span> and <span class="math inline">\(A_{j}=argmax_k (corr(S_{i},M_{k}))\)</span>, then <span class="math inline">\(S_{i}\)</span> and <span class="math inline">\(M_{j}\)</span> are reciprocal. This approach is useful with assumption that there should be one component corresponding to a metagene and one metagene corresponding to a component.</p>
+<pre class="sourceCode r" id="cb63"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># retrieve reciprocal correlations</span></a>
 <a class="sourceLine" id="cb63-2" data-line-number="2">reciprocal.corr &lt;-<span class="st"> </span><span class="kw">assign_metagenes</span>(corr<span class="op">$</span>r, <span class="dt">exclude_name =</span> <span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb63-3" data-line-number="3"><span class="co">#&gt; no profiles to exlude provided</span></a>
 <a class="sourceLine" id="cb63-4" data-line-number="4"><span class="co">#&gt; DONE</span></a>
@@ -2150,13 +2151,13 @@ IC9
 </tr>
 </tbody>
 </table>
-<p>Here the correspondiing pairs do not follow a speciic order. The six of components find a reciprocal match.</p>
+<p>Here the corresponding pairs do not follow a specific order. The six of components find a reciprocal match.</p>
 <div id="full-pipeline-example" class="section level3">
 <h3>Full pipeline example</h3>
 <div id="decompose-data" class="section level4">
 <h4>Decompose data</h4>
 <p>In order to fully explore a dataset with identification and quantification of immune-related signals we suggest to over decompose the data matrix.</p>
-<p>We recommand to use for this purpose MATLAB implementation of the algorithm (see <a href="Icasso.html">vignette: Running fastICA with icasso stabilisation</a>)</p>
+<p>We recommend to use for this purpose MATLAB implementation of the algorithm (see <a href="Icasso.html">vignette: Running fastICA with icasso stabilisation</a>)</p>
 <p>One can run it like this on BEK complete data (WARNING: requires MATLAB and take a few minutes):</p>
 <pre class="sourceCode r" id="cb64"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">BEK_ica_overdecompose &lt;-<span class="st"> </span><span class="kw">run_fastica</span> (</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">  BEK,</a>
@@ -2191,7 +2192,7 @@ IC9
 <pre class="sourceCode r" id="cb69"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">lolypop_plot_corr</span>(corr_Biton<span class="op">$</span>r,<span class="st">&quot;M8_IMMUNE&quot;</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-100-1.png" /><!-- --></p>
 <p>As we have several components corresponding to the M8_IMMUNE and a few matches with immune profiles. One can use enrichment test to confirm this results.</p>
-<p>First we run reciprocal assignement so that we can exclude from immune signals the confounders as, for example, cell cycle.</p>
+<p>First we run reciprocal assignment so that we can exclude from immune signals the confounders as, for example, cell cycle.</p>
 <pre class="sourceCode r" id="cb70"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"> reciprocal.corr.Biton &lt;-</a>
 <a class="sourceLine" id="cb70-2" data-line-number="2"><span class="st">   </span><span class="kw">assign_metagenes</span>(corr_Biton<span class="op">$</span>r, <span class="dt">exclude_name =</span> <span class="kw">c</span>(<span class="st">&quot;M8_IMMUNE&quot;</span>, <span class="st">&quot;M2_GC_CONTENT&quot;</span>))</a>
 <a class="sourceLine" id="cb70-3" data-line-number="3"><span class="co">#&gt; profiles excluded</span></a>
@@ -2377,7 +2378,7 @@ greater
 </tr>
 </tbody>
 </table>
-<p>If you use ImmgenHUGO list of signatures, <code>cell_voting_immgen()</code>can be used to summarise results.</p>
+<p>If you use ImmgenHUGO list of signatures, <code>cell_voting_immgen()</code>can be used to summarize results.</p>
 <pre class="sourceCode r" id="cb77"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">kable</span>(</a>
 <a class="sourceLine" id="cb77-2" data-line-number="2">  <span class="kw">cell_voting_immgen</span>(enrichment.immune<span class="op">$</span>enrichment)<span class="op">$</span>IC4,</a>
 <a class="sourceLine" id="cb77-3" data-line-number="3">  <span class="st">&quot;html&quot;</span>,</a>
@@ -2606,7 +2607,7 @@ Myeloid.Cells
 </tbody>
 </table>
 <p>This result is not trivial to interpret.</p>
-<p>A different .gmt can be also used to perform the entichment anamysis</p>
+<p>A different .gmt can be also used to perform the enrichment analysis.</p>
 <p>We can import for example signature genes from <em>TIMER</em> <span class="citation">(Li et al. 2016)</span></p>
 <pre class="sourceCode r" id="cb82"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">setwd</span>(<span class="kw">path.package</span>(<span class="st">&quot;deconica&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb82-2" data-line-number="2">TIMER &lt;-</a>
@@ -3922,10 +3923,10 @@ greater
 <li>IC4 is related to B-cells</li>
 <li>IC49 and IC68 are related to Myeloid cells</li>
 <li>IC39 is related to T-cells</li>
-<li>IC28 can be characterised as stroma</li>
+<li>IC28 can be characterized as stroma</li>
 </ul>
 <p>This result can be cross-verified with radar plot and maximal correlations with LM22</p>
-<pre class="sourceCode r" id="cb89"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co">#retreive max correlations</span></a>
+<pre class="sourceCode r" id="cb89"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co">#retrieve max correlations</span></a>
 <a class="sourceLine" id="cb89-2" data-line-number="2"> max.corr &lt;-<span class="st"> </span><span class="kw">get_max_correlations</span>(corr_LM22)</a>
 <a class="sourceLine" id="cb89-3" data-line-number="3"><span class="co"># order</span></a>
 <a class="sourceLine" id="cb89-4" data-line-number="4"> max.corr.ordered &lt;-<span class="st"> </span>max.corr[<span class="kw">order</span>(<span class="op">-</span>max.corr<span class="op">$</span>r),]</a>
@@ -4320,7 +4321,7 @@ IC56
 <a class="sourceLine" id="cb94-6" data-line-number="6">  )</a>
 <a class="sourceLine" id="cb94-7" data-line-number="7">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(basis_<span class="dv">30</span>, <span class="dt">fontsize_row =</span> <span class="dv">6</span>)</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-122-1.png" /><!-- --></p>
-<p>And finally to obtain the aboundance scores, a function <code>get_scores()</code>can be used.</p>
+<p>And finally to obtain the abundance scores, a function <code>get_scores()</code>can be used.</p>
 <p>If you want to use only gene.list</p>
 <pre class="sourceCode r" id="cb95"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">get_scores</span> (BEK_ica_overdecompose<span class="op">$</span>counts, markers_<span class="dv">10</span>, <span class="dt">summary =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb95-2" data-line-number="2"><span class="co">#&gt;                 IC4      IC28      IC39     IC49     IC68</span></a>
@@ -4346,10 +4347,10 @@ IC56
 <a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co">#&gt; GSM585303 1557.1738  41.40888  38.99046  79.37605 201.52527</span></a>
 <a class="sourceLine" id="cb97-8" data-line-number="8"><span class="co">#&gt; GSM585304  176.4919  21.41715  39.03719 123.14515 578.01167</span></a>
 <a class="sourceLine" id="cb97-9" data-line-number="9"><span class="co">#&gt; GSM585305 5195.6869  79.47580 119.84810 346.11541 138.89664</span></a></code></pre>
-<p>These scores are lineary correlated with propotion values of each cell type in samples.</p>
+<p>These scores are linearly correlated with proportion values of each cell type in samples.</p>
 <p>We can rename columns according to labels we attributed</p>
 <pre class="sourceCode r" id="cb98"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">colnames</span>(weighted.scores) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B-cell&quot;</span>, <span class="st">&quot;Stroma&quot;</span>, <span class="st">&quot;T-cells&quot;</span>, <span class="st">&quot;Myeloid&quot;</span>, <span class="st">&quot;NK&quot;</span>)</a></code></pre>
-<p>Here we present results in a form of a stacked baplot where scores sum up to 1. The scores used for plot should not be used as final scores, there are just more convinient for visualization putposes.</p>
+<p>Here we present results in a form of a stacked baplot where scores sum up to 1. The scores used for plot should not be used as final scores, there are just more convinient for visualization purposes.</p>
 <pre class="sourceCode r" id="cb99"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">stacked_proportions_plot</span>(<span class="kw">t</span>(weighted.scores))</a></code></pre>
 <p><img src="DeconICA_introduction_files/figure-html/unnamed-chunk-127-1.png" /><!-- --></p>
 <pre class="sourceCode r" id="cb100"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">library</span>(MCPcounter)</a>

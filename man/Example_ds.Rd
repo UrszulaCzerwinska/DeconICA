@@ -14,7 +14,7 @@ Example_ds
 }
 \description{
 A a sample 60 randomly selected samples from transcriptome of inflammatory
-breast cance (IBC). Data were centred and in tranformed in log2 before sampling
+breast cancer (IBC). Data were centred and in transformed in log2 before sampling
 }
 \details{
 Bekhouche I, Finetti P, Adelaïde J, Ferrari A et al. High-resolution

@@ -4,7 +4,7 @@
 \alias{prepare_data_for_ica}
 \title{Formats data for ICA in MATLAB}
 \usage{
-prepare_data_for_ica(df, names, samples = NULL)
+prepare_data_for_ica(df, names, samples = NULL, isLog = TRUE)
 }
 \arguments{
 \item{df}{numerical data matrix}

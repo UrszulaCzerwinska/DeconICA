@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_fastica.R
 \name{run_fastica_import}
 \alias{run_fastica_import}
-\title{Repriduce process of run_fastica}
+\title{Reproduce process of run_fastica}
 \usage{
 run_fastica_import(X, overdecompose = TRUE, row.center = TRUE,
   with.names = FALSE, gene.names = NULL, n.comp = 100, isLog = TRUE,
@@ -44,7 +44,7 @@ be written, current directory by default}
 an object as \code{\link{run_fastica}}
 }
 \description{
-Applies preprocessig of \code{\link{run_fastica}} but instead of running ICA
+Applies preprocessing of \code{\link{run_fastica}} but instead of running ICA
 it imports matlab output files. It is handy if you run the matlab idenpendly
 or if you lost R session data
 }

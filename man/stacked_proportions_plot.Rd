@@ -10,7 +10,7 @@ stacked_proportions_plot(dat)
 \item{dat}{scores data.frame with cell types in lines and samples in columns}
 }
 \value{
-a stzcked bar plot based on ggplot2
+a stacked bar plot based on ggplot2
 }
 \description{
 Plots scores for all samples as a fraction of one in each samples
