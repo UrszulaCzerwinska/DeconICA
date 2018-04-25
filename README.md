@@ -38,6 +38,6 @@ vignette(topic ="DeconICA_introduction", package="deconica")
 ```r 
 help(package="deconica")
 ```
-* pdf manual (TBA)
+* [pdf manual](https://github.com/UrszulaCzerwinska/DeconICA/tree/master/inst/manual/DeconICA.pdf)
  
 
