@@ -5,8 +5,6 @@
 
 # Output files from R CMD check
 /*.Rcheck/
-# Session Data files
-*.RData
 # Output files from R CMD build
 /*.tar.gz
 # produced vignettes
