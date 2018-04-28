@@ -2,7 +2,7 @@
 
 ## **Deconvolution of transcriptome through Immune Component Analysis**
 <p align="center">
-<img width="210.4688" height="192.1875" src="./figures-ext/deconicalogo.png">
+<img width="210.4688" height="192.1875" src="./docs/figures-ext/deconicalogo.png">
 </p>
 
 AN R PACKAGE FOR IDENTIFYING  IMMUNE-RELATED SIGNALS  IN TRANSCRIPTOME THROUGH DECONVOLUTION OR UNSUPERVISED  SOURCE SEPARATION METHODS
