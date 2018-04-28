@@ -336,6 +336,7 @@ export_for_ICA <-
 #' @param df numerical data matrix
 #' @param names gene names character vector
 #' @param samples if not provided column names will be used
+#' @param isLog are data in log? if FALSE data will be transformed to log2(x+1)
 #'
 #' @return
 #' \item{\code{df.scaled}}{scaled data without duplicates}

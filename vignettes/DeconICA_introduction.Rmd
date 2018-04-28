@@ -25,7 +25,11 @@ knitr::opts_chunk$set(
 ```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 library(kableExtra)
 ```
-
+<div style= "float:left;position: relative; top: -3px; left: -2px;">
+```{r echo=FALSE, out.height='128.125', out.width='140.3125'}
+knitr::include_graphics("../docs/figures-ext/deconicalogo.png")
+```
+</div>
 This is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. 
 
 **DeconICA** stands for **Deconvolution of transcriptome through Immune Component Analysis**. 
@@ -48,7 +52,7 @@ A known example of BSS is a **cocktail party problem**, there is a group of peop
 
 ## Application of BSS to biological data
 
-Through decomposition of the transcriptome matrix into components (aka factors or sources) we hope to recover underlying biological functions and cell types. 
+Through decomposition of the transcriptome matrix into components (aka factors or sources) we hope to recover underlying biological functions and cell types.
 
 In tumor biopsies is it expected to find a part of Tumor Microenvironment (TME). TME includes tumor cells, fibroblasts, and a diversity of immune cells. Most studies have
 focused on individual cell types in model tumor systems, and/or on individual molecules
@@ -63,11 +67,11 @@ regression [@Newman2015]. Even though [@Vallania2017] shows that the used algori
 
 The main argument of using BSS over supervised decomposition techniques is that the obtained result is **unbiased** by *a priori* biological hypothesis (however there are always statistical hypothesis about the nature of data) or knowledge. In addition BSS techniques allow **discovery** of new biological signatures that can extend our available knowledge.
 
-In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT [@Newman2015], MCP counter [@Becht2016, @MCPcounter], TIMER [@Li2016] etc. are based on optimized blood signatures. With an evidence brought by single cell data, these signatures are not always characterizing immune cells infiltrating tumors [@Schelker2017]. Some methods, like EPIC [@Racle2017], use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incomparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies. 
+In the case of cell type separation from mix of tumor bulk, supervised techniques as CIBERSORT [@Newman2015], MCP counter [@Becht2016, @MCPcounter], TIMER [@Li2016] etc. are based on optimized blood signatures. With an evidence brought by single cell data, these signatures are not always characterizing immune cells infiltrating tumors [@Schelker2017]. Some methods, like EPIC [@Racle2017], use single-cell based signatures. However, today, the single cell based signatures are limited to few cancer subtypes and often based on small number of patients, incomparable with the heterogeneity that is hidden in the bulk transcriptome cohort studies.
 
 Therefore, obtaining informative cell-type signature of immune cells infiltrating tumor biopsy samples at high thoughput remains an open question that we attempt to approach with `deconICA` pipeline.
 
-Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA. 
+Here is a short overview of BSS or related algorithms that one can potentially use as an input to `deconICA`. At its actual state `deconICA` facilitates starting pipeline with ICA.
 
 ```{r echo = FALSE, fig.align='center', fig.cap='**Graphical representation of dimension reduction & BSS methods.** PCA, ICA, NMF inspired by figures of Andrei Zinovyev, Convex hull: CC BY [@Wang2016]', out.width='650.6667px', out.height='178.3333px'}
 knitr::include_graphics("./figures-ext/methodsBSS.png")
@@ -88,13 +92,13 @@ of mixed signals $x(t)$, through the determination of an 'unmixing' matrix  to $
 'recover' an approximation of the original signals, $y(t) = (y_{1}(t), ...,  y_{n}(t))^T$.
 
  \[y(t) = B \times x(t)\]
- 
+
 This algorithm uses higher-order moments for matrix approximation, considering all Gaussian
 signals as noise.
 
-Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algorithms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running fastICA with icasso stabilisation](Icasso.Rmd). 
+Most efficient application of ICA is fastICA [@Hyvarinen2000]. However, the speed comes with a price, the results of the algorithms are not exact. This is why we recommend use of ICA with stabilization (ICASSO [@Himberg2003]) for reproducible results. More about this is the vignette [Running fastICA with icasso stabilisation](Icasso.Rmd).
 
-For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors. 
+For applications in molecular biology, Independent Component Analysis (ICA) models gene expression data as an action of a set of statistically independent hidden factors.
 
 Here is a small list of ICA application to biological data:
 
@@ -122,9 +126,9 @@ There are many types of NMF, that differ in implementation, ways the error terms
 
 @CellMix1 proposed a framework of semi-supervised NMF for solving cell and tissue mixtures in his R package *CellMix* [@CellMix3]. His work deconvolution was of great inspiration for us and food for thoughts on the advantages and limits of BBS applied for cell type deconvolution.
 
-Renaud Gaujoux is also an author of NMF R package [@NMF1; @NMF2; @NMF3]. 
+Renaud Gaujoux is also an author of NMF R package [@NMF1; @NMF2; @NMF3].
 
-Work of Cantini et al. (@Cantini2018) showed that ICA produces more reproducible results than NMF when applied to tumor transcriptomes. 
+Work of Cantini et al. (@Cantini2018) showed that ICA produces more reproducible results than NMF when applied to tumor transcriptomes.
 
 However, we can always imagine the cases where NMF factorisation will be judged more adequate than ICA. Our pipeline is adaptable to interpretation of NMF factors without a need for major adjustments. We will be seen extend vignettes to show application of deconICA for interpretation of NMF components.
 
@@ -157,7 +161,7 @@ Another way of generating signatures, that can be run in semi-supervised or unsu
 
 >We can first define a consensus metagene from the average expression levels of all genes in the cluster, and rank all the individual genes in terms of their association (defined numerically by some form of correlation) with that metagene. We can then replace the member genes of the cluster with an equal number of the top-ranked genes. Some of the original genes may naturally remain as members of the cluster, but some may be replaced, as this process will "attract" some other genes that are more strongly correlated with the cluster. We can now define a new metagene defined by the average expression levels of the genes in the newly defined cluster, and re-rank all the individual genes in terms of their association with that new metagene; and so on. It is intuitively reasonable to expect that this iterative process will eventually converge to a cluster that contains precisely the genes that are most associated with the metagene of the same cluster, so that any other individual genes will be less strongly associated with the metagene. We can think of this particular cluster defined by the convergence of this iterative process as an "attractor" i.e., a module of co-expressed genes to which many other gene sets with close but not identical membership will converge using the same computational methodology.
 
-The produced signatures' weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproducible signatures among different tumor types. Typically with the essential parmeter $\alpha = 5$, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tuninig $\alpha$ obtain more or less signatures that would be possibly interpretable with `deconICA`. 
+The produced signatures' weights are non-negative. In the original paper, the generation of tumor signatures leads to three reproducible signatures among different tumor types. Typically with the essential parmeter $\alpha = 5$, they discovered typically approximately 50 to 150 resulting attractors. Although, it is possible by tuninig $\alpha$ obtain more or less signatures that would be possibly interpretable with `deconICA`.
 
 Attractor metagenes R code is available on [Synapse portal](https://www.synapse.org/#!Synapse:syn1446295).
 
@@ -175,7 +179,7 @@ You can install `deconICA` from GitHub with:
 #install.packages("devtools")
 devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE)
 ```
-or 
+or
 ```{r, eval = FALSE, echo = TRUE}
 install.packages("githubinstall")
 githubinstall::githubinstall("DeconICA", build_vignettes = TRUE)
@@ -237,7 +241,7 @@ Subsequently, we compute correlation between components and the original cell pr
 basis.list <- make_list(mix1$basis_matrix)
 
 mix1_corr.basis <-
-  correlate_metagenes (mix1_ica$S, mix1_ica$names, 
+  correlate_metagenes (mix1_ica$S, mix1_ica$names,
                        metagenes = basis.list,
                        orient.long = TRUE,
                        orient.max = FALSE)
@@ -260,7 +264,7 @@ We use top 10 genes as signatures.
 mix1_ica.10 <-
   generate_markers(mix1_ica, 10,  sel.comp = as.character(mix1.assign[, 2]))
 ```
-It is possible to visualize *the basis matrix* as a heatmap 
+It is possible to visualize *the basis matrix* as a heatmap
 ```{r}
 mix1_ica.10.basis <-
   generate_basis(
@@ -275,7 +279,7 @@ pheatmap::pheatmap(mix1_ica.10.basis, fontsize_row = 8)
 
 We compute scores which are by default simple mean value of expression of the top genes in the original gene matrix.
 ```{r}
-scores.mix1.ica <- 
+scores.mix1.ica <-
   get_scores(mix1_ica$log.counts, mix1_ica.10)
 ```
 We can see on the correlation plot almost prefect correspondence with the original proportions (`mix1$prop`)
@@ -301,7 +305,7 @@ corrplot::corrplot(
 
 One important feature of the ICA is that even if we do not know the exact number of components, when we overestimate the number of components, the signals are not altered. Our team proposed a method called MSTD that was developed for cancer transcriptomes to estimate optimal number of components [@Kairov2017]. Here we just slightly overestimate the number of components to 20.
 
-Again you can load the decompostion `mix1_ica.20.RData` from `data-vignettes`repository of the package 
+Again you can load the decompostion `mix1_ica.20.RData` from `data-vignettes`repository of the package
 ```{r, eval=FALSE}
 mix1_ica.20 <- run_fastica (
   mix1$expression,
@@ -338,7 +342,7 @@ mix1_corr.basis.20_p$p
 mix1.assign.20 <- assign_metagenes(mix1_corr.basis.20$r, exclude_name = NULL)
 mix1_ica.20$S <- mix1_corr.basis.20$S.max
 mix1_ica.20_10 <- generate_markers(mix1_ica.20, 10,  sel.comp = as.character(mix1.assign.20[,2]),  orient.long = FALSE)
-scores.mix1.ica.20 <- 
+scores.mix1.ica.20 <-
   get_scores(mix1_ica.20$log.counts, mix1_ica.20_10)
 ```
 ```{r eval= FALSE}
@@ -378,7 +382,7 @@ GSE64385 <- getGEO("GSE64385", GSEMatrix =TRUE, AnnotGPL=TRUE)[[1]]
 ```
 Or you can load `GSE64385.RData` from `data-vignettes` repo.
 
-This dataset contains 5 immune cell types sorted from 3 healthy donors' peripheral bloods and mixed at different proportions. 
+This dataset contains 5 immune cell types sorted from 3 healthy donors' peripheral bloods and mixed at different proportions.
 ```{r echo=FALSE}
 load(paste0(path.package("deconica", quiet = TRUE),"/data-vignettes/GSE64385.RData"))
 ```
@@ -429,7 +433,7 @@ load(paste0(path.package("deconica", quiet = TRUE),"/data-vignettes/GSE64385_ica
 The components are oriented according to *long tail* even without verifying correlations, once we select the top 10 genes of each component we can generate scores.
 ```{r}
 GSE64385_ica_markers_10 <- generate_markers(GSE64385_ica, 10)
-GSE64385.ica_scores <- 
+GSE64385.ica_scores <-
   get_scores(GSE64385_ica$log.counts, GSE64385_ica_markers_10)
 ```
 ```{r eval= FALSE}
@@ -449,10 +453,10 @@ corrplot::corrplot(
     )
 ```
 
-And even better accuracy can be obtained if we compute scores on *un-logged* data, actual counts. 
+And even better accuracy can be obtained if we compute scores on *un-logged* data, actual counts.
 
 ```{r}
-GSE64385.ica_scores_unlog <- 
+GSE64385.ica_scores_unlog <-
   get_scores((2^GSE64385_ica$log.counts)-1, GSE64385_ica_markers_10)
 ```
 ```{r eval = FALSE}
@@ -620,7 +624,7 @@ knitr::include_graphics("./figures-ext/CorrBlood.jpeg")
 
 The estimation of abundance gives remarkable accuracy (Pearson correlation coefficient):
 
-* IC38: B-cells: 0.76 
+* IC38: B-cells: 0.76
 * CD4 T-cells: 0.629
 * CD8 T-cells: 0.63
 * NK: 0.43
@@ -645,31 +649,31 @@ X <- data.frame(S %*% A)
 res <- run_fastica(X = X, row.center = TRUE, n.comp = 2, overdecompose = FALSE)
 str(res)
 ```
-`run_fastica` runs `fastica` from `fastica` package. In this trivial example we create sources matrix `S`and mixing matrix `A` that we multiply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome (see section [Demonstration of DeconICA package]()). Other parameters were selected as default. 
+`run_fastica` runs `fastica` from `fastica` package. In this trivial example we create sources matrix `S`and mixing matrix `A` that we multiply to obtain `X`. Then we decompose `X` into `n.comp = 2`, with row centering (substracting mean from each row) `row.center = TRUE`. We also checked `overdecompose = FALSE`, `overdecompose = TRUE` would ignore number of components we defined with `ncomp`. It finds its use for more advanced analysis applied to transcriptome (see section [Demonstration of DeconICA package]()). Other parameters were selected as default.
 
-Full description of the `run_fastica` parameters can be found in help `?run_fastica`. 
+Full description of the `run_fastica` parameters can be found in help `?run_fastica`.
 
 The main differences between `run_fastica` and `fastica` are:
 
 * if column names are provided with the matrix, duplicated names are removed and entries with higher variance are kept
-* it transforms data into log2 if data are in row counts 
+* it transforms data into log2 if data are in row counts
 * it runs a PCA before ICA to denoise the matrix
 * it allows running matlab version fastica with *icasso* stabilisation if matlab software is installed on your machine (more about this point in [vignette: Running fastICA with icasso stabilisation](Icasso.Rmd))
-* it returns in a `list` 
+* it returns in a `list`
   + input `data.frame` without duplicated entries and before log transformation: `log.counts`
   + `names` row names vector
   + `samples`sample names vector
   + `A`, `S`, `K` and `W` matrices (see `?run_fastica` for details) if run in `R=TRUE`
   + `A` and `S` matrices if run with `R=FALSE`
 * `overdecompose` parameter that selects number of composed needed to perform overdecomposition of the input matrix
-  
+
 Therefore, `run_fastica()` performs ICA decomposition of the matrix and provides additional features usefull for the downstream analysis. The use of more advanced options will be demonstrated later on in this tutorial. It generates *components* or *sources* to which we will refer later on in the tutorial.
-  
+
 The step naturally following `run_fastica()` is `correlate_metagenes()`.
 
-It is common that after an unsupervised decomposition, components should have attributed an interpretation or a  meaning or a label. We call this process *interpret* components or *identify* sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list. 
+It is common that after an unsupervised decomposition, components should have attributed an interpretation or a  meaning or a label. We call this process *interpret* components or *identify* sources. A domain knowledge is necessary to interpret components. In the case of transcriptomic data, components can be seen as weighted gene list.
 
-An efficient way to in interpret a component is to use correlation with some known profile or as we call it a *metagene*. If we dispose of a known weighted list of genes that characterize a biological phenomena or a cell type (a metagene), we can then correlate them with obtained components and verify is some of decomposed sources are close to the known cells/functions. 
+An efficient way to in interpret a component is to use correlation with some known profile or as we call it a *metagene*. If we dispose of a known weighted list of genes that characterize a biological phenomena or a cell type (a metagene), we can then correlate them with obtained components and verify is some of decomposed sources are close to the known cells/functions.
 
 In our `deconICA` pipeline `correlate_metagenes()` can be used in order to correlate metagenes (gene lists: knowlege-based or data-driven) with the data-driven components.
 
@@ -686,7 +690,7 @@ res_run_ica <- run_fastica (
 
 #correlate with Biton et al. metagenes
 corr <- correlate_metagenes(S = res_run_ica$S,
-                          gene.names = res_run_ica$names, 
+                          gene.names = res_run_ica$names,
                           metagenes = Biton.list
                            )
 ```
@@ -701,7 +705,7 @@ names(corr)
 ```
 The `correlate_metagenes()` returns `n`, `r`, `P` matrices which correspond to [`Hmisc::rcorr`](https://www.rdocumentation.org/packages/Hmisc/versions/4.1-0/topics/rcorr) function output, number of genes on which correlation is based, correlation coefficient and p-value.
 
-The `S.or` stands for `S` matrix that is *oriented*. Why the matrix should be oriented? If you used ICA to decompose gene expression then the positive and negative projections do not have meaning by itself. We developed a methodology orienting data in the direction of the *long tail* of the distribution. Which means highest absolute values of a component weight should be positive. 
+The `S.or` stands for `S` matrix that is *oriented*. Why the matrix should be oriented? If you used ICA to decompose gene expression then the positive and negative projections do not have meaning by itself. We developed a methodology orienting data in the direction of the *long tail* of the distribution. Which means highest absolute values of a component weight should be positive.
 However, if the distribution doesn't have *tails* and is close to gaussian, an alternative, can be orienting components through maximal correlation. If we are confident with our metagenes, we can orient the `S` matrix so that the maximal correlation is always positive. We demonstrate the use of `orient.max = FALSE` and obtained `S.or`in [use cases section](#cases). One can decide not to orient the `S` matrix through selecting `orient.long = FALSE` and `orient.max = FALSE`.
 
 If we have a look at `r` matrix, we see, indeed, it contains correlations between components and provided metagenes.
@@ -709,7 +713,7 @@ If we have a look at `r` matrix, we see, indeed, it contains correlations betwee
 head(corr$r)
 ```
 
-These correlation matrix can be visualized in many ways. We propose a *radar plot* to evaluate quickly if there is a good match between metagenes and components. In this representation, we focus on positive correlations that have red color and placed away from the center of the circle (radar). We can see which component is attributed to the highest correlation for each metagene. 
+These correlation matrix can be visualized in many ways. We propose a *radar plot* to evaluate quickly if there is a good match between metagenes and components. In this representation, we focus on positive correlations that have red color and placed away from the center of the circle (radar). We can see which component is attributed to the highest correlation for each metagene.
 
 ```{r}
 p <- radar_plot_corr(corr, size.el.txt = 10, point.size = 2)
@@ -724,7 +728,7 @@ The function  `radar_plot_corr()` returns as well the matrix in long format suit
 head(p$df)
 ```
 In order to *zoom in* into a correlation with a specific metagene, one can use a function `lolypop_plot_corr()`
-  
+
 Here we can visualize for example SMOOTH_MUSCLE metagene that seems a bit ambigous.
 ```{r eval = FALSE}
 lolypop_plot_corr(corr$r,"M3_SMOOTH_MUSCLE")
@@ -750,10 +754,10 @@ p2 <- lolypop_plot_corr(corr$r,"M8_IMMUNE")
 p2
 ```
 
-In case we have many profiles, an automatic extraction of corresponding pairs metagene - component is handy. 
+In case we have many profiles, an automatic extraction of corresponding pairs metagene - component is handy.
 
 A natural way is consider the component which Pearson correlation coefficient is highest as the one *corresponding* to a metagene.
-You can use `get_max_correlations()` to retrieve this information from the correlation matrix. 
+You can use `get_max_correlations()` to retrieve this information from the correlation matrix.
 ```{r}
 # retrieve max correlations
  max.corr <- get_max_correlations(corr)
@@ -780,11 +784,11 @@ Here the corresponding pairs do not follow a specific order. The six of componen
 
 #### Decompose data
 
-In order to fully explore a dataset with identification and quantification of immune-related signals we suggest to over decompose the data matrix. 
+In order to fully explore a dataset with identification and quantification of immune-related signals we suggest to over decompose the data matrix.
 
 We recommend to use for this purpose MATLAB implementation of the algorithm (see [vignette: Running fastICA with icasso stabilisation](Icasso.Rmd))
 
-One can run it like this on BEK complete data (WARNING: requires MATLAB and take a few minutes): 
+One can run it like this on BEK complete data (WARNING: requires MATLAB and take a few minutes):
 ```{r eval = FALSE}
 BEK_ica_overdecompose <- run_fastica (
   BEK,
@@ -978,7 +982,7 @@ kable(enrichment.immune$enrichment$IC68, "html", row.names = FALSE, caption = "I
 Based on this results we can suppose that:
 
 * IC4 is related to B-cells
-* IC49 and IC68 are related to Myeloid cells 
+* IC49 and IC68 are related to Myeloid cells
 * IC39 is related to T-cells
 * IC28 can be characterized as stroma
 
@@ -1001,7 +1005,7 @@ Indeed from correlation with LM22 we learn that
 * IC49 to M2 Macrophages, Monocytes and Neutrophils
 * IC68 to NK
 
-#### Estimate abundance 
+#### Estimate abundance
 
 Once we identified components related to the immune cells, we can use them to extract  *specific* markers, best number of markers usually vary from 10 to 30
 
@@ -1017,7 +1021,7 @@ markers_10 <-
 ```{r}
 markers_10
 ```
-                 
+
 ```{r fig.height=8}
 basis_10 <-
   generate_basis(
@@ -1051,11 +1055,11 @@ pheatmap::pheatmap(basis_30, fontsize_row = 6)
 
 And finally to obtain the abundance scores, a function `get_scores()`can be used.
 
-If you want to use only gene.list 
+If you want to use only gene.list
 ```{r}
 head(get_scores (BEK_ica_overdecompose$counts, markers_10, summary = "mean", na.rm = TRUE))
 ```
-If you want to compute weighted mean (using ICA weights), 
+If you want to compute weighted mean (using ICA weights),
 first transform to a list of  data frames:
 ```{r}
 weighted.list_10 <- generate_markers(

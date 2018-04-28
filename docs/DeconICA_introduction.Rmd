@@ -7,7 +7,7 @@ output:
     highlight: vignette
     theme: cayman
     toc: yes
-    keep_md: true
+    keep_md: true       
     self_contained: no
 editor_options:
   chunk_output_type: inline
@@ -24,8 +24,13 @@ knitr::opts_chunk$set(
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 library(kableExtra)
+library(deconica)
 ```
-
+<div style= "float:left;position: relative; top: -3px; left: -2px;">
+```{r echo=FALSE, out.height='192.1875', out.width='210.4688'}
+knitr::include_graphics("./figures-ext/deconicalogo.png")
+```
+</div>
 This is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. 
 
 **DeconICA** stands for **Deconvolution of transcriptome through Immune Component Analysis**. 
@@ -477,7 +482,7 @@ corrplot::corrplot(
 Here we will use `SDY420` dataset from [Immport](http://www.immport.org/immport-open/public/home/home) database that @Aran2017 kindly shared with us. They contain PBMC  expression data of 104 healthy patients and paired FACS proportion estimation.
 ```{r echo = FALSE}
 #import expression data
-GE_SDY420 <- read.delim("../inst/data-raw/xCell_ImmPort/GE_SDY420.txt", row.names=1, stringsAsFactors=FALSE)
+GE_SDY420 <- read.delim(paste0(path.package("deconica", quiet = TRUE),"/data-raw/xCell_ImmPort/GE_SDY420.txt"), row.names=1, stringsAsFactors=FALSE)
 ```
 ```{r eval = FALSE}
 #import expression data
@@ -589,7 +594,7 @@ As we have FACS measured proportions we can import them.
 
 ```{r echo = FALSE}
 #import facs estimated proportions
-FACS_SDY420 <- read.delim("/Users/ulala/Documents/CURIE/R_code/DeconICA/inst/data-raw/xCell_ImmPort/FCS_SDY420.txt", row.names=1, stringsAsFactors=FALSE)
+FACS_SDY420 <-  read.delim(paste0(path.package("deconica", quiet = TRUE),"/data-raw/xCell_ImmPort/FCS_SDY420.txt"), row.names=1, stringsAsFactors=FALSE)
 ```
 ```{r eval = FALSE}
 #import facs estimated proportions
@@ -674,6 +679,7 @@ An efficient way to in interpret a component is to use correlation with some kno
 In our `deconICA` pipeline `correlate_metagenes()` can be used in order to correlate metagenes (gene lists: knowlege-based or data-driven) with the data-driven components.
 
 ```{r}
+library(deconica)
 data(Example_ds)
 #decompose the matrix
 set.seed(123)
@@ -786,6 +792,7 @@ We recommend to use for this purpose MATLAB implementation of the algorithm (see
 
 One can run it like this on BEK complete data (WARNING: requires MATLAB and take a few minutes): 
 ```{r eval = FALSE}
+library(deconica)
 BEK_ica_overdecompose <- run_fastica (
   BEK,
   isLog = FALSE,
