@@ -1,7 +1,7 @@
 ---
 title: "Running fastICA with icasso stabilisation"
 author: "Urszula Czerwinska"
-date: "2018-04-25"
+date: "2018-04-28"
 output:
   prettydoc::html_pretty:
     highlight: vignette
