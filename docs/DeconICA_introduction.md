@@ -1,7 +1,7 @@
 ---
 title: "Introduction to deconICA"
 author: "Urszula Czerwinska"
-date: "2018-04-28"
+date: "2018-05-03"
 output:
   prettydoc::html_pretty:
     highlight: vignette
@@ -996,21 +996,51 @@ GE_SDY420_ica_39.LM22.reciprocal.corr <-
 ```
 
 ```r
-knitr::kable(GE_SDY420_ica_39.LM22.reciprocal.corr, row.names = FALSE)
+kable(GE_SDY420_ica_39.LM22.reciprocal.corr, "html", row.names = FALSE)
 ```
 
-
-
-profile                        component 
------------------------------  ----------
-B.cells.naive                  IC38      
-T.cells.CD4.naive              IC22      
-T.cells.CD4.memory.activated   IC20      
-NK.cells.resting               IC13      
-Monocytes                      IC21      
-Macrophages.M0                 IC33      
-Macrophages.M1                 IC26      
-Mast.cells.activated           IC6       
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> profile </th>
+   <th style="text-align:left;"> component </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> B.cells.naive </td>
+   <td style="text-align:left;"> IC38 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.naive </td>
+   <td style="text-align:left;"> IC22 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.memory.activated </td>
+   <td style="text-align:left;"> IC20 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NK.cells.resting </td>
+   <td style="text-align:left;"> IC13 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Monocytes </td>
+   <td style="text-align:left;"> IC21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M0 </td>
+   <td style="text-align:left;"> IC33 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M1 </td>
+   <td style="text-align:left;"> IC26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mast.cells.activated </td>
+   <td style="text-align:left;"> IC6 </td>
+  </tr>
+</tbody>
+</table>
 
 
 
@@ -1019,35 +1049,153 @@ GE_SDY420_ica_39.LM22.max.corr <- get_max_correlations(GE_SDY420_ica_39.corr.LM2
 ```
 
 ```r
-knitr::kable(GE_SDY420_ica_39.LM22.max.corr, row.names = FALSE)
+kable(GE_SDY420_ica_39.LM22.max.corr, "html", row.names = FALSE)
 ```
 
-
-
-TYPE                           IC              r       p.val
------------------------------  -----  ----------  ----------
-B.cells.naive                  IC38    0.5965356   0.0000000
-B.cells.memory                 IC38    0.5892516   0.0000000
-Plasma.cells                   IC38    0.3934263   0.0000000
-T.cells.CD8                    IC13    0.4378895   0.0000000
-T.cells.CD4.naive              IC22    0.4459369   0.0000000
-T.cells.CD4.memory.resting     IC22    0.4117528   0.0000000
-T.cells.CD4.memory.activated   IC20    0.2510106   0.0000035
-T.cells.follicular.helper      IC22    0.4280154   0.0000000
-T.cells.regulatory..Tregs.     IC22    0.4187166   0.0000000
-T.cells.gamma.delta            IC13    0.5383511   0.0000000
-NK.cells.resting               IC13    0.5429902   0.0000000
-NK.cells.activated             IC29    0.4101813   0.0000000
-Monocytes                      IC21    0.4123837   0.0000000
-Macrophages.M0                 IC33    0.4538960   0.0000000
-Macrophages.M1                 IC26    0.5301073   0.0000000
-Macrophages.M2                 IC35    0.2675745   0.0000007
-Dendritic.cells.resting        IC35    0.2671913   0.0000008
-Dendritic.cells.activated      IC26    0.3215513   0.0000000
-Mast.cells.resting             IC17    0.0898357   0.1017364
-Mast.cells.activated           IC6     0.2701451   0.0000006
-Eosinophils                    IC17    0.1723216   0.0015973
-Neutrophils                    IC21    0.3548045   0.0000000
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> TYPE </th>
+   <th style="text-align:left;"> IC </th>
+   <th style="text-align:right;"> r </th>
+   <th style="text-align:right;"> p.val </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> B.cells.naive </td>
+   <td style="text-align:left;"> IC38 </td>
+   <td style="text-align:right;"> 0.5965356 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B.cells.memory </td>
+   <td style="text-align:left;"> IC38 </td>
+   <td style="text-align:right;"> 0.5892516 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Plasma.cells </td>
+   <td style="text-align:left;"> IC38 </td>
+   <td style="text-align:right;"> 0.3934263 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD8 </td>
+   <td style="text-align:left;"> IC13 </td>
+   <td style="text-align:right;"> 0.4378895 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.naive </td>
+   <td style="text-align:left;"> IC22 </td>
+   <td style="text-align:right;"> 0.4459369 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.memory.resting </td>
+   <td style="text-align:left;"> IC22 </td>
+   <td style="text-align:right;"> 0.4117528 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.CD4.memory.activated </td>
+   <td style="text-align:left;"> IC20 </td>
+   <td style="text-align:right;"> 0.2510106 </td>
+   <td style="text-align:right;"> 0.0000035 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.follicular.helper </td>
+   <td style="text-align:left;"> IC22 </td>
+   <td style="text-align:right;"> 0.4280154 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.regulatory..Tregs. </td>
+   <td style="text-align:left;"> IC22 </td>
+   <td style="text-align:right;"> 0.4187166 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> T.cells.gamma.delta </td>
+   <td style="text-align:left;"> IC13 </td>
+   <td style="text-align:right;"> 0.5383511 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NK.cells.resting </td>
+   <td style="text-align:left;"> IC13 </td>
+   <td style="text-align:right;"> 0.5429902 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NK.cells.activated </td>
+   <td style="text-align:left;"> IC29 </td>
+   <td style="text-align:right;"> 0.4101813 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Monocytes </td>
+   <td style="text-align:left;"> IC21 </td>
+   <td style="text-align:right;"> 0.4123837 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M0 </td>
+   <td style="text-align:left;"> IC33 </td>
+   <td style="text-align:right;"> 0.4538960 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M1 </td>
+   <td style="text-align:left;"> IC26 </td>
+   <td style="text-align:right;"> 0.5301073 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Macrophages.M2 </td>
+   <td style="text-align:left;"> IC35 </td>
+   <td style="text-align:right;"> 0.2675745 </td>
+   <td style="text-align:right;"> 0.0000007 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Dendritic.cells.resting </td>
+   <td style="text-align:left;"> IC35 </td>
+   <td style="text-align:right;"> 0.2671913 </td>
+   <td style="text-align:right;"> 0.0000008 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Dendritic.cells.activated </td>
+   <td style="text-align:left;"> IC26 </td>
+   <td style="text-align:right;"> 0.3215513 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mast.cells.resting </td>
+   <td style="text-align:left;"> IC17 </td>
+   <td style="text-align:right;"> 0.0898357 </td>
+   <td style="text-align:right;"> 0.1017364 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mast.cells.activated </td>
+   <td style="text-align:left;"> IC6 </td>
+   <td style="text-align:right;"> 0.2701451 </td>
+   <td style="text-align:right;"> 0.0000006 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Eosinophils </td>
+   <td style="text-align:left;"> IC17 </td>
+   <td style="text-align:right;"> 0.1723216 </td>
+   <td style="text-align:right;"> 0.0015973 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Neutrophils </td>
+   <td style="text-align:left;"> IC21 </td>
+   <td style="text-align:right;"> 0.3548045 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+</tbody>
+</table>
 
 Both reciprocal and maximal correlations indicate a set of components that can be labelled as immune cells. Let's verify if we can use them to estimate proportions of those cell types.
 

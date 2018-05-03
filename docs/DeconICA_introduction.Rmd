@@ -555,7 +555,7 @@ GE_SDY420_ica_39.LM22.reciprocal.corr <-
   assign_metagenes(GE_SDY420_ica_39.corr.LM22$r, exclude_name = NULL)
 ```
 ```{r}
-knitr::kable(GE_SDY420_ica_39.LM22.reciprocal.corr, row.names = FALSE)
+kable(GE_SDY420_ica_39.LM22.reciprocal.corr, "html", row.names = FALSE)
 ```
 
 
@@ -563,7 +563,7 @@ knitr::kable(GE_SDY420_ica_39.LM22.reciprocal.corr, row.names = FALSE)
 GE_SDY420_ica_39.LM22.max.corr <- get_max_correlations(GE_SDY420_ica_39.corr.LM22)
 ```
 ```{r}
-knitr::kable(GE_SDY420_ica_39.LM22.max.corr, row.names = FALSE)
+kable(GE_SDY420_ica_39.LM22.max.corr, "html", row.names = FALSE)
 ```
 
 Both reciprocal and maximal correlations indicate a set of components that can be labelled as immune cells. Let's verify if we can use them to estimate proportions of those cell types.
