@@ -232,7 +232,7 @@ mix1_ica <- run_fastica (
 )
 ```
 ```{r echo=FALSE}
-load(paste0(path.package("deconica", quiet = TRUE),"/data-vignettes/mix1_ica.RData"))
+load(paste0(path.package("deconica", quiet = TRUE),"/data-vignettes/mix1_ICA.RData"))
 ```
 
 Subsequently, we compute correlation between components and the original cell profiles.
