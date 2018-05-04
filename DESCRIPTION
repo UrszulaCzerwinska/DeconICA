@@ -44,3 +44,4 @@ Suggests:
     limma
 biocViews: 
 VignetteBuilder: knitr
+Remotes: ebecht/MCPcounter
