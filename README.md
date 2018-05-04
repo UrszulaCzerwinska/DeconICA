@@ -1,5 +1,9 @@
 # DeconICA
 
+**Github Status :** 
+
+[![Build Status](https://travis-ci.org/UrszulaCzerwinska/DeconICA.svg)](https://travis-ci.org/UrszulaCzerwinska/DeconICA)
+
 ## **Deconvolution of transcriptome through Immune Component Analysis**
 <p align="center">
 <img width="210.4688" height="192.1875" src="./docs/figures-ext/deconicalogo.png">
@@ -12,15 +16,7 @@ You can install `deconICA` from GitHub with:
 
 ```r
 #install.packages("devtools")
-devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE)
-```
-
-or
-
-```r
-#install.packages("githubinstall")
-githubinstall::githubinstall("DeconICA", 
-build_vignettes = TRUE)
+devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 It should be available shortly on [CRAN](https://cran.r-project.org/web/packages/deconica/index.html)

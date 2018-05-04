@@ -12,6 +12,8 @@ prepare_data_for_ica(df, names, samples = NULL, isLog = TRUE)
 \item{names}{gene names character vector}
 
 \item{samples}{if not provided column names will be used}
+
+\item{isLog}{are data in log? if FALSE data will be transformed to log2(x+1)}
 }
 \value{
 \item{\code{df.scaled}}{scaled data without duplicates}

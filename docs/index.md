@@ -12,15 +12,7 @@ You can install `deconICA` from GitHub with:
 
 ```r
 #install.packages("devtools")
-devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE)
-```
-
-or
-
-```r
-#install.packages("githubinstall")
-githubinstall::githubinstall("DeconICA", 
-build_vignettes = TRUE)
+devtools::install_github("UrszulaCzerwinska/DeconICA", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 It should be available shortly on [CRAN](https://cran.r-project.org/web/packages/deconica/index.html)
