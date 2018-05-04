@@ -6,7 +6,9 @@ cache: packages
 r: bioc-devel
 sudo: false
 warnings_are_errors: true
-
+build_script:
+  - travis-tool.sh install_github ebecht/MCPcounter
+  
 #check args (ignore vignettes)
 env:
   global:
@@ -16,5 +18,3 @@ env:
     - R_CHECK_TESTS="TRUE"
     - _R_CHECK_TIMINGS_="0"
 
-build_script:
-  - travis-tool.sh install_github ebecht/MCPcounter
