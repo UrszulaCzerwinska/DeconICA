@@ -38,6 +38,9 @@ Suggests:
     png (>= 0.1.7),
     grDevices (>= 3.4.1),
     NMF (>= 0.20.6),
-    MCPcounter
+    MCPcounter,
+    Biobase,
+    GEOquery,
+    limma
 biocViews: 
 VignetteBuilder: knitr
