@@ -27,7 +27,7 @@ library(kableExtra)
 ```
 <div style= "float:left;position: relative; top: -3px; left: -2px;">
 ```{r echo=FALSE, out.height='128.125', out.width='140.3125'}
-knitr::include_graphics("../docs/figures-ext/deconicalogo.png")
+knitr::include_graphics("./figures-ext/deconicalogo.png")
 ```
 </div>
 This is an introduction to the [`deconICA`](https://github.com/UrszulaCzerwinska/DeconICA) R package. 
