@@ -7,7 +7,6 @@ r: bioc-devel
 sudo: false
 warnings_are_errors: true
 build_script:
-  - travis-tool.sh install_github ebecht/MCPcounter
   - travis-tool.sh install_deps
 
 
