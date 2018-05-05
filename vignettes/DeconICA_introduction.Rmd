@@ -1088,6 +1088,11 @@ stacked_proportions_plot(t(weighted.scores))
 ```
 
 We can compare our result with a result obtained by MCP counter [@Brecht2016, @MCPcounter]
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+if("MCPcounter" %in% rownames(installed.packages()) == FALSE) {
+  devtools::install_github("ebecht/MCPcounter",ref="master", subdir="Source")
+}
+```
 
 ```{r  fig.width=10}
 library(MCPcounter)
