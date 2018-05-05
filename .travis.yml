@@ -8,7 +8,9 @@ sudo: false
 warnings_are_errors: true
 build_script:
   - travis-tool.sh install_github ebecht/MCPcounter
-  
+  - travis-tool.sh install_deps
+
+
 #check args (ignore vignettes)
 env:
   global:
