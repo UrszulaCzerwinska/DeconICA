@@ -5,7 +5,6 @@ sudo: false
 cache: packages
 r: bioc-devel
 sudo: false
-warnings_are_errors: true
 build_script:
   - travis-tool.sh install_deps
 
@@ -13,6 +12,7 @@ build_script:
 #check args (ignore vignettes)
 env:
   global:
+    - _R_CHECK_FORCE_SUGGESTS_="FALSE"
     - R_BUILD_ARGS="--no-build-vignettes --no-manual --no-resave-data"
     - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings"
     - R_CHECK_TIME="TRUE"
