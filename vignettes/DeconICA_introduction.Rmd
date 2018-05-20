@@ -257,7 +257,7 @@ mix1_corr.basis_p$p
 
 We automatically assign a component to a cell type.
 ```{r}
-mix1.assign <- assign_metagenes(mix1_corr.basis$r, exclude_name = NULL)
+mix1.assign <- assign_metagenes(mix1_corr.basis, exclude_name = NULL)
 ```
 We use top 10 genes as signatures.
 ```{r}
@@ -339,7 +339,7 @@ mix1_corr.basis.20_p <- radar_plot_corr(mix1_corr.basis.20,
 mix1_corr.basis.20_p$p
 ```
 ```{r}
-mix1.assign.20 <- assign_metagenes(mix1_corr.basis.20$r, exclude_name = NULL)
+mix1.assign.20 <- assign_metagenes(mix1_corr.basis.20, exclude_name = NULL)
 mix1_ica.20$S <- mix1_corr.basis.20$S.max
 mix1_ica.20_10 <- generate_markers(mix1_ica.20, 10,  sel.comp = as.character(mix1.assign.20[,2]),  orient.long = FALSE)
 scores.mix1.ica.20 <-
@@ -551,7 +551,7 @@ GE_SDY420_ica_39.corr.LM22.p$p
 ```
 ```{r}
 GE_SDY420_ica_39.LM22.reciprocal.corr <-
-  assign_metagenes(GE_SDY420_ica_39.corr.LM22$r, exclude_name = NULL)
+  assign_metagenes(GE_SDY420_ica_39.corr.LM22, exclude_name = NULL)
 ```
 ```{r}
 knitr::kable(GE_SDY420_ica_39.LM22.reciprocal.corr, row.names = FALSE)
@@ -773,7 +773,7 @@ Another way to assign metagene to a component can be trough reciprocal correlati
 
 ```{r}
 # retrieve reciprocal correlations
-reciprocal.corr <- assign_metagenes(corr$r, exclude_name = NULL)
+reciprocal.corr <- assign_metagenes(corr, exclude_name = NULL)
 # show table
 kable(reciprocal.corr, "html",row.names = FALSE)
 ```
@@ -861,7 +861,7 @@ First we run reciprocal assignment so that we can exclude from immune signals th
 
 ```{r}
  reciprocal.corr.Biton <-
-   assign_metagenes(corr_Biton$r, exclude_name = c("M8_IMMUNE", "M2_GC_CONTENT"))
+   assign_metagenes(corr_Biton, exclude_name = c("M8_IMMUNE", "M2_GC_CONTENT"))
  immune.components <-
    identify_immune_comp(corr_Biton$r[, "M8_IMMUNE"], reciprocal.corr.Biton$component)
 ```

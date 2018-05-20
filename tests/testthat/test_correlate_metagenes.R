@@ -32,11 +32,10 @@ test_that("output assign_metagenes", {
     deconica::correlate_metagenes(
       S = res_run_ica$S,
       gene.names = res_run_ica$names)
-  test <- deconica::assign_metagenes(res_corr_matagenes$r)
-  expect_equal(ncol(test), 2L)
+  test <- deconica::assign_metagenes(res_corr_matagenes)
+  expect_equal(ncol(test), 4L)
   expect_true(is.factor(test[[2]]))
   expect_true(is.factor(test[[1]]))
-  expect_equal(names(test), c("profile","component"))
 })
 
 test_that("output identify_immune_comp", {
@@ -47,10 +46,10 @@ test_that("output identify_immune_comp", {
     deconica::correlate_metagenes(
       S = res_run_ica$S,
       gene.names = res_run_ica$names)
-  res_assign_metagenes <- deconica::assign_metagenes(res_corr_matagenes$r)
+  res_assign_metagenes <- deconica::assign_metagenes(res_corr_matagenes)
   test <- deconica::identify_immune_comp(res_corr_matagenes$r[,"M8_IMMUNE"], res_assign_metagenes[[2]])
   test2 <- deconica::identify_immune_comp(res_corr_matagenes$r[,"M8_IMMUNE"], "")
-  expect_equal(length(test), 0)
+  expect_equal(length(test), 1)
   expect_equal(length(test2), 1)
   expect_equal(typeof(test2), typeof(test))
 })

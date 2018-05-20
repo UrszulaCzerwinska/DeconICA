@@ -31,7 +31,7 @@ corr <- correlate_metagenes(
    S = res_run_ica$S,
    gene.names = res_run_ica$names)
 
-assign <- assign_metagenes(corr$r)
+assign <- assign_metagenes(corr)
 immune_c<- identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 
 enrichment <- gene_enrichment_test(

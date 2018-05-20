@@ -84,3 +84,16 @@
 #'@source \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23720}
 #'
 "BEK_ica_overdecompose"
+
+#'CAF signatures from brest cancer
+#'
+#'Signatures of 4 subtypes of CAF
+#'
+#'Tchou J, Kossenkov AV, Chang L, Satija C et al. Human breast cancer associated fibroblasts exhibit subtype specific gene expression profiles. BMC Med Genomics 2012 Sep 6;5:39. PMID: 22954256
+#'
+#'@format list of 4 data.frames
+#'
+#'@source
+#'  \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37614}
+#'
+"CAF.list"

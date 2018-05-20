@@ -4,10 +4,10 @@
 \alias{assign_metagenes}
 \title{Assign components to a metagene through mutual reciprocity}
 \usage{
-assign_metagenes(r, exclude_name = "M8_IMMUNE")
+assign_metagenes(corr, exclude_name = "M8_IMMUNE")
 }
 \arguments{
-\item{r}{the correlation matrix, \code{r} matrix, can be generated from
+\item{corr}{the correlation matrix, with at least \code{r} matrix and \code{p} matrix, can be generated from
 \code{\link{correlate_metagenes}} function}
 
 \item{exclude_name}{name of the components (present in \code{r}) to
@@ -41,7 +41,7 @@ corr <- correlate_metagenes(
    S = res_run_ica$S,
    gene.names = res_run_ica$names)
 
-assign_metagenes(corr$r)
+assign_metagenes(corr)
 
 
 }

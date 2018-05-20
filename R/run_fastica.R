@@ -351,6 +351,8 @@ run_fastica_import <-
     } else {
       X.ica <- NULL
     }
+    X.ica$A <- data.frame(X.ica$A)
+    X.ica$S < data.frame (X.ica$S)
     colnames(X.ica$A) <- samples
     row.names(X.ica$A) <- paste0("IC", 1:nrow(X.ica$A))
     colnames(X.ica$S) <- paste0("IC", 1:ncol(X.ica$S))

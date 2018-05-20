@@ -132,7 +132,7 @@ correlate_metagenes <-
 #' \eqn{S} components matrix \eqn{S = {IC1,...,ICN}}, if
 #' \deqn{Si = argmaxi(corr(Aj,S))} and \deqn{A_j = argmax_j(corr(S_i,A))}
 #'
-#' @param r the correlation matrix, \code{r} matrix, can be generated from
+#' @param corr the correlation matrix, with at least \code{r} matrix and \code{p} matrix, can be generated from
 #' \code{\link{correlate_metagenes}} function
 #' @param exclude_name name of the components (present in \code{r}) to
 #'   be excluded from this analysis (for example immune), by default "M8_IMMUNE"
@@ -157,16 +157,12 @@ correlate_metagenes <-
 #'    S = res_run_ica$S,
 #'    gene.names = res_run_ica$names)
 #'
-#'assign_metagenes(corr$r)
+#'assign_metagenes(corr)
 #'
 #'
-assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
-  r <- data.frame(r)
-  if (!is.null(exclude_name)) {
-    r <- r[, -c(match(exclude_name, colnames(r)))]
-    message("profiles excluded")
-  } else
-    message("no profiles to exlude provided")
+assign_metagenes <- function(corr, exclude_name = "M8_IMMUNE") {
+  r <- data.frame(corr$r)
+  p <- data.frame(corr$P)
   col.as <- apply(r, 2, function(ic)
     which(ic == max(ic)))
   row.as <- apply(r, 1, function(meta)
@@ -176,11 +172,19 @@ assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
     for (j in 1:length(row.as))
       if (col.as[i] == j &
           row.as[j] == i)
-        l[[i]] <- c(names(col.as)[i], names(row.as)[j])
+        l[[i]] <- c(names(col.as)[i], names(row.as)[j], r[names(row.as)[j],names(col.as)[i]], p[names(row.as)[j],names(col.as)[i]])
+
   # creating data frame
   df <-
     data.frame(profile = unlist(sapply(l, "[[", 1)),
-               component = unlist(sapply(l, "[[", 2)))
+               component = unlist(sapply(l, "[[", 2)),
+               corr = unlist(sapply(l, "[[", 3)),
+               p.val = unlist(sapply(l, "[[", 4)))
+  if (!is.null(exclude_name)) {
+    df <- df[!(df$profile %in%  exclude_name),]
+    message("profiles excluded")
+  } else
+    message("no profiles to exlude provided")
   message("DONE")
   return(df)
 }
@@ -212,7 +216,7 @@ assign_metagenes <- function(r, exclude_name = "M8_IMMUNE") {
 #'    S = res_run_ica$S,
 #'    gene.names = res_run_ica$names)
 #'
-#'assign <- assign_metagenes(corr$r)
+#'assign <- assign_metagenes(corr)
 #'
 #'identify_immune_comp(corr$r[,"M8_IMMUNE"], assign[, "component"], threshold = 0.1)
 identify_immune_comp <- function(x, l, threshold = 0.1) {
