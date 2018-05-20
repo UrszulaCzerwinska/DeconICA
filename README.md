@@ -5,6 +5,7 @@
 <!--- [![Build Status](https://travis-ci.org/UrszulaCzerwinska/DeconICA.svg)](https://travis-ci.org/UrszulaCzerwinska/DeconICA)-->
 
 **Cite with the doi**
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1250070.svg)](https://doi.org/10.5281/zenodo.1250070)
 
 ## **Deconvolution of transcriptome through Immune Component Analysis**
