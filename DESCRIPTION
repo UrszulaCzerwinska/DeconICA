@@ -1,7 +1,7 @@
 Package: deconica
 Type: Package
 Title: Deconvolution of transcriptome through Immune Component Analysis
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Urszula", "Czerwinska", role = c("aut", "cre"),
 		     email = "urszula.czerwinska@cri-paris.org")
 Maintainer: The package maintainer <urszula.czerwinska@cri-paris.org>

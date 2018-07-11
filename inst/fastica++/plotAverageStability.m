@@ -53,7 +53,6 @@ for i=3:size(ls,1)
     end
 end
 
-
 fullFileName2 = fullfile(folder, '/avg_stability.plot.txt');
 
 
