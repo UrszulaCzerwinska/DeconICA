@@ -53,7 +53,7 @@ radar_plot_corr <-
     new.packages <-
       package[!(package %in% utils::installed.packages()[, "Package"])]
     if (length(new.packages))
-      utils::install.packages(new.packages)
+      utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
     rows <- ceiling(sqrt(ncol(df$r)))
     if (is.null(ax.size)) {
@@ -143,7 +143,7 @@ plot_dist_test <- function(df, plot.type = c("line", "density")) {
   new.packages <-
     package[!(package %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    utils::install.packages(new.packages)
+    utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
   value <-  component <-  rank <- NULL
   names(df) <- c("rank", "component", "value")
@@ -222,7 +222,7 @@ lolypop_plot_corr <-
     new.packages <-
       package[!(package %in% utils::installed.packages()[, "Package"])]
     if (length(new.packages))
-      utils::install.packages(new.packages)
+      utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
     vec <- r[, col, drop = FALSE]
     r.1 <- data.frame(component = row.names(vec), corr = vec)
@@ -305,7 +305,7 @@ scores_corr_plot <- function(x, y, ...) {
   new.packages <-
     package[!(package %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    utils::install.packages(new.packages)
+    utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
   m <- merge(x, y, by = "row.names")
   row.names(m) <- m[, 1]
@@ -353,7 +353,7 @@ stacked_proportions_plot <- function(dat) {
   new.packages <-
     packages[!(packages %in% utils::installed.packages()[, "Package"])]
   if (length(new.packages))
-    utils::install.packages(new.packages)
+    utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
   cols <- colnames(dat)
   dat <- as.matrix(dat)

@@ -228,7 +228,7 @@ It is also possible to run it from command line.
 This line will decompose `OVCA.txt` dataset into 20 components
 
 ``` console 
-java -jar BODICA.jar -config C:\Datas\BIODICA\config -outputfolder 
+java -jar BOIDICA.jar -config C:\Datas\BIODICA\config -outputfolder 
 C:\Datas\BIODICA\work\ - datatable C:\Datas\BIODICA\data\OVCA_TCGA\transcriptome\OVCA.txt 
 -doicamatlab 20
 ```

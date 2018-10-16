@@ -70,7 +70,7 @@ simulate_gene_expresssion <-
     new.packages <-
       package[!(package %in% utils::installed.packages()[, "Package"])]
     if (length(new.packages))
-      utils::install.packages(new.packages)
+      utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
     # draw cell types from given distribution
     x.cells <-

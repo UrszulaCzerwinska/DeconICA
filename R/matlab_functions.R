@@ -54,7 +54,7 @@ doICA <-
            fasticapth = paste0(path.package("deconica", quiet = TRUE), "/fastica++")) {
     package<-"matlabr"
     new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
-    if(length(new.packages)) utils::install.packages(new.packages)
+    if(length(new.packages)) utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
@@ -430,7 +430,7 @@ doICABatch <-
 
     package<-c("matlabr", "png")
     new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
-    if(length(new.packages)) utils::install.packages(new.packages)
+    if(length(new.packages)) utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
     if (is.null(matlbpth) &
         (!(matlabr::have_matlab())))
@@ -617,7 +617,7 @@ run_matlab_code_2 = function(code,
 add_path = function(path) {
   package<-"matlabr"
   new.packages <- package[!(package %in% utils::installed.packages()[,"Package"])]
-  if(length(new.packages)) utils::install.packages(new.packages)
+  if(length(new.packages)) utils::install.packages(new.packages, repos='http://cran.us.r-project.org')
 
   path = sapply(path, function(x) {
     paste0("addpath('", path, "');")

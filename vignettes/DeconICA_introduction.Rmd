@@ -694,7 +694,7 @@ corr <- correlate_metagenes(S = res_run_ica$S,
                           metagenes = Biton.list
                            )
 ```
-In this case we use an example of an extract, of 60 samples, from transcriptomic data from breast cancer [@Bekhouche2011]. At first, dataset is decomposed into an arbitrary number of 10 components. The `correlate_metagenes()` correlates the obtained `S` matrix with *Biton et al.* metagenes [@Biton2014]. This set of 11 metagenes is data-driven and was derived in the article @Biton2014 from pan-cancer transcriptome as the reproducible signals, common to many cancer types. Some of the signatures as BCLAPATHWAYS or UROTHELIALDIF (urothelialdifferentiation) were shared among many datasets, but within bladder cancer. They can bees as a sort of negative control.
+In this case we use an example of an extract, of 60 samples, from transcriptomic data from breast cancer [@Bekhouche2011]. At first, dataset is decomposed into an arbitrary number of 100 components. The `correlate_metagenes()` correlates the obtained `S` matrix with *Biton et al.* metagenes [@Biton2014]. This set of 11 metagenes is data-driven and was derived in the article @Biton2014 from pan-cancer transcriptome as the reproducible signals, common to many cancer types. Some of the signatures as BCLAPATHWAYS or UROTHELIALDIF (urothelialdifferentiation) were shared among many datasets, but within bladder cancer. They can bees as a sort of negative control.
 
 However, any set weighted signatures with reasonable size can be used as metagenes. Later in this tutorial we use immune cell profiles optimized for cell type deconvolution from [@Newman2015] `LM22.list`.
 
