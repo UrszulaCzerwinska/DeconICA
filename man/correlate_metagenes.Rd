@@ -5,7 +5,8 @@
 \title{Correlate components with known ranked lists of genes}
 \usage{
 correlate_metagenes(S, gene.names, metagenes = Biton.list, threshold = -Inf,
-  n.genes.intersect = 30, orient.long = TRUE, orient.max = FALSE, ...)
+  n.genes.intersect = 30, orient.long = TRUE, orient.max = FALSE,
+  colnames = NULL, ...)
 }
 \arguments{
 \item{S}{S matrix of components}
@@ -25,7 +26,9 @@ and a metagene to keep the component in correlation matrix}
 
 \item{orient.long}{orient by long tails, default TRUE}
 
-\item{orient.max}{orient by maximal correlation, default FALSE, can be used if
+\item{orient.max}{orient by maximal correlation, default FALSE, can be used if}
+
+\item{colnames}{specify custon colnames if necessary
 there is no long tails}
 
 \item{...}{additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}}

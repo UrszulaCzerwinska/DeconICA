@@ -17,6 +17,7 @@
 #'and a metagene to keep the component in correlation matrix
 #'@param orient.long orient by long tails, default TRUE
 #'@param orient.max orient by maximal correlation, default FALSE, can be used if
+#'@param colnames specify custon colnames if necessary
 #'  there is no long tails
 #'@param ... additional params you can pass to \code{\link[Hmisc:rcorr]{rcorr}}
 #'@inheritParams Hmisc::rcorr
@@ -47,6 +48,7 @@ correlate_metagenes <-
            n.genes.intersect = 30,
            orient.long = TRUE,
            orient.max = FALSE,
+           colnames = NULL,
            ...) {
     # orient components in the direction of the long tail
     if (orient.long &
@@ -54,40 +56,27 @@ correlate_metagenes <-
       stop("select one or none orienting method")
     if (orient.long) {
       S_or <- S <- .orient_funct(S)
-      colnames(S_or) <- colnames(S) <- paste0("IC", 1:ncol(S))
-    } else {
-      colnames(S) <- paste0("IC", 1:ncol(S))
-    }
-
-    # verify if gene names are correct
-    if (length(as.matrix(gene.names)) != nrow(S))
-      stop("wrong number of gene names")
-    # add colnames
-    # colnames(S) <- paste("IC", 1:ncol(S), sep = "")
-    gene.names <- as.data.frame(gene.names)
-    colnames(gene.names) <- "gene.names"
-    # all values less than "threshold"
-    if (!orient.max)
-      S[S < threshold] <- NA
-    res <- data.frame(gene.names, S)
-    for (i in 1:length(metagenes)) {
-      res <- .corr_matrix(metagenes[[i]], res, names(metagenes)[i])
-    }
-    rcorr.res <-
-      Hmisc::rcorr(as.matrix(res[, 2:ncol(res)]), ...)
-    n <-
-      rcorr.res$n[1:(nrow(rcorr.res$r) - length(metagenes)), names(metagenes)]
-    verify.n <- .verify.n(n, n.genes.intersect)
-    if (length(which(verify.n == FALSE)) > 0)
-      message(paste("deleting ", names(which(!verify.n)), "\n", sep = ""))
-    n <- rcorr.res$n[which(verify.n), names(metagenes)]
-    r <- rcorr.res$r[which(verify.n), names(metagenes)]
-    p <- rcorr.res$P[which(verify.n), names(metagenes)]
-
-    if (orient.max) {
-      S <- .orient_max(S, r)
-      colnames(S) <- paste0("IC", 1:ncol(S))
-      S[S < threshold] <- NA
+      if (is.null(colnames))   {
+        colnames(S_or) <- colnames(S) <- paste0("IC", 1:ncol(S))
+      } else {
+        colnames(S_or) <- colnames(S) <- colnames
+    } } else {
+      if (is.null(colnames(S))) {
+        colnames(S) <- paste0("IC", 1:ncol(S))
+      } else {
+        colnames(S) <- colnames
+      }
+}
+      # verify if gene names are correct
+      if (length(as.matrix(gene.names)) != nrow(S))
+        stop("wrong number of gene names")
+      # add colnames
+      # colnames(S) <- paste("IC", 1:ncol(S), sep = "")
+      gene.names <- as.data.frame(gene.names)
+      colnames(gene.names) <- "gene.names"
+      # all values less than "threshold"
+      if (!orient.max)
+        S[S < threshold] <- NA
       res <- data.frame(gene.names, S)
       for (i in 1:length(metagenes)) {
         res <- .corr_matrix(metagenes[[i]], res, names(metagenes)[i])
@@ -102,21 +91,40 @@ correlate_metagenes <-
       n <- rcorr.res$n[which(verify.n), names(metagenes)]
       r <- rcorr.res$r[which(verify.n), names(metagenes)]
       p <- rcorr.res$P[which(verify.n), names(metagenes)]
-      return(list(
-        S.max = S,
-        n = n,
-        r = r,
-        P = p
-      ))
-    } else{
-      return(list(
-        S.or =  S_or,
-        n = n,
-        r = r,
-        P = p
-      ))
+
+      if (orient.max) {
+        S <- .orient_max(S, r)
+        colnames(S) <- paste0("IC", 1:ncol(S))
+        S[S < threshold] <- NA
+        res <- data.frame(gene.names, S)
+        for (i in 1:length(metagenes)) {
+          res <- .corr_matrix(metagenes[[i]], res, names(metagenes)[i])
+        }
+        rcorr.res <-
+          Hmisc::rcorr(as.matrix(res[, 2:ncol(res)]), ...)
+        n <-
+          rcorr.res$n[1:(nrow(rcorr.res$r) - length(metagenes)), names(metagenes)]
+        verify.n <- .verify.n(n, n.genes.intersect)
+        if (length(which(verify.n == FALSE)) > 0)
+          message(paste("deleting ", names(which(!verify.n)), "\n", sep = ""))
+        n <- rcorr.res$n[which(verify.n), names(metagenes)]
+        r <- rcorr.res$r[which(verify.n), names(metagenes)]
+        p <- rcorr.res$P[which(verify.n), names(metagenes)]
+        return(list(
+          S.max = S,
+          n = n,
+          r = r,
+          P = p
+        ))
+      } else{
+        return(list(
+          S.or =  S_or,
+          n = n,
+          r = r,
+          P = p
+        ))
+      }
     }
-  }
 #
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
